@@ -1470,5 +1470,51 @@
     "stars": null,
     "license": null,
     "quickCommands": []
+  },
+  "vinc": {
+    "key": "vinc",
+    "name": "VINC",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T08:08:39.387Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "浏览器端全流程AI电影工作室，涵盖剧本、3D分镜到剪辑",
+    "introduction": "VINC 是一个基于浏览器的 AI 影视制作平台，通过多智能体协作（Director, Writer, Sage等）实现从剧本生成、角色/场景一致性锁定、3D虚拟摄影棚机位布置到最终时间线剪辑的全流程自动化。它集成了 Seedance、Kling 等主流视频生成模型，允许用户在渲染前通过 3D 环境精确控制镜头语言与构图，确保视觉风格的一致性。",
+    "experienceGuide": [
+      "步骤1：访问 https://vinc.ai/ 注册账号并选择订阅计划（注意：免费试用需绑定信用卡），进入主界面后点击 'Begin' 开始新项目。",
+      "步骤2：在 'Describe your film' 阶段输入故事梗概或粘贴剧本，随后依次体验 'Cast and world sheets' 锁定角色形象，并在 '3D Studio' 中尝试摆放摄像机和选择镜头参数，最后使用内置编辑器进行粗剪导出。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://vinc.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "festidy": {
+    "key": "festidy",
+    "name": "Festidy",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T08:08:39.794Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "无需注册的一站式派对策划工具，自动生成计划与预算清单。",
+    "introduction": "Festidy 是一款面向个人主办者的垂直领域派对策划 Web 应用，支持生日、宝宝宴等多种场景。它通过用户输入的日期和人数，在浏览器本地生成包含倒计时任务、购物清单及预算的完整执行方案，并提供邀请函分发与 RSVP 管理功能。",
+    "experienceGuide": [
+      "步骤1：访问 festidy.com，选择派对类型（如儿童生日或毕业派对），输入日期、宾客人数及预算等基础信息。",
+      "步骤2：查看自动生成的带日期倒计时的检查清单和购物列表，尝试使用“Helpers”功能分配任务给未注册用户，并体验一键发送邀请函及收集 RSVP 回复。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://festidy.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
   }
 }
