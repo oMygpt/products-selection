@@ -109,10 +109,13 @@ function extractLinksAndMeta(rawMeta, description = '') {
   const starMatch =
     combined.match(/★\s*([0-9.]+k?)/i) ||
     combined.match(/([0-9.]+k?)\s*★/i) ||
-    combined.match(/([0-9,]+)\s*stars/i);
+    combined.match(/([0-9,]+)\s*stars/i) ||
+    combined.match(/总\s*([0-9,]+(?:\.[0-9]+)?k?)\s*星/i) ||
+    combined.match(/\+([0-9,]+)\s*星/i);
   if (starMatch) stars = starMatch[1];
 
-  const licMatch = combined.match(/\b(MIT(?:-0)?|Apache-2\.0|AGPL-3\.0|GPL-3\.0|BSD-[23]-Clause|MPL-2\.0)\b/i);
+  const licMatch = combined.match(/\b(Apache-2\.0|AGPL-3\.0|GPL-3\.0|BSD-[23]-Clause|MPL-2\.0)\b/i)
+    || combined.match(/\b(MIT(?:-0)?)\b(?!\s*(?:背景|团队|教授|实验室|学者|出品|毕业))/);
   if (licMatch) license = licMatch[1];
 
   const ghUrlMatch = combined.match(/github\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/i);
@@ -125,8 +128,8 @@ function extractLinksAndMeta(rawMeta, description = '') {
       if (
         /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(tok) &&
         !tok.includes('.') &&
-        !/^(10|11|12|0\d)\/\d+$/.test(tok) &&
-        !/^(Win|Mac|Linux|iOS|Android|Claude|ChatGPT|HTML|CSS|JS|TS|AI|FOF|LLM|RAG|MCP|API)/i.test(tok)
+        !/^\d+\/\d+$/.test(tok) &&
+        !/^(Win|Mac|Linux|iOS|Android|Claude|ChatGPT|HTML|CSS|JS|TS|AI|FOF|LLM|RAG|MCP|API|OpenRouter|Python|Node)/i.test(tok)
       ) {
         githubRepo = cleanRepoSlug(tok);
         if (githubRepo) break;
@@ -299,17 +302,22 @@ function classifyProductType(item) {
   };
 }
 
-// Parse list-style briefing (e.g., Muse brief_*.md or simple agent lists)
+// Parse list-style briefing (e.g., Muse brief_*.md, Hark table brief_*.md, or simple agent lists)
 function parseListBriefMarkdown(content, date) {
   const lines = content.split(/\r?\n/);
   let intro = '';
+  const signals = [];
   const items = [];
 
-  for (const line of lines.slice(1, 8)) {
+  for (const line of lines.slice(1, 10)) {
     const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#') && !trimmed.startsWith('---')) {
+    if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('---')) continue;
+    const sigMatch = trimmed.match(/^\*\*(今日趋势|今日首推|核心趋势|今日看点)\*\*[：:]\s*(.+)$/);
+    if (sigMatch) {
+      signals.push({ title: sigMatch[1].trim(), detail: sigMatch[2].trim() });
+      if (sigMatch[1].includes('趋势')) intro = sigMatch[2].trim();
+    } else if (!intro && !trimmed.startsWith('|')) {
       intro = trimmed;
-      break;
     }
   }
 
@@ -342,12 +350,13 @@ function parseListBriefMarkdown(content, date) {
       }
 
       const meta = extractLinksAndMeta(url, `${tagline} ${why}`);
+      const isDir = /producthunt\.com|betalist\.com|theresanaiforthat\.com/i.test(url);
       const item = {
         key: normalizeProductKey(name),
         date,
         name,
         url,
-        directUrl: !url.includes('producthunt.com') && !url.includes('betalist.com') ? url : meta.directUrl,
+        directUrl: !isDir ? url : meta.directUrl,
         githubRepo: meta.githubRepo,
         stars: meta.stars,
         license: meta.license,
@@ -377,12 +386,13 @@ function parseListBriefMarkdown(content, date) {
         i++;
       }
       const meta = extractLinksAndMeta(url, `${tagline} ${why}`);
+      const isDir = /producthunt\.com|betalist\.com|theresanaiforthat\.com/i.test(url);
       const item = {
         key: normalizeProductKey(name),
         date,
         name,
         url,
-        directUrl: !url.includes('producthunt.com') && !url.includes('betalist.com') ? url : meta.directUrl,
+        directUrl: !isDir ? url : meta.directUrl,
         githubRepo: meta.githubRepo,
         stars: meta.stars,
         license: meta.license,
@@ -395,10 +405,73 @@ function parseListBriefMarkdown(content, date) {
       continue;
     }
 
+    if (line.startsWith('|') && !line.includes('---|') && !/^\|\s*[-:]+/.test(line)) {
+      const cells = line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+      if (cells.length >= 4 && !/^(#|序号|编号|产品)$/i.test(cells[0]) && cells[1] !== '产品') {
+        const hasIndexCol = /^\d+$/.test(cells[0]);
+        const nameCell = (hasIndexCol ? cells[1] : cells[0]) || '';
+        const nameLinkMatch = nameCell.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
+        const name = (nameLinkMatch ? nameLinkMatch[1] : nameCell).replace(/\*\*/g, '').trim();
+
+        let url = nameLinkMatch ? nameLinkMatch[2].trim() : '';
+        let urlCellIdx = -1;
+        for (let ci = cells.length - 1; ci >= 0; ci--) {
+          const mdUrl = cells[ci].match(/\[[^\]]*\]\((https?:\/\/[^)]+)\)/);
+          const rawUrl = cells[ci].match(/https?:\/\/[^\s)]+/);
+          if (mdUrl || rawUrl) {
+            if (!url) url = (mdUrl ? mdUrl[1] : rawUrl[0]).trim();
+            urlCellIdx = ci;
+            break;
+          }
+        }
+
+        const middleStart = hasIndexCol ? 2 : 1;
+        const middleEnd = urlCellIdx > middleStart ? urlCellIdx : cells.length;
+        const midCells = cells.slice(middleStart, middleEnd);
+        let sourceHint = '';
+        let whatCell = '';
+        let heatCell = '';
+        if (midCells.length >= 3) {
+          sourceHint = midCells[0];
+          whatCell = midCells[1];
+          heatCell = midCells[2];
+        } else if (midCells.length === 2) {
+          whatCell = midCells[0];
+          heatCell = midCells[1];
+        } else if (midCells.length === 1) {
+          whatCell = midCells[0];
+        }
+
+        if (name && url) {
+          const tagline = whatCell.replace(/\*\*/g, '').trim();
+          const heatText = heatCell.replace(/\*\*/g, '').trim();
+          const rawMeta = [sourceHint, heatText].filter(Boolean).join(' · ');
+          const description = heatText ? `${tagline}（${heatText}）` : tagline;
+          const meta = extractLinksAndMeta(`${url} ${rawMeta}`, description);
+          const isDir = /producthunt\.com|betalist\.com|theresanaiforthat\.com/i.test(url);
+          const item = {
+            key: normalizeProductKey(name),
+            date,
+            name,
+            rawMeta,
+            url,
+            directUrl: !isDir ? url : meta.directUrl,
+            githubRepo: meta.githubRepo,
+            stars: meta.stars,
+            license: meta.license,
+            tagline,
+            description: description || tagline
+          };
+          Object.assign(item, classifyProductType(item));
+          items.push(item);
+        }
+      }
+    }
+
     i++;
   }
 
-  return { intro, signals: [], items };
+  return { intro, signals, items };
 }
 
 // Parse detailed multi-section report style briefing
@@ -420,11 +493,22 @@ function parseDetailedBriefMarkdown(content, date) {
       currentSection = line.replace(/^##\s+/, '');
       continue;
     }
-    if (currentSection.includes('今日核心信号') || currentSection.includes('今日信号')) {
+    if (
+      currentSection.includes('今日核心信号') ||
+      currentSection.includes('今日信号') ||
+      currentSection.includes('今日趋势')
+    ) {
       const sigMatch = line.match(/^\d+\.\s+\*\*([^*]+)\*\*[：:]\s*(.+)$/);
       if (sigMatch) {
-        signals.push({ title: sigMatch[1].trim(), detail: sigMatch[2].trim() });
+        const title = sigMatch[1].trim();
+        const detail = sigMatch[2].replace(/\*\*/g, '').trim();
+        signals.push({ title, detail });
+        if (!sourceSummary) sourceSummary = `${title}：${detail}`;
       }
+    } else if (currentSection.startsWith('今日首推') && line && !line.startsWith('#') && !line.startsWith('---')) {
+      const detail = line.replace(/\*\*/g, '').trim();
+      signals.push({ title: currentSection.replace(/\*\*/g, '').trim(), detail });
+      if (!sourceSummary) sourceSummary = `${currentSection} — ${detail}`;
     }
   }
 
@@ -440,11 +524,12 @@ function parseDetailedBriefMarkdown(content, date) {
     }
     if (line.startsWith('### ')) {
       const rawSub = line.replace(/^###\s+/, '');
-      const h3ProdMatch = rawSub.match(/^(?:[✅⚠️]\s*|\d+\.\s*)([^（(—-]+?)(?:[（(]([^）)]+)[）)])?\s*[—-]+\s*(.+)$/);
-      if (currentSection.includes('重点产品') && h3ProdMatch && !/^[A-Z]\.\s/.test(rawSub)) {
-        const name = h3ProdMatch[1].trim();
-        const rawMeta = h3ProdMatch[2] || '';
-        const taglineRaw = h3ProdMatch[3].trim();
+      const isExcludedSection = /落选|核心信号|今日信号|今日趋势|今日首推|未通过|剔除/.test(currentSection);
+      const h3ProdMatch = rawSub.match(/^(?:[✅⚠️]\s*|\d+\.\s*)(?:\*\*([^*]+)\*\*|([^（(—]+?))\s*(?:[（(](.+?)[）)])?\s*(?:——|--|—|\s+-\s+)\s*(.+)$/);
+      if (!isExcludedSection && h3ProdMatch && !/^[A-Z]\.\s/.test(rawSub)) {
+        const name = (h3ProdMatch[1] || h3ProdMatch[2] || '').trim();
+        const rawMeta = (h3ProdMatch[3] || '').trim();
+        const taglineRaw = (h3ProdMatch[4] || '').replace(/★今日首推/g, '').trim();
         const key = normalizeProductKey(name);
         const meta = extractLinksAndMeta(`${rawMeta} ${taglineRaw}`, '');
         activeNumberedItem = {
@@ -467,6 +552,32 @@ function parseDetailedBriefMarkdown(content, date) {
 
       currentSubCategory = rawSub.replace(/^[A-Z]\.\s*/, '').replace(/（.*）/, '').trim();
       activeNumberedItem = null;
+      continue;
+    }
+
+    if (activeNumberedItem && line.startsWith('- ')) {
+      const moreMeta = extractLinksAndMeta(activeNumberedItem.rawMeta, line);
+      activeNumberedItem.githubRepo = activeNumberedItem.githubRepo || moreMeta.githubRepo;
+      if (!activeNumberedItem.directUrl && moreMeta.directUrl && !/producthunt\.com|betalist\.com|theresanaiforthat\.com/i.test(moreMeta.directUrl)) {
+        activeNumberedItem.directUrl = moreMeta.directUrl;
+      }
+      activeNumberedItem.stars = activeNumberedItem.stars || moreMeta.stars;
+      activeNumberedItem.license = activeNumberedItem.license || moreMeta.license;
+      if (activeNumberedItem.directUrl) activeNumberedItem.url = activeNumberedItem.directUrl;
+
+      if (!/^-\s*\*\*(?:核实状态|热度与来源)\*\*/.test(line)) {
+        const subText = line
+          .replace(/^-\s*(\*\*[^*]+\*\*|一句话|关键数字|定价与可用性|用法|价格|缓解)[：:]\s*/, '')
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')
+          .replace(/\*\*/g, '')
+          .trim();
+        if (subText) {
+          activeNumberedItem.description = activeNumberedItem.description
+            ? `${activeNumberedItem.description}；${subText}`
+            : subText;
+        }
+      }
+      Object.assign(activeNumberedItem, classifyProductType(activeNumberedItem));
       continue;
     }
 
@@ -494,21 +605,6 @@ function parseDetailedBriefMarkdown(content, date) {
       };
       Object.assign(activeNumberedItem, classifyProductType(activeNumberedItem));
       items.push(activeNumberedItem);
-      continue;
-    }
-
-    if (activeNumberedItem && line.startsWith('- ')) {
-      const subText = line.replace(/^-\s*(\*\*[^*]+\*\*|一句话|关键数字|定价与可用性|用法|价格|缓解)[：:]\s*/, '').replace(/\*\*/g, '');
-      activeNumberedItem.description = activeNumberedItem.description
-        ? `${activeNumberedItem.description}；${subText}`
-        : subText;
-      const moreMeta = extractLinksAndMeta(activeNumberedItem.rawMeta, activeNumberedItem.description);
-      activeNumberedItem.githubRepo = activeNumberedItem.githubRepo || moreMeta.githubRepo;
-      activeNumberedItem.directUrl = activeNumberedItem.directUrl || moreMeta.directUrl;
-      activeNumberedItem.stars = activeNumberedItem.stars || moreMeta.stars;
-      activeNumberedItem.license = activeNumberedItem.license || moreMeta.license;
-      if (activeNumberedItem.directUrl) activeNumberedItem.url = activeNumberedItem.directUrl;
-      Object.assign(activeNumberedItem, classifyProductType(activeNumberedItem));
       continue;
     }
 
@@ -583,9 +679,11 @@ function parseAnyBriefMarkdown(content, date) {
     content.includes('## 一、今日核心信号') ||
     content.includes('## 🧭 今日核心信号') ||
     content.includes('## 一、今日信号') ||
+    content.includes('## 今日趋势') ||
     content.includes('## 二、重点产品') ||
     content.includes('## 三、亲自验证的重点产品') ||
-    content.includes('## 🔬 亲自验证的重点产品');
+    content.includes('## 🔬 亲自验证的重点产品') ||
+    /###\s+\d+\.\s+\*\*/.test(content);
   if (isDetailedReport) {
     return parseDetailedBriefMarkdown(content, date);
   }

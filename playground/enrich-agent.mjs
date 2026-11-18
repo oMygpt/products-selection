@@ -60,7 +60,7 @@ function saveEnrichedStore(store) {
 }
 
 const DIRECTORY_DOMAINS = [
-  'producthunt.com', 'betalist.com', 'news.ycombinator.com', 'duckduckgo.com',
+  'producthunt.com', 'betalist.com', 'theresanaiforthat.com', 'news.ycombinator.com', 'duckduckgo.com',
   'twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'instagram.com',
   'youtube.com', 'reddit.com', 'wikipedia.org', 'medium.com'
 ];

@@ -1034,5 +1034,441 @@
     "stars": null,
     "license": null,
     "quickCommands": []
+  },
+  "loopforge": {
+    "key": "loopforge",
+    "name": "LoopForge",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:46.223Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "腾讯开源的自托管编程代理交付流水线与SOP引擎",
+    "introduction": "LoopForge 是一个将 AI 编程代理纳入团队标准化研发流程的自托管平台，支持通过 Docker 沙箱隔离执行环境。它允许用户定义包含代理节点、脚本构建测试及人工审批关卡的标准作业程序（SOP），并兼容 Claude Code、Codex 等主流代理 CLI，实现从需求描述到代码合并的可控自动化交付。",
+    "experienceGuide": [
+      "步骤1：克隆仓库后运行 ./start.sh 启动服务（需 Docker 和 Python 3），或使用 npx -y loopforge-cli@latest install claude 快速部署本地轻量版。",
+      "步骤2：在 Web 界面中尝试使用内置的“修 bug”或“前端开发” SOP，观察代理如何在沙箱中执行计划、编写测试并通过人工审批关卡生成 PR。"
+    ],
+    "defaultPort": 8080,
+    "directUrl": "https://loopforge.cn/",
+    "githubRepo": "Tencent/LoopForge",
+    "stars": "3377",
+    "license": "NOASSERTION",
+    "quickCommands": [
+      "git clone https://github.com/Tencent/LoopForge.git",
+      "npx -y loopforge-cli@latest install claude"
+    ]
+  },
+  "seshka": {
+    "key": "seshka",
+    "name": "seshka",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:47.397Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "清理 Claude Code 残留进程与闲置会话的 macOS 菜单栏工具",
+    "introduction": "seshka 是一款原生 Swift 开发的 macOS 菜单栏应用，专门用于识别并终止由已关闭的 Claude Code 会话遗留的开发服务器、监听器及模拟器进程。它通过读取环境变量标记将残留进程按会话分组展示，支持一键清理以释放内存，并能自动或手动结束闲置会话以便后续恢复。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://www.seshka.dev/ 下载 Seshka.dmg，安装后启动应用，确保系统为 macOS 14 或更高版本。",
+      "步骤2：在运行过 Claude Code 后检查菜单栏图标状态（打开表示有残留），点击图标查看按会话分组的进程列表，尝试使用“Kill”按钮清理特定会话或所有残留进程以观察内存释放效果。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.seshka.dev/",
+    "githubRepo": "jigjoy-ai/seshka",
+    "stars": "12",
+    "license": "MIT",
+    "quickCommands": [
+      "gh repo clone jigjoy-ai/seshka"
+    ]
+  },
+  "paperorchestra": {
+    "key": "paperorchestra",
+    "name": "PaperOrchestra",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:47.512Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "多代理协作将实验日志自动转化为可投稿的 LaTeX 论文",
+    "introduction": "PaperOrchestra 是一个由 Google Cloud AI Research 团队开发的多代理自动化写作框架，旨在解决从原始研究材料到正式稿件之间的繁琐转化工作。它通过编排大纲生成、文献综述（集成 Semantic Scholar API）、分节写作、内容精修及图表绘制等专职代理，将非结构化的想法和实验数据直接输出为符合目标会议模板的完整 LaTeX 手稿。",
+    "experienceGuide": [
+      "步骤1：克隆 GitHub 仓库后，使用 Python 3.11 创建 Conda 环境并安装依赖 (`pip install -r requirements.txt`)，在 `.env` 文件中配置 Gemini/OpenAI 及 Semantic Scholar 的 API Key。",
+      "步骤2：准备包含 Idea Summary 和 Experimental Log 的原始材料目录，运行 `python paper_writing_cli.py` 指定输入路径与 LaTeX 模板（如 cvpr2025），即可启动端到端的论文生成流程。"
+    ],
+    "defaultPort": 8501,
+    "directUrl": "https://yiwen-song.github.io/paper_orchestra/",
+    "githubRepo": "google-research/paper-orchestra",
+    "stars": "3202",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "pip install -r requirements.txt"
+    ]
+  },
+  "trnrt": {
+    "key": "trnrt",
+    "name": "TrnRT",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:47.515Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "AWS Trainium 上的开源大模型推理引擎，提供 OpenAI 兼容 API",
+    "introduction": "TrnRT 是专为 AWS Trainium2 芯片设计的开源 LLM 推理引擎，通过 NKI 巨型核技术实现高效解码。它支持百万 token 上下文的稀疏/线性注意力机制及跨显存与主机内存的前缀缓存，能在单台 trn2.48xlarge 实例上提供 OpenAI 兼容 API 服务，显著降低大规模模型部署成本。",
+    "experienceGuide": [
+      "步骤1：克隆 GitHub 仓库 RunanywhereAI/trnrt，并在任意 x86_64 主机上使用 Docker 构建镜像以进行离线编译（此过程耗时数小时）。",
+      "步骤2：将编译好的镜像部署至 AWS trn2.48xlarge 实例启动服务，随后通过标准 OpenAI 客户端连接测试 GLM-5.3-Flash 模型的推理性能。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://runanywhere.ai/",
+    "githubRepo": "RunanywhereAI/trnrt",
+    "stars": "1621",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "git clone https://github.com/RunanywhereAI/trnrt.git && cd trnrt",
+      "docker run --rm --privileged --network host --ipc=host \\"
+    ]
+  },
+  "opencodereview": {
+    "key": "opencodereview",
+    "name": "Open Code Review",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:49.689Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "阿里开源的确定性工程与AI混合架构代码审查CLI工具",
+    "introduction": "Open Code Review 是一款源自阿里内部大规模实践的 AI 代码审查 CLI 工具，采用“确定性工程 + 代理”混合架构以解决传统通用 Agent 在代码审查中常见的漏文件、行号漂移及质量波动问题。它通过程序化逻辑保证文件筛选、上下文打包及评论定位的准确性，仅将动态检索与判断交由 LLM 处理，支持读取 Git Diff 输出逐行评论或扫描整个目录，显著提升了审查精度并降低了 Token 消耗。",
+    "experienceGuide": [
+      "步骤1：确保本地安装 Git >= 2.41，运行 `npm install -g @alibaba-group/open-code-review` 进行全局安装，随后执行 `ocr config provider` 配置模型端点（若无独立 API Key，可配置为委托模式借用宿主代理如 Claude Code 的模型）。",
+      "步骤2：在项目根目录下使用 `ocr review` 针对当前 Git Diff 生成结构化审查意见，或使用 `ocr scan` 对整个代码目录进行全量扫描；注意该工具在追求高精度和低 Token 成本的同时，召回率相对保守，适合对误报敏感的团队 CI 流程或个人深度代码审计。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://open-codereview.ai/",
+    "githubRepo": "alibaba/open-code-review",
+    "stars": "53842",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "npx skills add alibaba/open-code-review",
+      "npm install -g @alibaba-group/open-code-review"
+    ]
+  },
+  "univer": {
+    "key": "univer",
+    "name": "Univer",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:56.284Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "Freemium",
+    "tagline": "面向人与AI代理的开源Office SDK，支持表格文档嵌入与协作编辑",
+    "introduction": "Univer 提供开源的 Sheets 和 Docs 内核，允许开发者在自家应用中嵌入类 Excel/Word 的编辑、计算及协作功能。通过 Facade API 和事件机制，它支持应用或 AI 代理直接读写内容并处理跨功能的撤销/重做操作。核心功能基于 Apache-2.0 协议免费开源，高级企业级能力则以商业扩展形式提供。",
+    "experienceGuide": [
+      "步骤1：访问 GitHub 仓库 dream-num/univer，根据 README 中的 Quick Start 指南，使用 pnpm add @univerjs/presets @univerjs/preset-sheets-core 安装核心依赖包。",
+      "步骤2：参考官方文档 docs.univer.ai 搭建一个基础的电子表格编辑器 Demo，重点体验 Facade API 如何通过代码控制单元格数据读写，以及模拟 AI 代理进行批量操作的场景。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/dream-num/univer",
+    "githubRepo": "dream-num/univer",
+    "stars": "28982",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "pnpm add @univerjs/presets @univerjs/preset-sheets-core"
+    ]
+  },
+  "agui": {
+    "key": "agui",
+    "name": "AG-UI",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:58.348Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "连接任意AI代理与前端应用的开放事件流协议",
+    "introduction": "AG-UI 是一个轻量级、基于事件的开放协议，旨在标准化 AI 代理与用户界面之间的交互。它通过统一的双向事件流机制，解决了不同代理框架（如 LangChain, CrewAI）在流式输出、工具调用及状态同步上的碎片化问题，使同一代理后端可无缝对接 Web、移动端或终端等多种前端形态。目前 1.0 规范已冻结并提供多语言 SDK，支持与 MCP 和 A2A 协议互补使用。",
+    "experienceGuide": [
+      "步骤1：运行 `npx create-ag-ui-app@latest` 快速生成基于 CopilotKit/Next.js 的前端模板，或执行 `pip install ag-ui-protocol fastapi uvicorn` 搭建 Python 服务端以体验底层协议逻辑。",
+      "步骤2：配置 OpenAI API Key 后启动应用，观察代理如何通过类型化事件实时渲染聊天界面、更新共享状态或触发人工确认流程，验证其与现有代理框架的兼容性。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://docs.ag-ui.com/introduction",
+    "githubRepo": "ag-ui-protocol/ag-ui",
+    "stars": "20078",
+    "license": "MIT",
+    "quickCommands": [
+      "npx create-ag-ui-app@latest",
+      "pip install ag-ui-protocol fastapi uvicorn"
+    ]
+  },
+  "liquidd12d12ultra": {
+    "key": "liquidd12d12ultra",
+    "name": "Liquid d1.2 / d1.2-ultra",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:58.823Z",
+    "categoryType": "models",
+    "categoryLabel": "AI 模型与多模态",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "tagline": "只输出校准概率的决策模型，支持音频与多模态抽取",
+    "introduction": "Liquid d1.2 系列是专为分类、路由和打分设计的决策模型，不生成文本 token 而是直接返回每个选项的校准概率。该模型新增音频输入支持及五项核心任务，包括带原文定位的数值读取、片段提取、图像物体计数、区间估计及多选判断，显著降低幻觉风险并提升自动化流程的可控性。",
+    "experienceGuide": [
+      "步骤1：访问 console.liquid.ai 注册账号并申请 API Key，查阅官方文档了解 Decisions API 的具体调用参数格式。",
+      "步骤2：使用 Playground 或编写脚本测试“带位置信息的数值读取”功能，验证模型在找不到目标值时是否准确返回 'not found' 而非猜测，以评估其校准能力。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.liquid.ai/blog/d1-2",
+    "githubRepo": "Liquid4All/cookbook",
+    "stars": "2787",
+    "license": null,
+    "quickCommands": []
+  },
+  "rankspot": {
+    "key": "rankspot",
+    "name": "RankSpot",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:59.297Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "tagline": "面向 AI 代理的 SEO 执行层，按动作计费实现自动化排名与外链建设",
+    "introduction": "RankSpot 是一个专为 AI Agent（如 Claude、ChatGPT）设计的 SEO 与 AI 搜索执行基础设施。它通过 MCP 协议或 API 接入，赋予代理读取 Google 及 AI 引擎数据、生成超越竞品内容、自动发布文章以及发送外链请求的能力。产品采用无订阅制的按次付费模式，支持多语言内容生成与品牌可见度追踪，旨在替代传统 SEO 工具套件并减少人工干预。",
+    "experienceGuide": [
+      "步骤1：访问 rankspot.ai 注册账户获取 API Key，并在本地终端运行 `npx skills add RankSpotAI/seo --skill rankspot` 安装技能包。",
+      "步骤2：配置环境变量 `RANKSPOT_API_KEY` 和 `RANKSPOT_WORKSPACE_ID`，随后在支持的 AI 聊天界面中连接该 Skill，尝试让代理执行关键词分析或生成一篇测试文章以体验按次计费流程。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.rankspot.ai/",
+    "githubRepo": "RankSpotAI/seo",
+    "stars": "1",
+    "license": null,
+    "quickCommands": [
+      "npx skills add RankSpotAI/seo --skill rankspot"
+    ]
+  },
+  "agav": {
+    "key": "agav",
+    "name": "Agav",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:44:59.628Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "主打上下文缓存复用与成本控制的终端原生AI编程代理",
+    "introduction": "Agav 是一款专为真实代码仓库设计的终端原生自主编程代理，通过单文件二进制分发，无需依赖 Node.js 环境。其核心机制在于优化“驾驭层”效率，利用上下文缓存复用、隔离子代理探索以及限制无效修复循环来显著降低 Token 消耗。支持 OpenAI、Ollama 及 OpenRouter 等多模型后端，并提供非交互模式以集成至 CI/CD 流程。",
+    "experienceGuide": [
+      "步骤1：在终端执行 `curl -fsSL https://agav.dev/install.sh | bash` 安装二进制文件，随后运行 `agav` 启动交互式会话；若需快速体验，可配置 OpenRouter 或 NVIDIA NIM 的免费 API Key。",
+      "步骤2：尝试使用 `agav run \"解释当前项目结构\"` 进行非交互测试，或在交互模式中通过 `/model` 命令切换本地 Ollama 模型与云端模型，观察其在处理重复上下文时的 Token 节省效果。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://agav.dev/",
+    "githubRepo": "prapaa-ai/agav",
+    "stars": "187",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "curl -fsSL https://agav.dev/install.sh | bash"
+    ]
+  },
+  "不卡带": {
+    "key": "不卡带",
+    "name": "不卡带",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:02.778Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "tagline": "支持复古皮肤与老设备噪声滤镜的本地媒体播放器",
+    "introduction": "这是一款主打怀旧体验的安卓本地音视频播放器，界面仿 WinAMP 并支持导入外部皮肤。其核心特色在于“噪声滤镜”功能，可模拟黑胶爆豆、磁带底噪等老设备音质，同时支持 WebDAV 连接 NAS 及折叠屏外屏适配。",
+    "experienceGuide": [
+      "步骤1：通过文中提供的链接下载 APK 安装包或在 vivo 应用商店搜索安装，启动后尝试导入 skins.webamp.org 的皮肤以定制界面。",
+      "步骤2：在播放列表中添加本地或 NAS 音频文件，开启 Noise Filters 切换不同设备音效（如黑胶、收音机），配合 EQ 场景感受音质变化；若使用折叠屏手机，可测试外屏显示与交互适配。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://sspai.com/post/119012",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "superlog": {
+    "key": "superlog",
+    "name": "superlog",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:03.936Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "tagline": "扫描海量日志发现告警遗漏的生产问题并推送至Slack",
+    "introduction": "Superlog 是一款基于 AI 的日志分析智能体，通过扫描数十亿行日志数据，识别现有监控和告警系统未覆盖的长尾生产问题。它自动关联问题的影响范围、根本原因及修复建议，并将结果实时推送到 Slack，同时支持 MCP 协议接入以集成到更广泛的开发工作流中。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://superlog.sh/，点击 'Get Started' 按钮注册账号并连接你的第一个后端服务或日志源。",
+      "步骤2：配置 Slack 通知渠道，观察 Superlog 如何从历史日志中提取未被传统告警捕获的异常模式，并评估其提供的根因分析与修复建议的准确性。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://superlog.sh/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "versine": {
+    "key": "versine",
+    "name": "Versine",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:04.969Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "tagline": "让 AI 助手在授权限额内安全执行收付款的代理支付工具",
+    "introduction": "Versine 是一款面向个人用户的代理支付基础设施，允许 ChatGPT、Claude 等 AI 助手通过自然语言指令发起转账或收款请求。系统内置硬性授权边界，每笔交易需经用户 Passkey 生物识别批准或符合预设规则（如金额上限、特定联系人），且代理无法自行修改限额。支持向非 Versine 用户发送付款链接，实现跨平台的资金流转自动化。",
+    "experienceGuide": [
+      "步骤1：访问官网 versine.com 下载并安装移动端 App，注册账户并绑定美国银行账户以激活金融功能。",
+      "步骤2：在 App 中连接你的 AI 助手（如 ChatGPT 或 Claude），设置初始交易限额与审批规则，随后尝试通过语音或文字指令让助手执行小额测试转账。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://versine.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "creatifymax": {
+    "key": "creatifymax",
+    "name": "Creatify Max",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:06.671Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "tagline": "端到端自动化广告投放与监控的AI智能体队友",
+    "introduction": "Creatify Max 是一款全链路 AI 广告智能体，能够自动执行从市场竞品调研、创意素材生成到多渠道投放及全天候效果监控的完整闭环。它深度集成于 Creatify 平台及 Slack，通过提供基于数据的优化建议并强制要求人工审批（Human-in-the-loop）来确保操作安全，旨在替代传统广告团队中重复性的分析与执行工作。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://creatify.ai/features/agent 点击“Try Max”或预约演示以进入产品界面。",
+      "步骤2：在对话界面中尝试让 Max 扫描特定品类的竞品广告策略，观察其生成的创意计划，并体验对单个广告变动的“批准/拒绝”交互流程。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://creatify.ai/features/agent",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "offiai": {
+    "key": "offiai",
+    "name": "OffiAI",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:07.064Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "tagline": "将多个AI编程代理会话可视化为3D办公室的Mac应用",
+    "introduction": "OffiAI是一款本地优先的macOS应用程序，通过读取Claude Code、Codex和Gemini等AI代理在本机生成的会话文件，将其映射为3D虚拟办公室中的独立“办公桌”。它提供统一的多代理控制台界面，支持实时查看工作状态、批准权限请求、审查代码差异以及通过浏览器远程访问，无需运行额外模型或上传数据。",
+    "experienceGuide": [
+      "步骤1：从官网或GitHub Releases页面下载 OffiAI.dmg（仅支持Apple芯片），安装后启动应用。根据使用的代理类型配置集成：Claude Code无需插件自动识别；Codex需安装 hooks；Cowork需加载 offiai.plugin。",
+      "步骤2：在应用内的“Reception”区域描述任务以启动新的代理会话，观察各“办公桌”上的全息状态指示（工作中/等待批准/完成）。尝试在Approvals面板中处理Claude Code的权限请求，或在设置中开启远程访问并通过手机浏览器查看办公室状态。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://offiai.app/",
+    "githubRepo": "offiai/releases",
+    "stars": "1",
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "appxiom": {
+    "key": "appxiom",
+    "name": "Appxiom",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:10.046Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "面向编程代理的移动端线上故障上下文与监控平台",
+    "introduction": "Appxiom 提供跨 iOS、Android、Flutter 及 Web 的用户旅程与性能监控，自动识别功能故障并量化其业务影响。通过集成 MCP 服务器，编程代理可直接读取线上真实故障数据，从而在编码时获得上下文以修复生产环境问题。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://www.appxiom.com/ 点击 'Start Free Trial' 注册账号，获取 SDK 安装密钥或配置指南。",
+      "步骤2：在项目中集成 Appxiom SDK，并配置 MCP 服务器连接，尝试让编程代理读取一个模拟的线上错误日志并生成修复代码。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.appxiom.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "alloycss": {
+    "key": "alloycss",
+    "name": "Alloy CSS",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:12.300Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "无需 JavaScript 即可实现交互组件的纯 CSS 样式表库",
+    "introduction": "Alloy CSS 是一个专为服务端渲染应用设计的开源样式表库，利用现代 HTML/CSS 原生能力（如 dialog、popover API）实现对话框、菜单、标签页等交互组件。它消除了对前端框架和构建步骤的依赖，确保在禁用 JavaScript 的情况下仍能正常工作，特别适合 Rails、Django 或 Go 模板项目快速集成 UI 结构。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://alloyhtml.com/example.html 查看无 JS 环境下的交互演示，或通过 CDN 链接 `<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@alloyhtml/css@1/dist/alloy.min.css\">` 在项目头部引入样式表。",
+      "步骤2：尝试使用原生 HTML 属性（如 `commandfor` 和 `command`）结合 Alloy 类名创建模态框或下拉菜单，并在浏览器开发者工具中禁用 JavaScript 以验证其纯 CSS 交互效果。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://alloyhtml.com/",
+    "githubRepo": "alloyhtml/css",
+    "stars": "53",
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "minimaxh3image演示": {
+    "key": "minimaxh3image演示",
+    "name": "MiniMax-H3-Image 演示",
+    "date": "2026-11-18",
+    "updatedAt": "2026-11-18T03:45:14.378Z",
+    "categoryType": "models",
+    "categoryLabel": "AI 模型与多模态",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "MiniMax推出的高效图像生成与编辑模型，支持6步快速出图",
+    "introduction": "MiniMax-H3-Image 是一款基于 Diffusers 模块化流水线的开源权重图像模型，核心优势在于仅需 6 个推理步骤即可高质量完成文生图任务。该模型采用 Qwen3-VL 作为文本编码器，显著提升了语义理解能力，并原生支持多图编辑功能，兼顾了生成速度与画面细节表现。",
+    "experienceGuide": [
+      "步骤1：访问 Hugging Face Spaces 上的 MiniMaxAI/minimax-h3-image 官方演示页面，无需本地部署即可直接输入提示词进行体验。",
+      "步骤2：尝试使用“多图编辑”功能上传参考图片以测试其一致性保持能力；若需商用或深度开发，请前往模型主页下载权重并仔细阅读自定义许可证条款。"
+    ],
+    "defaultPort": 7860,
+    "directUrl": "https://huggingface.co/spaces/MiniMaxAI/minimax-h3-image",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
   }
 }
