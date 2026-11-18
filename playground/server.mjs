@@ -14,16 +14,10 @@ const MUSE_DIR = path.join(ROOT_DIR, '.muse-repo');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const STATE_FILE = path.join(__dirname, 'user-state.json');
 const INSPECT_CACHE_FILE = path.join(__dirname, '.inspect-cache.json');
+const ENRICHED_FILE = path.join(__dirname, 'enriched-products.json');
 
-// Ensure user-state.json exists
 if (!fs.existsSync(STATE_FILE)) {
-  fs.writeFileSync(
-    STATE_FILE,
-    JSON.stringify({
-      items: {} // key: normalizedId -> { status: 'tried'|'stack'|'bookmark'|'skip', note: '', updatedAt: '' }
-    }, null, 2),
-    'utf-8'
-  );
+  fs.writeFileSync(STATE_FILE, JSON.stringify({ items: {} }, null, 2), 'utf-8');
 }
 
 function loadState() {
@@ -38,7 +32,22 @@ function saveState(state) {
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), 'utf-8');
 }
 
-// Persistent disk + in-memory cache for /api/inspect
+let enrichedCache = {};
+let enrichedMtime = 0;
+function loadEnrichedMap() {
+  try {
+    if (!fs.existsSync(ENRICHED_FILE)) return {};
+    const stat = fs.statSync(ENRICHED_FILE);
+    if (stat.mtimeMs !== enrichedMtime) {
+      enrichedCache = JSON.parse(fs.readFileSync(ENRICHED_FILE, 'utf-8')) || {};
+      enrichedMtime = stat.mtimeMs;
+    }
+    return enrichedCache;
+  } catch {
+    return {};
+  }
+}
+
 const urlResolveCache = new Map();
 function loadInspectCache() {
   try {
@@ -49,26 +58,23 @@ function loadInspectCache() {
       }
     }
   } catch {
-    // ignore corrupted cache
+    // ignore
   }
 }
 function persistInspectCache() {
   try {
     const obj = {};
-    // Keep up to 400 recent entries
     const entries = Array.from(urlResolveCache.entries()).slice(-400);
-    for (const [k, v] of entries) {
-      obj[k] = v;
-    }
+    for (const [k, v] of entries) obj[k] = v;
     fs.writeFileSync(INSPECT_CACHE_FILE, JSON.stringify(obj), 'utf-8');
   } catch {
-    // ignore write errors
+    // ignore
   }
 }
 loadInspectCache();
 
 function normalizeProductKey(name) {
-  return name
+  return String(name || '')
     .toLowerCase()
     .replace(/\s+/g, '')
     .replace(/[^a-z0-9\u4e00-\u9fa5]/g, '');
@@ -92,7 +98,6 @@ function cleanRepoSlug(slug) {
   return `${owner}/${repo}`;
 }
 
-// Extract GitHub owner/repo or URLs from raw parenthetical metadata and description
 function extractLinksAndMeta(rawMeta, description = '') {
   const combined = `${rawMeta || ''} ${description || ''}`;
   let githubRepo = null;
@@ -105,14 +110,10 @@ function extractLinksAndMeta(rawMeta, description = '') {
     combined.match(/★\s*([0-9.]+k?)/i) ||
     combined.match(/([0-9.]+k?)\s*★/i) ||
     combined.match(/([0-9,]+)\s*stars/i);
-  if (starMatch) {
-    stars = starMatch[1];
-  }
+  if (starMatch) stars = starMatch[1];
 
   const licMatch = combined.match(/\b(MIT(?:-0)?|Apache-2\.0|AGPL-3\.0|GPL-3\.0|BSD-[23]-Clause|MPL-2\.0)\b/i);
-  if (licMatch) {
-    license = licMatch[1];
-  }
+  if (licMatch) license = licMatch[1];
 
   const ghUrlMatch = combined.match(/github\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/i);
   if (ghUrlMatch) {
@@ -156,7 +157,7 @@ function extractLinksAndMeta(rawMeta, description = '') {
   return { githubRepo, directUrl, stars, license, verified };
 }
 
-// Strict 5-category Product Type Classification + Delivery Form
+// 5-Category Product Types + 4 Delivery Forms
 const PRODUCT_TYPES = {
   agent: {
     label: 'Agent 与自动化',
@@ -203,9 +204,16 @@ const PRODUCT_TYPES = {
   }
 };
 
+const DELIVERY_LABELS = {
+  github: '开源项目',
+  web: '在线网页',
+  desktop: '客户端/插件',
+  api: '模型/API'
+};
+
 function classifyProductType(item) {
   const titleAndTag = `${item.name || ''} ${item.tagline || ''}`.toLowerCase();
-  const body = `${item.why || ''} ${item.agentAWhy || ''} ${item.rawMeta || ''}`.toLowerCase();
+  const body = `${item.description || ''} ${item.rawMeta || ''}`.toLowerCase();
 
   const scores = { agent: 0, devtools: 0, models: 0, productivity: 0, vertical: 0 };
 
@@ -216,11 +224,9 @@ function classifyProductType(item) {
     }
   }
 
-  // Slight disambiguation: if it's an AI model release from Section A or explicitly "模型发布/arxiv"
   if (/\barxiv\b|official|官方发布|决策模型|视频生成|gguf|量化器/i.test(`${titleAndTag} ${item.rawMeta || ''}`)) {
     scores.models += 4;
   }
-  // If it's a pure coding agent tool/harness/MCP
   if (/\bmcp\b|coding agent|agent harness|agent\s*记忆|agent\s*护栏|派\s*agent/i.test(titleAndTag)) {
     scores.agent += 4;
   }
@@ -234,16 +240,13 @@ function classifyProductType(item) {
     }
   }
 
-  // Delivery form classification
   const fullText = `${titleAndTag} ${body}`;
   const url = item.directUrl || item.url || '';
   let deliveryForm = 'web';
-  let deliveryLabel = 'Web 在线';
   let quickCommand = null;
 
   if (item.githubRepo || url.includes('github.com/')) {
     deliveryForm = 'github';
-    deliveryLabel = 'GitHub 开源';
     const repo = item.githubRepo || cleanRepoSlug(url.match(/github\.com\/([^/]+\/[^/#?]+)/)?.[1]);
     if (repo) {
       item.githubRepo = repo;
@@ -261,12 +264,25 @@ function classifyProductType(item) {
     fullText.includes('客户端')
   ) {
     deliveryForm = 'desktop';
-    deliveryLabel = fullText.includes('chrome') ? '浏览器扩展' : '桌面 / 客户端';
+  } else if (
+    bestType === 'models' ||
+    fullText.includes('arxiv') ||
+    url.includes('arxiv.org') ||
+    fullText.includes('api 发布') ||
+    fullText.includes('决策模型')
+  ) {
+    deliveryForm = 'api';
   }
 
+  let pricingModel = null;
+  if (fullText.includes('免费开源') || (item.githubRepo && fullText.includes('免费'))) pricingModel = '免费开源';
+  else if (item.license || item.githubRepo || fullText.includes('开源')) pricingModel = item.license || '开源';
+  else if (fullText.includes('免费起步') || fullText.includes('免费版') || fullText.includes('免费额度') || fullText.includes('freemium')) pricingModel = 'Freemium';
+  else if (fullText.includes('一次性') || fullText.includes('买断')) pricingModel = '一次性买断';
+  else if (fullText.includes('免费') || fullText.includes('free')) pricingModel = '免费可用';
+
   const badges = [];
-  if (fullText.includes('免费') || fullText.includes('free')) badges.push('免费可用');
-  if (fullText.includes('开源') || item.license || item.githubRepo) badges.push(item.license || '开源');
+  if (pricingModel) badges.push(pricingModel);
   if (fullText.includes('本地') || fullText.includes('离线') || fullText.includes('local') || fullText.includes('无账号')) {
     badges.push('本地优先');
   }
@@ -275,19 +291,18 @@ function classifyProductType(item) {
     categoryType: bestType,
     categoryLabel: PRODUCT_TYPES[bestType].label,
     deliveryForm,
-    deliveryLabel,
-    type: deliveryForm,
-    typeLabel: deliveryLabel,
+    deliveryLabel: DELIVERY_LABELS[deliveryForm] || '在线网页',
+    pricingModel,
     quickCommand,
+    quickCommands: quickCommand ? [quickCommand] : [],
     badges
   };
 }
 
-// Parse Muse markdown file
-function parseMuseMarkdown(content, date) {
+// Parse list-style briefing (e.g., Muse brief_*.md or simple agent lists)
+function parseListBriefMarkdown(content, date) {
   const lines = content.split(/\r?\n/);
   let intro = '';
-  let editorNote = '';
   const items = [];
 
   for (const line of lines.slice(1, 8)) {
@@ -296,11 +311,6 @@ function parseMuseMarkdown(content, date) {
       intro = trimmed;
       break;
     }
-  }
-
-  const noteIdx = lines.findIndex(l => l.trim().startsWith('注：') || l.trim().startsWith('> 注：'));
-  if (noteIdx !== -1) {
-    editorNote = lines.slice(noteIdx).join('\n').trim();
   }
 
   let i = 0;
@@ -312,12 +322,10 @@ function parseMuseMarkdown(content, date) {
       line.match(/^-\s*\*\*\[([^\]]+)\]\(([^)]+)\)\*\*\s*(?:——|--|—|-|[：:])\s*(.+)$/);
     if (m1) {
       const hasNum = m1.length === 5;
-      const rank = hasNum ? parseInt(m1[1], 10) : items.length + 1;
       const name = (hasNum ? m1[2] : m1[1]).trim();
       const url = (hasNum ? m1[3] : m1[2]).trim();
       const tagline = (hasNum ? m1[4] : m1[3]).trim();
       let why = '';
-      let source = '';
 
       while (i + 1 < lines.length) {
         const nextTrim = lines[i + 1].trim();
@@ -325,10 +333,8 @@ function parseMuseMarkdown(content, date) {
           const body = nextTrim.replace(/^为什么有趣：/, '');
           const srcSplit = body.split(/来源：/);
           why = srcSplit[0].trim();
-          if (srcSplit[1]) source = srcSplit[1].trim();
           i++;
         } else if (nextTrim.startsWith('来源：')) {
-          source = nextTrim.replace(/^来源：/, '').trim();
           i++;
         } else {
           break;
@@ -337,7 +343,6 @@ function parseMuseMarkdown(content, date) {
 
       const meta = extractLinksAndMeta(url, `${tagline} ${why}`);
       const item = {
-        id: `${date}-muse-${normalizeProductKey(name)}`,
         key: normalizeProductKey(name),
         date,
         name,
@@ -347,11 +352,7 @@ function parseMuseMarkdown(content, date) {
         stars: meta.stars,
         license: meta.license,
         tagline,
-        why,
-        source: source || 'Muse 精选',
-        fromMuse: true,
-        fromAgentA: false,
-        museRank: rank
+        description: why || tagline
       };
       Object.assign(item, classifyProductType(item));
       items.push(item);
@@ -365,7 +366,6 @@ function parseMuseMarkdown(content, date) {
       const url = m2[2].trim();
       let tagline = '';
       let why = '';
-      let source = '';
       if (i + 1 < lines.length && !lines[i + 1].trim().startsWith('为什么有趣：')) {
         tagline = lines[i + 1].trim();
         i++;
@@ -374,12 +374,10 @@ function parseMuseMarkdown(content, date) {
         const nextLine = lines[i + 1].trim().replace(/^为什么有趣：/, '');
         const srcSplit = nextLine.split(/来源：/);
         why = srcSplit[0].trim();
-        if (srcSplit[1]) source = srcSplit[1].trim().replace(/。$/, '');
         i++;
       }
       const meta = extractLinksAndMeta(url, `${tagline} ${why}`);
       const item = {
-        id: `${date}-muse-${normalizeProductKey(name)}`,
         key: normalizeProductKey(name),
         date,
         name,
@@ -389,11 +387,7 @@ function parseMuseMarkdown(content, date) {
         stars: meta.stars,
         license: meta.license,
         tagline,
-        why,
-        source: source || 'Muse 精选',
-        fromMuse: true,
-        fromAgentA: false,
-        museRank: items.length + 1
+        description: why || tagline
       };
       Object.assign(item, classifyProductType(item));
       items.push(item);
@@ -404,18 +398,18 @@ function parseMuseMarkdown(content, date) {
     i++;
   }
 
-  return { intro, editorNote, items };
+  return { intro, signals: [], items };
 }
 
-// Parse Agent A markdown file (without chenTips / chenTopic)
-function parseAgentAMarkdown(content, date) {
+// Parse detailed multi-section report style briefing
+function parseDetailedBriefMarkdown(content, date) {
   const lines = content.split(/\r?\n/);
   const signals = [];
   const items = [];
   let sourceSummary = '';
 
   let currentSection = '';
-  let currentSubCategory = '精选核实';
+  let currentSubCategory = '';
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -429,10 +423,7 @@ function parseAgentAMarkdown(content, date) {
     if (currentSection.includes('今日核心信号') || currentSection.includes('今日信号')) {
       const sigMatch = line.match(/^\d+\.\s+\*\*([^*]+)\*\*[：:]\s*(.+)$/);
       if (sigMatch) {
-        signals.push({
-          title: sigMatch[1].trim(),
-          detail: sigMatch[2].trim()
-        });
+        signals.push({ title: sigMatch[1].trim(), detail: sigMatch[2].trim() });
       }
     }
   }
@@ -457,7 +448,6 @@ function parseAgentAMarkdown(content, date) {
         const key = normalizeProductKey(name);
         const meta = extractLinksAndMeta(`${rawMeta} ${taglineRaw}`, '');
         activeNumberedItem = {
-          id: `${date}-agenta-${key}`,
           key,
           date,
           name,
@@ -467,11 +457,8 @@ function parseAgentAMarkdown(content, date) {
           githubRepo: meta.githubRepo,
           stars: meta.stars,
           license: meta.license,
-          verified: true,
           tagline: taglineRaw.replace(/^真实[，,\s]*/, '').trim(),
-          why: '',
-          fromMuse: false,
-          fromAgentA: true
+          description: ''
         };
         Object.assign(activeNumberedItem, classifyProductType(activeNumberedItem));
         items.push(activeNumberedItem);
@@ -493,7 +480,6 @@ function parseAgentAMarkdown(content, date) {
       const key = normalizeProductKey(name);
       const meta = extractLinksAndMeta(`${rawMeta} ${taglineRaw}`, '');
       activeNumberedItem = {
-        id: `${date}-agenta-${key}`,
         key,
         date,
         name,
@@ -503,11 +489,8 @@ function parseAgentAMarkdown(content, date) {
         githubRepo: meta.githubRepo,
         stars: meta.stars,
         license: meta.license,
-        verified: true,
         tagline: taglineRaw.replace(/（✅[^）]*）/, '').trim(),
-        why: '',
-        fromMuse: false,
-        fromAgentA: true
+        description: ''
       };
       Object.assign(activeNumberedItem, classifyProductType(activeNumberedItem));
       items.push(activeNumberedItem);
@@ -516,10 +499,10 @@ function parseAgentAMarkdown(content, date) {
 
     if (activeNumberedItem && line.startsWith('- ')) {
       const subText = line.replace(/^-\s*(\*\*[^*]+\*\*|一句话|关键数字|定价与可用性|用法|价格|缓解)[：:]\s*/, '').replace(/\*\*/g, '');
-      activeNumberedItem.why = activeNumberedItem.why
-        ? `${activeNumberedItem.why} | ${subText}`
+      activeNumberedItem.description = activeNumberedItem.description
+        ? `${activeNumberedItem.description}；${subText}`
         : subText;
-      const moreMeta = extractLinksAndMeta(activeNumberedItem.rawMeta, activeNumberedItem.why);
+      const moreMeta = extractLinksAndMeta(activeNumberedItem.rawMeta, activeNumberedItem.description);
       activeNumberedItem.githubRepo = activeNumberedItem.githubRepo || moreMeta.githubRepo;
       activeNumberedItem.directUrl = activeNumberedItem.directUrl || moreMeta.directUrl;
       activeNumberedItem.stars = activeNumberedItem.stars || moreMeta.stars;
@@ -538,7 +521,6 @@ function parseAgentAMarkdown(content, date) {
         const key = normalizeProductKey(name);
         const meta = extractLinksAndMeta(rawMeta, detail);
         const item = {
-          id: `${date}-agenta-${key}`,
           key,
           date,
           name,
@@ -548,11 +530,8 @@ function parseAgentAMarkdown(content, date) {
           githubRepo: meta.githubRepo,
           stars: meta.stars,
           license: meta.license,
-          verified: meta.verified,
           tagline: detail.split(/[；;——]/)[0].replace(/\*\*/g, '').trim(),
-          why: detail.replace(/\*\*/g, ''),
-          fromMuse: false,
-          fromAgentA: true
+          description: detail.replace(/\*\*/g, '')
         };
         Object.assign(item, classifyProductType(item));
         items.push(item);
@@ -578,7 +557,6 @@ function parseAgentAMarkdown(content, date) {
         const key = normalizeProductKey(name);
         const meta = extractLinksAndMeta(rawMeta, detail);
         const item = {
-          id: `${date}-agenta-${key}`,
           key,
           date,
           name,
@@ -588,11 +566,8 @@ function parseAgentAMarkdown(content, date) {
           githubRepo: meta.githubRepo,
           stars: meta.stars,
           license: meta.license,
-          verified: meta.verified,
           tagline: detail.split(/[；;。]/)[0].replace(/\*\*/g, '').trim(),
-          why: detail.replace(/\*\*/g, ''),
-          fromMuse: false,
-          fromAgentA: true
+          description: detail.replace(/\*\*/g, '')
         };
         Object.assign(item, classifyProductType(item));
         items.push(item);
@@ -600,115 +575,205 @@ function parseAgentAMarkdown(content, date) {
     }
   }
 
-  return { sourceSummary, signals, items };
+  return { intro: sourceSummary, signals, items };
 }
 
-// Merge Muse and Agent A for a single date
-function getDayData(date) {
-  const agentAPath = path.join(ROOT_DIR, `今日产品简报-${date}.md`);
-  const musePath = path.join(MUSE_DIR, `brief_${date}.md`);
+function parseAnyBriefMarkdown(content, date) {
+  const isDetailedReport =
+    content.includes('## 一、今日核心信号') ||
+    content.includes('## 🧭 今日核心信号') ||
+    content.includes('## 一、今日信号') ||
+    content.includes('## 二、重点产品') ||
+    content.includes('## 三、亲自验证的重点产品') ||
+    content.includes('## 🔬 亲自验证的重点产品');
+  if (isDetailedReport) {
+    return parseDetailedBriefMarkdown(content, date);
+  }
+  return parseListBriefMarkdown(content, date);
+}
 
-  const hasAgentA = fs.existsSync(agentAPath);
-  const hasMuse = fs.existsSync(musePath);
+// Recursively scan upstream briefing repo (.muse-repo) for dated .md files
+function walkMarkdownFiles(dir, fileList = []) {
+  if (!fs.existsSync(dir)) return fileList;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkMarkdownFiles(full, fileList);
+    } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name.toLowerCase() !== 'readme.md') {
+      fileList.push(full);
+    }
+  }
+  return fileList;
+}
 
-  const agentARaw = hasAgentA ? fs.readFileSync(agentAPath, 'utf-8') : '';
-  const museRaw = hasMuse ? fs.readFileSync(musePath, 'utf-8') : '';
+function getDateFilesMap() {
+  const map = new Map(); // date -> [{ label, path }]
+  const seenBasenames = new Set();
 
-  const agentA = hasAgentA ? parseAgentAMarkdown(agentARaw, date) : { sourceSummary: '', signals: [], items: [] };
-  const muse = hasMuse ? parseMuseMarkdown(museRaw, date) : { intro: '', editorNote: '', items: [] };
-
-  const mergedMap = new Map();
-
-  for (const mItem of muse.items) {
-    mergedMap.set(mItem.key, { ...mItem });
+  const upstreamFiles = walkMarkdownFiles(MUSE_DIR);
+  for (const fullPath of upstreamFiles) {
+    const base = path.basename(fullPath);
+    const m = base.match(/(\d{4}-\d{2}-\d{2})/);
+    if (!m) continue;
+    const date = m[1];
+    seenBasenames.add(base);
+    if (!map.has(date)) map.set(date, []);
+    map.get(date).push({
+      label: path.relative(MUSE_DIR, fullPath),
+      path: fullPath
+    });
   }
 
-  for (const aItem of agentA.items) {
-    let matchedKey = mergedMap.has(aItem.key) ? aItem.key : null;
-    if (!matchedKey) {
-      for (const existingKey of mergedMap.keys()) {
-        if (
-          (existingKey.length >= 4 && aItem.key.startsWith(existingKey)) ||
-          (aItem.key.length >= 4 && existingKey.startsWith(aItem.key))
-        ) {
-          matchedKey = existingKey;
-          break;
-        }
+  // Also check top-level ROOT_DIR for any local un-synced 今日产品简报-*.md
+  if (fs.existsSync(ROOT_DIR)) {
+    for (const entry of fs.readdirSync(ROOT_DIR)) {
+      const m = entry.match(/^今日产品简报-(\d{4}-\d{2}-\d{2})\.md$/);
+      if (m && !seenBasenames.has(entry)) {
+        const date = m[1];
+        if (!map.has(date)) map.set(date, []);
+        map.get(date).push({
+          label: entry,
+          path: path.join(ROOT_DIR, entry)
+        });
       }
     }
+  }
 
-    if (matchedKey) {
-      const existing = mergedMap.get(matchedKey);
-      existing.fromAgentA = true;
-      existing.consensus = true;
-      existing.agentAWhy = aItem.why;
-      existing.rawMeta = aItem.rawMeta || existing.rawMeta;
-      existing.githubRepo = existing.githubRepo || aItem.githubRepo;
-      existing.directUrl = existing.directUrl || aItem.directUrl;
-      if (!existing.url && aItem.url) existing.url = aItem.url;
-      existing.stars = existing.stars || aItem.stars;
-      existing.license = existing.license || aItem.license;
-      Object.assign(existing, classifyProductType(existing));
-    } else {
-      mergedMap.set(aItem.key, { ...aItem, consensus: false });
+  return map;
+}
+
+function getAllDates() {
+  const map = getDateFilesMap();
+  return Array.from(map.keys()).sort((a, b) => b.localeCompare(a));
+}
+
+// Source-agnostic aggregation for a single date + overlay enriched-products.json
+function getDayData(date) {
+  const dateMap = getDateFilesMap();
+  const files = dateMap.get(date) || [];
+
+  const allSignals = [];
+  const rawBriefs = [];
+  let leadIntro = '';
+  const mergedMap = new Map();
+
+  for (const f of files) {
+    const content = fs.readFileSync(f.path, 'utf-8');
+    rawBriefs.push({ name: f.label, content });
+    const parsed = parseAnyBriefMarkdown(content, date);
+
+    if (parsed.intro && (!leadIntro || parsed.intro.length < 220)) {
+      leadIntro = parsed.intro;
+    }
+    if (parsed.signals?.length) {
+      allSignals.push(...parsed.signals);
+    }
+
+    for (const item of parsed.items) {
+      let matchedKey = mergedMap.has(item.key) ? item.key : null;
+      if (!matchedKey) {
+        for (const existingKey of mergedMap.keys()) {
+          if (
+            (existingKey.length >= 4 && item.key.startsWith(existingKey)) ||
+            (item.key.length >= 4 && existingKey.startsWith(item.key))
+          ) {
+            matchedKey = existingKey;
+            break;
+          }
+        }
+      }
+
+      if (matchedKey) {
+        const existing = mergedMap.get(matchedKey);
+        if (item.description && (!existing.description || !existing.description.includes(item.description.slice(0, 18)))) {
+          existing.description = existing.description
+            ? `${existing.description}\n\n${item.description}`
+            : item.description;
+        }
+        if (item.tagline && (!existing.tagline || item.tagline.length < existing.tagline.length)) {
+          existing.tagline = existing.tagline || item.tagline;
+        }
+        existing.githubRepo = existing.githubRepo || item.githubRepo;
+        existing.directUrl = existing.directUrl || item.directUrl;
+        if (!existing.url && item.url) existing.url = item.url;
+        existing.stars = existing.stars || item.stars;
+        existing.license = existing.license || item.license;
+        existing.rawMeta = existing.rawMeta || item.rawMeta;
+        Object.assign(existing, classifyProductType(existing));
+      } else {
+        mergedMap.set(item.key, { ...item });
+      }
     }
   }
 
   const state = loadState();
+  const enrichedMap = loadEnrichedMap();
+
   const products = Array.from(mergedMap.values()).map(p => {
     const userEntry = state.items[p.key] || null;
-    return {
+    const enriched = enrichedMap[p.key] || null;
+
+    const merged = {
       ...p,
       userStatus: userEntry?.status || null,
       userNote: userEntry?.note || '',
       userUpdatedAt: userEntry?.updatedAt || null
     };
+
+    if (enriched) {
+      merged.enriched = true;
+      if (enriched.categoryType && PRODUCT_TYPES[enriched.categoryType]) {
+        merged.categoryType = enriched.categoryType;
+        merged.categoryLabel = PRODUCT_TYPES[enriched.categoryType].label;
+      }
+      if (enriched.deliveryForm && DELIVERY_LABELS[enriched.deliveryForm]) {
+        merged.deliveryForm = enriched.deliveryForm;
+        merged.deliveryLabel = enriched.deliveryLabel || DELIVERY_LABELS[enriched.deliveryForm];
+      }
+      if (enriched.pricingModel) merged.pricingModel = enriched.pricingModel;
+      if (enriched.tagline) merged.tagline = enriched.tagline;
+      if (enriched.introduction) merged.introduction = enriched.introduction;
+      if (Array.isArray(enriched.experienceGuide) && enriched.experienceGuide.length > 0) {
+        merged.experienceGuide = enriched.experienceGuide;
+      }
+      if (Array.isArray(enriched.quickCommands) && enriched.quickCommands.length > 0) {
+        merged.quickCommands = enriched.quickCommands;
+        merged.quickCommand = enriched.quickCommands[0];
+      }
+      if (enriched.defaultPort) merged.defaultPort = enriched.defaultPort;
+      if (enriched.directUrl) {
+        merged.directUrl = enriched.directUrl;
+        merged.url = enriched.directUrl;
+      }
+      if (enriched.githubRepo) merged.githubRepo = enriched.githubRepo;
+      if (enriched.stars) merged.stars = enriched.stars;
+      if (enriched.license) merged.license = enriched.license;
+    }
+
+    return merged;
   });
 
-  // Sort: Consensus first -> Muse curated -> GitHub / Direct URL -> others
+  // Sort: Enriched/Open-Source/Direct URL first
   products.sort((a, b) => {
     const score = (x) =>
-      (x.consensus ? 1000 : 0) +
-      (x.fromMuse ? 500 - (x.museRank || 0) : 0) +
-      (x.githubRepo ? 150 : 0) +
-      (x.directUrl ? 100 : 0);
+      (x.enriched ? 400 : 0) +
+      (x.githubRepo ? 200 : 0) +
+      (x.directUrl ? 100 : 0) +
+      (x.description ? Math.min(80, x.description.length / 10) : 0);
     return score(b) - score(a);
   });
 
   return {
     date,
-    hasAgentA,
-    hasMuse,
-    museIntro: muse.intro,
-    museEditorNote: muse.editorNote,
-    sourceSummary: agentA.sourceSummary,
-    signals: agentA.signals,
+    briefCount: files.length,
+    intro: leadIntro,
+    signals: allSignals,
     products,
-    raw: {
-      agentA: agentARaw,
-      muse: museRaw
-    }
+    rawBriefs
   };
 }
 
-function getAllDates() {
-  const dates = new Set();
-  if (fs.existsSync(ROOT_DIR)) {
-    for (const f of fs.readdirSync(ROOT_DIR)) {
-      const m = f.match(/^今日产品简报-(\d{4}-\d{2}-\d{2})\.md$/);
-      if (m) dates.add(m[1]);
-    }
-  }
-  if (fs.existsSync(MUSE_DIR)) {
-    for (const f of fs.readdirSync(MUSE_DIR)) {
-      const m = f.match(/^brief_(\d{4}-\d{2}-\d{2})\.md$/);
-      if (m) dates.add(m[1]);
-    }
-  }
-  return Array.from(dates).sort((a, b) => b.localeCompare(a));
-}
-
-// Helper: Extract clean install/run commands from README markdown
 function extractQuickCommands(readmeText, safeRepo = '') {
   const cmdMatches = [];
   const codeBlocks = [...readmeText.matchAll(/```(?:bash|sh|zsh|shell|console|cmd)?\r?\n([\s\S]*?)```/gi)];
@@ -731,7 +796,6 @@ function extractQuickCommands(readmeText, safeRepo = '') {
   return cmdMatches;
 }
 
-// Helper: Fetch GitHub metadata & full README via user token, gh CLI (authenticated), or raw HTTP fallback
 async function fetchGitHubDetails(repo, userToken = '') {
   const safeRepo = cleanRepoSlug(repo);
   if (!safeRepo) return null;
@@ -741,10 +805,12 @@ async function fetchGitHubDetails(repo, userToken = '') {
   let readmeDownloadUrl = null;
   let readmeHtmlUrl = null;
 
-  if (userToken) {
+  const tokenToUse = userToken || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+
+  if (tokenToUse) {
     const authHeaders = {
       'User-Agent': 'Daily-Product-Workbench',
-      'Authorization': `Bearer ${userToken}`,
+      'Authorization': `Bearer ${tokenToUse}`,
       'Accept': 'application/vnd.github+json'
     };
     try {
@@ -776,7 +842,7 @@ async function fetchGitHubDetails(repo, userToken = '') {
         readmeHtmlUrl = r?.html_url || null;
       }
     } catch {
-      // fall through to gh CLI / raw fallback
+      // fall through
     }
   }
 
@@ -851,7 +917,7 @@ async function fetchGitHubDetails(repo, userToken = '') {
             break;
           }
         } catch {
-          // try next branch
+          // next
         }
       }
     }
@@ -886,7 +952,6 @@ function stripTags(html = '') {
   return decodeHtmlEntities(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
 }
 
-// Check if X-Frame-Options / CSP blocks embedding in http://127.0.0.1:4321
 function checkCanEmbed(headers) {
   const xfo = (headers.get('x-frame-options') || '').toLowerCase();
   if (xfo.includes('deny') || xfo.includes('sameorigin')) return false;
@@ -904,7 +969,6 @@ function checkCanEmbed(headers) {
   return true;
 }
 
-// Extract clean readable summary blocks from HTML page
 function extractReadableFromHtml(html) {
   const cleaned = html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -980,7 +1044,6 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
   let ogImage = null;
   let readableBlocks = [];
 
-  // 1. Resolve BetaList / Product Hunt wrapper URLs first
   if (targetUrl && targetUrl.includes('betalist.com/startups/')) {
     isWrapperUrl = true;
     try {
@@ -1012,7 +1075,6 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
     isWrapperUrl = true;
   }
 
-  // 2. If we have a GitHub repo, fetch its full metadata & README via token or gh api
   let githubDetails = null;
   if (discoveredRepo) {
     githubDetails = await fetchGitHubDetails(discoveredRepo, userToken);
@@ -1024,7 +1086,6 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
     }
   }
 
-  // 3. Determine primary web page URL to inspect (skip GitHub page itself & Cloudflare-blocked PH wrapper)
   const webInspectUrl =
     resolvedWebsite ||
     (targetUrl && targetUrl.startsWith('http') && !targetUrl.includes('github.com/') && !isWrapperUrl ? targetUrl : null);
@@ -1050,7 +1111,6 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
         ogImage = rawOgImg || ogImage;
         readableBlocks = extractReadableFromHtml(page.html);
 
-        // Discover GitHub repo from the official website if not known yet
         if (!discoveredRepo) {
           const foundRepo = findGithubRepoInHtml(page.html);
           if (foundRepo) {
@@ -1060,7 +1120,7 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
         }
       }
     } catch {
-      // ignore webpage timeout
+      // ignore
     }
   }
 
@@ -1099,15 +1159,14 @@ const server = http.createServer(async (req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host}`);
   const pathname = urlObj.pathname;
 
-  // API: list all dates & global stats
   if (pathname === '/api/days' && req.method === 'GET') {
-    const dates = getAllDates();
+    const dateMap = getDateFilesMap();
+    const dates = Array.from(dateMap.keys()).sort((a, b) => b.localeCompare(a));
     const state = loadState();
-    const daysSummary = dates.map(d => {
-      const hasAgentA = fs.existsSync(path.join(ROOT_DIR, `今日产品简报-${d}.md`));
-      const hasMuse = fs.existsSync(path.join(MUSE_DIR, `brief_${d}.md`));
-      return { date: d, hasAgentA, hasMuse };
-    });
+    const daysSummary = dates.map(d => ({
+      date: d,
+      briefCount: (dateMap.get(d) || []).length
+    }));
 
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify({
@@ -1121,7 +1180,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: get single day data
   if (pathname.startsWith('/api/day/') && req.method === 'GET') {
     const date = pathname.replace('/api/day/', '');
     const data = getDayData(date);
@@ -1130,13 +1188,12 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: global search & type-based explore across all days
   if (pathname === '/api/explore' && req.method === 'GET') {
-    const type = urlObj.searchParams.get('type') || 'all'; // all | agent | devtools | productivity | models | vertical
-    const form = urlObj.searchParams.get('form') || 'all'; // all | consensus | muse | github
-    const status = urlObj.searchParams.get('status') || 'all'; // all | stack | tried
+    const type = urlObj.searchParams.get('type') || 'all';
+    const form = urlObj.searchParams.get('form') || 'all';
+    const status = urlObj.searchParams.get('status') || 'all';
     const q = (urlObj.searchParams.get('q') || '').trim().toLowerCase();
-    const limit = parseInt(urlObj.searchParams.get('limit') || '160', 10);
+    const limit = parseInt(urlObj.searchParams.get('limit') || '250', 10);
 
     const dates = getAllDates();
     const matched = [];
@@ -1144,14 +1201,12 @@ const server = http.createServer(async (req, res) => {
       const dayData = getDayData(d);
       for (const p of dayData.products) {
         if (type !== 'all' && p.categoryType !== type) continue;
-        if (form === 'consensus' && !p.consensus) continue;
-        if (form === 'muse' && !p.fromMuse) continue;
-        if (form === 'github' && !p.githubRepo) continue;
+        if (form !== 'all' && p.deliveryForm !== form) continue;
         if (status === 'stack' && p.userStatus !== 'stack') continue;
         if (status === 'tried' && p.userStatus !== 'tried' && p.userStatus !== 'stack') continue;
 
         if (q) {
-          const hay = `${p.name} ${p.tagline || ''} ${p.why || ''} ${p.agentAWhy || ''} ${p.categoryLabel || ''} ${p.githubRepo || ''}`.toLowerCase();
+          const hay = `${p.name} ${p.tagline || ''} ${p.introduction || ''} ${p.description || ''} ${p.categoryLabel || ''} ${p.githubRepo || ''}`.toLowerCase();
           if (!hay.includes(q)) continue;
         }
 
@@ -1166,7 +1221,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: resolve product workbench details (README via token or gh api, install commands, OG tags, canEmbed)
   if (pathname === '/api/inspect' && req.method === 'GET') {
     const targetUrl = urlObj.searchParams.get('url') || '';
     const githubRepo = urlObj.searchParams.get('repo') || '';
@@ -1179,7 +1233,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: local proxy to embed websites that send X-Frame-Options / CSP frame-ancestors
   if (pathname === '/api/proxy' && (req.method === 'GET' || req.method === 'HEAD')) {
     const target = urlObj.searchParams.get('url') || '';
     let parsed;
@@ -1211,7 +1264,6 @@ const server = http.createServer(async (req, res) => {
         let html = await upstream.text();
         const finalUrlObj = new URL(upstream.url || parsed.toString());
         const baseTag = `<base href="${finalUrlObj.origin}/" target="_blank">`;
-        // Strip meta CSP frame-ancestors if present
         html = html.replace(/<meta[^>]+http-equiv=["']Content-Security-Policy["'][^>]*>/gi, '');
         if (/<head[^>]*>/i.test(html)) {
           html = html.replace(/<head[^>]*>/i, (m) => `${m}\n${baseTag}`);
@@ -1232,7 +1284,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: update user state (tried / stack / bookmark / note)
   if (pathname === '/api/state' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => (body += chunk));
@@ -1262,7 +1313,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: launch local macOS Terminal.app and clone repository into /tmp/dpb-sandbox
   if (pathname === '/api/local-terminal' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => (body += chunk));
@@ -1312,7 +1362,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // API: sync Muse repo via git pull
   if (pathname === '/api/sync' && req.method === 'POST') {
     exec('git pull --ff-only', { cwd: MUSE_DIR }, (err, stdout, stderr) => {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -1324,7 +1373,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Serve static files from PUBLIC_DIR
   const filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403);
@@ -1348,7 +1396,24 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-export { getAllDates, getDayData, ROOT_DIR, MUSE_DIR, PUBLIC_DIR };
+export {
+  getAllDates,
+  getDateFilesMap,
+  getDayData,
+  fetchGitHubDetails,
+  fetchPageInfo,
+  extractReadableFromHtml,
+  findGithubRepoInHtml,
+  cleanRepoSlug,
+  extractMetaTag,
+  stripTags,
+  PRODUCT_TYPES,
+  DELIVERY_LABELS,
+  ROOT_DIR,
+  MUSE_DIR,
+  PUBLIC_DIR,
+  ENRICHED_FILE
+};
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(fs.realpathSync(process.argv[1])).href;
 if (isMain) {

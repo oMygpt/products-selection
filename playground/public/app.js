@@ -71,7 +71,6 @@ const dayFilterTabsEl = document.getElementById('dayFilterTabs');
 const cardsGridEl = document.getElementById('cardsGrid');
 const matrixContainerEl = document.getElementById('matrixContainer');
 const matrixBodyEl = document.getElementById('matrixBody');
-const editorNoteBoxEl = document.getElementById('editorNoteBox');
 
 const stackCountBadgeEl = document.getElementById('stackCountBadge');
 const triedCountBadgeEl = document.getElementById('triedCountBadge');
@@ -121,8 +120,7 @@ const wbIframeEl = document.getElementById('wbIframe');
 
 const rawDialogEl = document.getElementById('rawDialog');
 const rawDialogTitleEl = document.getElementById('rawDialogTitle');
-const rawMuseContentEl = document.getElementById('rawMuseContent');
-const rawAgentAContentEl = document.getElementById('rawAgentAContent');
+const rawBriefsContainerEl = document.getElementById('rawBriefsContainer');
 const closeRawDialogBtn = document.getElementById('closeRawDialogBtn');
 
 function showToast(msg) {
@@ -573,8 +571,8 @@ async function init() {
   updateStatusBadges();
 
   dateSelectEl.innerHTML = state.days.map((d, idx) => {
-    const tag = d.hasMuse && d.hasAgentA ? 'MUSE × AGENT A' : (d.hasMuse ? 'MUSE' : 'AGENT A');
-    return `<option value="${d.date}">NO.${String(state.days.length - idx).padStart(2, '0')} · ${d.date} (${tag})</option>`;
+    const countTag = d.briefCount ? `${d.briefCount} 份汇总` : '当日简报';
+    return `<option value="${d.date}">NO.${String(state.days.length - idx).padStart(2, '0')} · ${d.date} (${countTag})</option>`;
   }).join('');
 
   if (state.days.length > 0) {
@@ -591,14 +589,14 @@ async function loadDay(date, autoOpenFirst = false) {
   const dayData = await res.json();
   state.currentDayData = dayData;
 
-  const mCount = dayData.products.filter(p => p.fromMuse).length;
-  const aCount = dayData.products.filter(p => p.fromAgentA).length;
-  const cCount = dayData.products.filter(p => p.consensus).length;
+  const ghCount = dayData.products.filter(p => p.deliveryForm === 'github' || p.githubRepo).length;
+  const webCount = dayData.products.filter(p => p.deliveryForm === 'web').length;
+  const enrichedCount = dayData.products.filter(p => p.enriched).length;
 
   dateMetaRowEl.innerHTML = `
-    <span class="stamp stamp-muse">MUSE ${mCount}</span>
-    <span class="stamp stamp-agenta">AGENT A ${aCount}</span>
-    ${cCount > 0 ? `<span class="stamp stamp-consensus">双源精选 ${cCount}</span>` : ''}
+    <span class="stamp stamp-neutral">汇总 ${dayData.products.length} 款</span>
+    <span class="stamp stamp-delivery">开源 ${ghCount} · 网页 ${webCount}</span>
+    ${enrichedCount > 0 ? `<span class="stamp stamp-type">已查验 ${enrichedCount}</span>` : ''}
   `;
 
   if (dayData.signals && dayData.signals.length > 0) {
@@ -652,7 +650,7 @@ function updateTypeCounts(pool) {
     if (state.selectedStatus === 'tried' && status !== 'tried' && status !== 'stack') return false;
     if (state.searchQuery) {
       const q = state.searchQuery.toLowerCase();
-      const hay = `${p.name} ${p.tagline || ''} ${p.why || ''} ${p.agentAWhy || ''} ${p.categoryLabel || ''} ${p.githubRepo || ''}`.toLowerCase();
+      const hay = `${p.name} ${p.tagline || ''} ${p.introduction || ''} ${p.description || ''} ${p.categoryLabel || ''} ${p.githubRepo || ''}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -676,14 +674,14 @@ function applyFiltersAndRender() {
     : basePool.filter(p => p.categoryType === state.selectedType);
 
   document.getElementById('countFormAll').textContent = byType.length;
-  document.getElementById('countFormConsensus').textContent = byType.filter(p => p.consensus).length;
-  document.getElementById('countFormMuse').textContent = byType.filter(p => p.fromMuse).length;
-  document.getElementById('countFormGithub').textContent = byType.filter(p => p.githubRepo).length;
+  document.getElementById('countFormGithub').textContent = byType.filter(p => p.deliveryForm === 'github' || p.githubRepo).length;
+  document.getElementById('countFormWeb').textContent = byType.filter(p => p.deliveryForm === 'web').length;
+  document.getElementById('countFormDesktop').textContent = byType.filter(p => p.deliveryForm === 'desktop').length;
+  document.getElementById('countFormApi').textContent = byType.filter(p => p.deliveryForm === 'api').length;
 
   let finalItems = byType;
-  if (state.selectedForm === 'consensus') finalItems = byType.filter(p => p.consensus);
-  if (state.selectedForm === 'muse') finalItems = byType.filter(p => p.fromMuse);
-  if (state.selectedForm === 'github') finalItems = byType.filter(p => p.githubRepo);
+  if (state.selectedForm === 'github') finalItems = byType.filter(p => p.deliveryForm === 'github' || p.githubRepo);
+  else if (state.selectedForm !== 'all') finalItems = byType.filter(p => p.deliveryForm === state.selectedForm);
 
   state.displayedProducts = finalItems;
   scopeDailyBtn.classList.toggle('active', state.scope === 'daily');
@@ -704,20 +702,13 @@ function applyFiltersAndRender() {
     stageTitleEl.textContent = state.selectedStatus
       ? `${state.selectedStatus === 'stack' ? '★ 收藏夹' : '✓ 已试过'} · ${typeNames[state.selectedType]}`
       : `${state.currentDayData.date} · ${typeNames[state.selectedType]}`;
-    stageSubtitleEl.textContent = state.currentDayData.museIntro || state.currentDayData.sourceSummary || '点击任意产品卡片，在右侧阅读 README 或启动 Codespace 真机体验';
-    if (state.currentDayData.museEditorNote) {
-      editorNoteBoxEl.textContent = state.currentDayData.museEditorNote;
-      editorNoteBoxEl.classList.remove('hidden');
-    } else {
-      editorNoteBoxEl.classList.add('hidden');
-    }
+    stageSubtitleEl.textContent = state.currentDayData.intro || '按产品类型与交付形态聚合，点击任意产品即可在右侧查看详细介绍、试玩指南或启动 Codespace 真机体验';
   } else {
     stageDatelineEl.textContent = `FULL ARCHIVE · 跨 ${state.days.length} 期全库`;
     stageTitleEl.textContent = state.searchQuery
       ? `检索「${state.searchQuery}」· ${typeNames[state.selectedType]}`
       : `全库分类浏览 · ${typeNames[state.selectedType]}`;
-    stageSubtitleEl.textContent = `共筛选出 ${finalItems.length} 款产品，点击卡片即可在右侧阅读 README 或启动 Codespace 试玩`;
-    editorNoteBoxEl.classList.add('hidden');
+    stageSubtitleEl.textContent = `共筛选出 ${finalItems.length} 款产品，点击卡片即可在右侧查看体验指南、README 或启动 Codespace`;
   }
 
   renderProductsView(finalItems, state.scope === 'all');
@@ -742,18 +733,17 @@ function renderGalleryCards(products, showDateOnCard = false) {
     const bestUrl = p.directUrl || p.url || `https://www.google.com/search?q=${encodeURIComponent(p.name)}`;
     const domain = p.githubRepo ? p.githubRepo : extractDomain(bestUrl);
     const isFocused = idx === state.focusedIndex;
+    const summaryText = p.introduction || p.description || '';
 
     return `
-      <article class="product-card ${p.consensus ? 'is-consensus' : ''} ${state.activeProduct?.key === p.key ? 'active-card' : ''} ${isFocused ? 'kb-focused' : ''}" data-key="${escapeHtml(p.key)}" data-idx="${idx}" id="card-${escapeHtml(p.key)}">
+      <article class="product-card ${state.activeProduct?.key === p.key ? 'active-card' : ''} ${isFocused ? 'kb-focused' : ''}" data-key="${escapeHtml(p.key)}" data-idx="${idx}" id="card-${escapeHtml(p.key)}">
         <div>
           <div class="card-index-row">
             <span class="card-index-num">#${formatIndex(idx)}</span>
             <div class="card-stamps">
               <span class="stamp stamp-type">${escapeHtml(p.categoryLabel || '垂直应用')}</span>
-              ${p.consensus ? `<span class="stamp stamp-consensus">双源精选</span>` : ''}
-              ${p.fromMuse ? `<span class="stamp stamp-muse">MUSE</span>` : ''}
-              ${p.fromAgentA ? `<span class="stamp stamp-agenta">AGENT A</span>` : ''}
-              <span class="stamp stamp-neutral">${escapeHtml(p.deliveryLabel || 'Web')}</span>
+              <span class="stamp stamp-delivery">${escapeHtml(p.deliveryLabel || '在线网页')}</span>
+              ${p.pricingModel ? `<span class="stamp stamp-pricing">${escapeHtml(p.pricingModel)}</span>` : ''}
               ${p.stars ? `<span class="stamp stamp-neutral">★ ${escapeHtml(p.stars)}</span>` : ''}
             </div>
           </div>
@@ -766,17 +756,18 @@ function renderGalleryCards(products, showDateOnCard = false) {
             <div class="card-tagline" lang="zh">${escapeHtml(p.tagline || '')}</div>
           </div>
 
-          <div class="card-dossier" lang="zh">
-            ${p.fromMuse && p.why ? `<div><span class="dossier-entry-kicker">MUSE · 为什么有趣</span><div>${escapeHtml(p.why)}</div></div>` : ''}
-            ${p.fromAgentA && (p.agentAWhy || (!p.fromMuse && p.why)) ? `<div><span class="dossier-entry-kicker">AGENT A · 核实结论</span><div>${escapeHtml(p.agentAWhy || p.why)}</div></div>` : ''}
-          </div>
+          ${summaryText ? `
+            <div class="card-dossier" lang="zh">
+              <div>${escapeHtml(summaryText)}</div>
+            </div>
+          ` : ''}
 
           ${note ? `<div class="card-memo-line">备注：${escapeHtml(note)}</div>` : ''}
         </div>
 
         <div class="card-footer">
           <div class="try-actions">
-            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${p.githubRepo ? '🚀 README / Codespace' : '右侧体验 →'}</button>
+            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${p.githubRepo ? '🚀 README / Codespace' : '查看体验指南 →'}</button>
             <a href="${escapeHtml(bestUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" data-stop-card>↗ 官网</a>
           </div>
           <div class="curation-actions">
@@ -811,8 +802,8 @@ function renderMatrixRows(products, showDate = false) {
         </td>
         <td><span class="stamp stamp-type">${escapeHtml(p.categoryLabel || '垂直应用')}</span></td>
         <td>
-          ${p.consensus ? `<span class="stamp stamp-consensus">双源</span> ` : ''}
-          <span class="stamp stamp-neutral">${escapeHtml(p.deliveryLabel || 'Web')}</span>
+          <span class="stamp stamp-delivery">${escapeHtml(p.deliveryLabel || '在线网页')}</span>
+          ${p.pricingModel ? `<span class="stamp stamp-pricing">${escapeHtml(p.pricingModel)}</span>` : ''}
           ${p.githubRepo ? `<div style="font-family:var(--font-mono); font-size:10.5px; color:var(--ink-muted); margin-top:2px;">${escapeHtml(p.githubRepo)}</div>` : ''}
         </td>
         <td>
@@ -1180,7 +1171,7 @@ function renderCodespaceTab() {
 
         <div class="cs-port-bar">
           <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-muted);">端口直连预览 (Port Forward):</span>
-          <input type="number" id="csPortInput" class="cs-port-input" value="3000" min="1" max="65535" />
+          <input type="number" id="csPortInput" class="cs-port-input" value="${escapeHtml(String(product.defaultPort || 3000))}" min="1" max="65535" />
           <div style="display:flex; gap:4px;">
             <button class="curate-btn" data-port-preset="3000">3000</button>
             <button class="curate-btn" data-port-preset="5173">5173</button>
@@ -1188,7 +1179,7 @@ function renderCodespaceTab() {
             <button class="curate-btn" data-port-preset="8080">8080</button>
           </div>
           <button class="editorial-btn editorial-btn-ink editorial-btn-sm" id="csOpenPortInlineBtn">在右侧试玩窗口打开端口</button>
-          <a href="https://${escapeHtml(cs.name)}-3000.app.github.dev" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" id="csOpenPortExtLink">↗ 新窗口打开</a>
+          <a href="https://${escapeHtml(cs.name)}-${escapeHtml(String(product.defaultPort || 3000))}.app.github.dev" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" id="csOpenPortExtLink">↗ 新窗口打开</a>
         </div>
       </div>
     `;
@@ -1363,16 +1354,26 @@ function renderWorkbenchSummary(product, inspectInfo) {
   const licenseVal = meta?.license || product.license;
   const langVal = meta?.language;
   const topics = meta?.topics || [];
+  const introText = product.introduction || product.description || meta?.description || '';
+  const guideSteps = Array.isArray(product.experienceGuide) ? product.experienceGuide : [];
 
   wbSummaryBoxEl.innerHTML = `
-    <div class="wb-section-title">产品定位与简报摘要</div>
+    <div class="wb-section-title">产品介绍与体验模式</div>
     <div style="font-family:var(--font-reading); font-size:14.5px; font-weight:600; color:var(--ink);">
       ${escapeHtml(product.tagline || meta?.description || '')}
     </div>
-    ${product.fromMuse && product.why ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body);"><strong style="color:var(--amber);">Muse 买手点评：</strong>${escapeHtml(product.why)}</div>` : ''}
-    ${product.fromAgentA && (product.agentAWhy || (!product.fromMuse && product.why)) ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body);"><strong style="color:var(--cobalt);">Agent A 核实：</strong>${escapeHtml(product.agentAWhy || product.why)}</div>` : ''}
-    ${(starsVal || licenseVal || langVal || topics.length > 0) ? `
+    ${introText ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body); line-height:1.7;">${escapeHtml(introText)}</div>` : ''}
+    ${guideSteps.length > 0 ? `
+      <div class="experience-guide-box">
+        <div class="experience-guide-title">上手体验指引</div>
+        <ol class="experience-guide-list">
+          ${guideSteps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+        </ol>
+      </div>
+    ` : ''}
+    ${(starsVal || licenseVal || langVal || product.pricingModel || topics.length > 0) ? `
       <div class="repo-stats-bar">
+        ${product.pricingModel ? `<span class="repo-stat-chip">${escapeHtml(product.pricingModel)}</span>` : ''}
         ${starsVal ? `<span class="repo-stat-chip">★ ${escapeHtml(String(starsVal))}</span>` : ''}
         ${langVal ? `<span class="repo-stat-chip">${escapeHtml(langVal)}</span>` : ''}
         ${licenseVal ? `<span class="repo-stat-chip">${escapeHtml(licenseVal)}</span>` : ''}
@@ -1490,10 +1491,8 @@ async function openWorkbench(productKey) {
 
   wbMetaStampsEl.innerHTML = `
     <span class="stamp stamp-type">${escapeHtml(product.categoryLabel || '垂直应用')}</span>
-    ${product.consensus ? `<span class="stamp stamp-consensus">双源精选</span>` : ''}
-    ${product.fromMuse ? `<span class="stamp stamp-muse">MUSE</span>` : ''}
-    ${product.fromAgentA ? `<span class="stamp stamp-agenta">AGENT A</span>` : ''}
-    <span class="stamp stamp-neutral">${escapeHtml(product.deliveryLabel || 'Web')}</span>
+    <span class="stamp stamp-delivery">${escapeHtml(product.deliveryLabel || '在线网页')}</span>
+    ${product.pricingModel ? `<span class="stamp stamp-pricing">${escapeHtml(product.pricingModel)}</span>` : ''}
   `;
   wbTitleEl.textContent = product.name;
 
@@ -1872,9 +1871,16 @@ function bindEvents() {
 
   rawBriefBtn.addEventListener('click', () => {
     if (!state.currentDayData) return;
-    rawDialogTitleEl.textContent = `${state.currentDayData.date} · 原件对照 (MUSE × AGENT A)`;
-    rawMuseContentEl.textContent = state.currentDayData.raw?.muse || '（本期无 Muse 简报）';
-    rawAgentAContentEl.textContent = state.currentDayData.raw?.agentA || '（本期无 Agent A 简报）';
+    rawDialogTitleEl.textContent = `${state.currentDayData.date} · 当日原始简报汇总`;
+    const briefs = state.currentDayData.rawBriefs || [];
+    rawBriefsContainerEl.innerHTML = briefs.length > 0
+      ? briefs.map(b => `
+          <div class="raw-col">
+            <h4>${escapeHtml(b.name)}</h4>
+            <pre class="raw-pre">${escapeHtml(b.content)}</pre>
+          </div>
+        `).join('')
+      : '<p style="color:var(--ink-muted);">当日暂无原始简报文本</p>';
     rawDialogEl.showModal();
   });
   closeRawDialogBtn.addEventListener('click', () => rawDialogEl.close());

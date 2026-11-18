@@ -1,33 +1,100 @@
-name: Deploy Products Selection to GitHub Pages
+name: Daily Product Enrichment & Dual Deploy
 
 on:
+  schedule:
+    - cron: "0 0,8,14 * * *" # UTC 00:00, 08:00, 14:00 = 北京时间 08:00, 16:00, 22:00
   push:
     branches: ["main"]
   workflow_dispatch:
+    inputs:
+      days:
+        description: "回溯查验最近多少天的简报"
+        type: string
+        default: "2"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  group: "products-selection-pipeline"
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  enrich-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Asia/Shanghai
+      QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+      CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+      CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout
+      - name: Checkout products-selection
         uses: actions/checkout@v4
 
-      - name: Setup Pages
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Checkout upstream briefings repo (.muse-repo)
+        if: ${{ secrets.BRIEFINGS_DEPLOY_KEY != '' }}
+        env:
+          BRIEFINGS_DEPLOY_KEY: ${{ secrets.BRIEFINGS_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$BRIEFINGS_DEPLOY_KEY" > ~/.ssh/briefings_key
+          chmod 600 ~/.ssh/briefings_key
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/briefings_key -o IdentitiesOnly=yes" \
+            git clone --depth 1 git@github.com:alonegg/daily-product-briefings.git .muse-repo
+
+      - name: Enrich new products via Qwen Agent
+        if: ${{ !contains(github.event.head_commit.message, '[skip enrich]') }}
+        run: |
+          DAYS="${{ github.event.inputs.days || '2' }}"
+          if [ -d ".muse-repo" ] && [ -n "$QWEN_API_KEY" ]; then
+            node playground/enrich-agent.mjs --days "$DAYS" --concurrency 4
+          else
+            echo "Skipping enrich-agent (missing .muse-repo or QWEN_API_KEY)"
+          fi
+
+      - name: Build static dataset
+        run: |
+          if [ -d ".muse-repo" ]; then
+            node playground/build-static.mjs
+          else
+            echo "Using committed static dataset in playground/public/data"
+          fi
+
+      - name: Commit updated enriched data & static JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add playground/enriched-products.json playground/public/data
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: daily enriched product update [skip enrich]"
+            git push
+          else
+            echo "No data changes to commit."
+          fi
+
+      - name: Deploy to Cloudflare Pages
+        if: ${{ secrets.CLOUDFLARE_API_KEY != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        run: |
+          npx --yes wrangler@4 pages deploy playground/public --project-name=products-selection --branch=main --commit-dirty=true
+
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "playground/public"

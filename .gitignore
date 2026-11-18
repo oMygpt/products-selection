@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 .muse-repo/
+今日产品简报-*.md
 playground/.inspect-cache.json
 playground/user-state.json

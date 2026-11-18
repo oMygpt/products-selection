@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THE DAILY PRODUCT BRIEFING · 每日精选产品体验台</title>
+  <title>PRODUCTS SELECTION · 每日精选产品体验台</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
             <span>📅 日期与今日信号</span>
           </button>
           <div class="pub-identity">
-            <div class="pub-kicker">CURATED PRODUCT WORKBENCH · MUSE × AGENT A</div>
+            <div class="pub-kicker">CURATED PRODUCT WORKBENCH · DAILY ENRICHED EDITION</div>
             <div class="pub-title-row">
               <h1 class="pub-title" lang="en">Products Selection</h1>
               <span class="pub-title-cn" lang="zh">每日精选产品体验台</span>
@@ -32,11 +32,11 @@
         <!-- Center: View Mode Switcher -->
         <div class="view-mode-group" role="group" aria-label="视图模式切换">
           <button class="mode-btn active" id="modeGalleryBtn" data-mode="gallery" title="快捷键 G 切换买手画报流">
-            <span>画报买手流</span>
+            <span>画报视图</span>
             <kbd>G</kbd>
           </button>
           <button class="mode-btn" id="modeMatrixBtn" data-mode="matrix" title="快捷键 M 切换高密度矩阵">
-            <span>高密度情报矩阵</span>
+            <span>紧凑矩阵</span>
             <kbd>M</kbd>
           </button>
         </div>
@@ -48,7 +48,7 @@
               <circle cx="6.8" cy="6.8" r="5.2" />
               <line x1="10.8" y1="10.8" x2="14.5" y2="14.5" />
             </svg>
-            <input type="search" id="globalSearchInput" placeholder="检索 70+ 期产品、仓库、类型 (/)" />
+            <input type="search" id="globalSearchInput" placeholder="检索全部产品、仓库、类型 (/)" />
             <button class="search-clear hidden" id="clearSearchBtn" aria-label="清除搜索">×</button>
           </div>
 
@@ -57,9 +57,9 @@
             <span id="ghKeyLabel">配置 GitHub Key</span>
           </button>
 
-          <button class="editorial-btn" id="randomDayBtn" title="随机漫游至历史某期简报">随机漫游</button>
-          <button class="editorial-btn" id="rawBriefBtn" title="对照检阅 Muse 与 Agent A 原始 Markdown">原件对照</button>
-          <button class="editorial-btn" id="syncMuseBtn" title="git pull 同步最新 Muse 仓库">同步</button>
+          <button class="editorial-btn" id="randomDayBtn" title="随机漫游至历史某期">随机漫游</button>
+          <button class="editorial-btn" id="rawBriefBtn" title="查看当日汇总的原始简报原文">原始简报</button>
+          <button class="editorial-btn" id="syncMuseBtn" title="拉取上游简报源最新更新">同步</button>
           <button class="editorial-btn tweaks-trigger" id="tweaksToggleBtn" title="版式与主题调音台">Tweaks</button>
         </div>
       </div>
@@ -158,8 +158,8 @@
 
         <section class="editorial-marginalia" id="signalsPanel">
           <div class="marginalia-header">
-            <span class="marginalia-num">MACRO SIGNALS</span>
-            <h2 class="marginalia-title">今日核心信号 (Agent A)</h2>
+            <span class="marginalia-num">DAILY SIGNALS</span>
+            <h2 class="marginalia-title">当日核心趋势信号</h2>
           </div>
           <div class="signals-list" id="signalsList"></div>
         </section>
@@ -172,19 +172,21 @@
             <div class="lead-top-row">
               <div class="lead-dateline" id="stageDateline">ISSUE DISPATCH</div>
               <div class="scope-switch" role="group" aria-label="数据范围切换">
-                <button class="scope-btn active" id="scopeDailyBtn" data-scope="daily">当日简报</button>
-                <button class="scope-btn" id="scopeAllBtn" data-scope="all">跨 70+ 期全库</button>
+                <button class="scope-btn active" id="scopeDailyBtn" data-scope="daily">当日汇总</button>
+                <button class="scope-btn" id="scopeAllBtn" data-scope="all">全库浏览</button>
               </div>
             </div>
             <h2 class="lead-headline" id="stageTitle" lang="zh">加载中...</h2>
             <p class="lead-deck" id="stageSubtitle" lang="zh"></p>
           </div>
 
+          <!-- Secondary Filter by Delivery / Experience Form -->
           <div class="lead-filter-bar" id="dayFilterTabs">
-            <button class="filter-chip active" data-form="all">全部 <span id="countFormAll">0</span></button>
-            <button class="filter-chip" data-form="consensus">双源精选 <span id="countFormConsensus">0</span></button>
-            <button class="filter-chip" data-form="muse">Muse 精选 <span id="countFormMuse">0</span></button>
-            <button class="filter-chip" data-form="github">含 GitHub / Codespace <span id="countFormGithub">0</span></button>
+            <button class="filter-chip active" data-form="all">全部形态 <span id="countFormAll">0</span></button>
+            <button class="filter-chip" data-form="github">开源项目 / Codespace <span id="countFormGithub">0</span></button>
+            <button class="filter-chip" data-form="web">在线网页 / Web <span id="countFormWeb">0</span></button>
+            <button class="filter-chip" data-form="desktop">桌面 / 客户端 / 插件 <span id="countFormDesktop">0</span></button>
+            <button class="filter-chip" data-form="api">模型 / API / 论文 <span id="countFormApi">0</span></button>
           </div>
         </div>
 
@@ -199,7 +201,7 @@
                 <th class="col-idx">NO.</th>
                 <th class="col-name">产品名称与核心定位</th>
                 <th class="col-cat">产品类型</th>
-                <th class="col-src">来源与形态</th>
+                <th class="col-src">交付形态与费用</th>
                 <th class="col-status">标记</th>
                 <th class="col-act">操作</th>
               </tr>
@@ -207,8 +209,6 @@
             <tbody id="matrixBody"></tbody>
           </table>
         </div>
-
-        <footer class="editorial-colophon hidden" id="editorNoteBox"></footer>
       </main>
 
       <!-- Draggable Split Resizer -->
@@ -216,7 +216,6 @@
 
       <!-- Right Split-Screen Workbench -->
       <aside class="workbench hidden" id="workbench" aria-label="右侧分屏产品体验台">
-        <!-- Sticky Workbench Header -->
         <div class="wb-topbar">
           <div class="wb-header-top">
             <div class="wb-identity">
@@ -229,7 +228,7 @@
           <!-- Action & Mode Bar -->
           <div class="wb-toolbar">
             <div class="wb-mode-switch" role="tablist">
-              <button class="wb-tab active" data-wbtab="readme" role="tab">📖 README / 产品详解</button>
+              <button class="wb-tab active" data-wbtab="readme" role="tab">📖 产品详情 / README</button>
               <button class="wb-tab" data-wbtab="codespace" role="tab">🚀 Codespace 真机体验</button>
               <button class="wb-tab" data-wbtab="web" role="tab">🌐 网页在线试玩</button>
             </div>
@@ -247,24 +246,23 @@
             </div>
           </div>
 
-          <!-- Unobtrusive Collapsible 1-line Memo Bar -->
           <div class="wb-memo-bar hidden" id="wbMemoBar">
             <input type="text" id="wbNoteInput" class="wb-memo-input" placeholder="记一句体验备忘（回车或点保存，自动存本地）..." />
             <button class="editorial-btn editorial-btn-ink editorial-btn-sm" id="wbSaveNoteBtn">保存</button>
           </div>
         </div>
 
-        <!-- Mode 1: Clean Documentation / README & Website Summary -->
+        <!-- Mode 1: Product Dossier, Experience Guide & README -->
         <div class="wb-pane" id="wbTabReadme">
           <div id="wbInspectLoading" class="wb-loading hidden">正在读取 GitHub README 与官网信息...</div>
 
           <!-- Codespace Quick Launch Banner (shown for GitHub open-source products) -->
           <section class="wb-codespace-banner hidden" id="wbCodespaceBanner"></section>
 
-          <!-- Briefing Summary + Repo Stats -->
+          <!-- Unified Product Intro, Experience Guide & Repo Stats -->
           <section class="wb-doc-section" id="wbSummaryBox"></section>
 
-          <!-- Quickstart Commands (if extracted) -->
+          <!-- Quickstart Commands -->
           <section class="wb-doc-section hidden" id="wbCommandsBox"></section>
 
           <!-- Full Markdown README OR Webpage Readable Content -->
@@ -276,7 +274,7 @@
           <div id="wbCodespaceContainer" class="cs-container"></div>
         </div>
 
-        <!-- Mode 3: Live Web Preview (Direct vs Proxy fallback) -->
+        <!-- Mode 3: Live Web Preview -->
         <div class="wb-pane wb-web-pane hidden" id="wbTabWeb">
           <div class="web-preview-bar">
             <div class="web-url-display" id="wbPreviewUrlDisplay">https://...</div>
@@ -356,22 +354,13 @@
     </div>
   </dialog>
 
-  <!-- Raw Markdown Comparison Dialog -->
+  <!-- Raw Briefs Viewer Dialog (Source-Agnostic) -->
   <dialog class="raw-dialog" id="rawDialog">
     <div class="dialog-header">
-      <h3 id="rawDialogTitle">原件对照 · MUSE × AGENT A</h3>
+      <h3 id="rawDialogTitle">当日原始简报汇总</h3>
       <button class="wb-close-btn" id="closeRawDialogBtn">×</button>
     </div>
-    <div class="dialog-dual-body">
-      <div class="raw-col">
-        <h4>MUSE BRIEFING (daily-product-briefings)</h4>
-        <pre id="rawMuseContent" class="raw-pre"></pre>
-      </div>
-      <div class="raw-col">
-        <h4>AGENT A BRIEFING (本地深度核验原件)</h4>
-        <pre id="rawAgentAContent" class="raw-pre"></pre>
-      </div>
-    </div>
+    <div class="raw-briefs-scroll" id="rawBriefsContainer"></div>
   </dialog>
 
   <div class="toast hidden" id="toast"></div>

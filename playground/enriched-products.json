@@ -1,0 +1,1038 @@
+{
+  "sutraos": {
+    "key": "sutraos",
+    "name": "Sutra-OS",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:11.780Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "开源自托管本体平台，实现数据溯源与受控协作",
+    "introduction": "Sutra-OS 是一个基于 Clojure 开发的自托管本体（Ontology）平台，将数据建模为类型化的对象、链接和动作。它强制实施“提案-审批”工作流，确保所有变更（包括 AI Agent 的操作）必须经过规则验证才能生效，并提供从最终数字到源数据的完整血缘追踪能力。",
+    "experienceGuide": [
+      "步骤1：在本地终端执行 `git clone https://github.com/0nelight/sutra-os.git sutra && cd sutra` 获取源码，并根据 README 指引配置环境启动服务。",
+      "步骤2：尝试创建一个简单的 Object Type 并定义 Action，模拟提交一个修改提案，观察系统如何拦截未授权写入并展示数据血缘图谱。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/0nelight/sutra-os",
+    "githubRepo": "0nelight/sutra-os",
+    "stars": "124",
+    "license": "NOASSERTION",
+    "quickCommands": [
+      "git clone https://github.com/0nelight/sutra-os.git sutra && cd sutra"
+    ]
+  },
+  "skykeep": {
+    "key": "skykeep",
+    "name": "Skykeep",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:12.128Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "将 iCloud 核心应用以原生离线形式带到 Windows、Linux 和 Android。",
+    "introduction": "Skykeep 是一款基于 Rust 构建的开源工具，旨在打破 Apple 生态壁垒，让用户在非 macOS 设备上也能访问 iCloud 数据。它提供笔记、提醒事项、日历、通讯录、iCloud Drive 和照片六个独立的原生应用窗口，支持完全离线运行并与 iPhone/iPad/Mac 实时同步。底层引擎轻量高效，空闲时 CPU 占用极低，确保了跨平台使用的流畅性与隐私安全。",
+    "experienceGuide": [
+      "步骤1：访问 GitHub Releases 页面下载对应操作系统的安装包（Windows .exe/.msi, Linux Snap/AppImage, Android APK），或通过 Microsoft Store/Snap Store 直接安装。",
+      "步骤2：首次启动需登录 Apple ID 并授权访问 iCloud 数据，随后即可在桌面或手机主屏幕看到独立的 Skykeep Notes、Calendar 等应用图标，体验离线编辑与多端同步功能。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/YashwanthKamireddi/Skykeep",
+    "githubRepo": "YashwanthKamireddi/Skykeep",
+    "stars": "541",
+    "license": "GPL-3.0",
+    "quickCommands": [
+      "gh repo clone YashwanthKamireddi/Skykeep"
+    ]
+  },
+  "semjiff": {
+    "key": "semjiff",
+    "name": "sem-jiff",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:12.233Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于语义分析的代码差异识别工具，精准区分移动、重命名与重构。",
+    "introduction": "sem-jiff 是一个 TypeScript 库，通过解析代码语法树来识别文件变更的真实语义（如函数移动、变量重命名、代码抽取或格式化），而非仅对比文本行。它输出结构化的操作数据供 diff 查看器渲染，帮助开发者在代码审查中快速过滤非实质性改动。可选集成 Jev 和 Clef 决策模型以处理复杂的重构场景。",
+    "experienceGuide": [
+      "步骤1：运行 `npm install @plannotator/sem-jiff` 安装依赖，并在 Node.js 环境中引入 `semanticDiffFile` 函数，传入旧版和新版代码文本及语言类型进行初步测试。",
+      "步骤2：若需在浏览器中使用，需执行 `npx sem-jiff-copy-wasm <dir>` 复制 WASM 语法文件并配置路径；对于高难度重构识别，可配置 `secondOpinion` 接入 Jev API 以提升准确率。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/plannotator/sem-jiff",
+    "githubRepo": "plannotator/sem-jiff",
+    "stars": "22",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "npm install @plannotator/sem-jiff"
+    ]
+  },
+  "coral": {
+    "key": "coral",
+    "name": "Coral",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:12.885Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "为 AI Agent 提供受控执行轨道与动态工具生成的安全网关",
+    "introduction": "Coral 是一个开源的自托管网关，位于 AI Agent 与企业敏感系统之间。它允许 Agent 编写 TypeScript 代码作为自定义工具，并在调用前通过策略引擎进行精确权限校验（Allow/Ask/Block），而非仅依赖静态的工具可见性控制。该机制支持将验证过的代码保存为可复用的工具，从而减少重复推理并提升执行效率。",
+    "experienceGuide": [
+      "步骤1：访问官网下载页获取 macOS/Windows/Linux 桌面客户端，或通过 Docker Compose/Kubernetes 部署团队共享服务器。",
+      "步骤2：在 UI 中添加 GitHub、Slack 等 Provider，复制生成的 MCP URL，并使用 `claude mcp add` 或 `codex mcp add` 命令将其接入 Claude Code 或 Codex 等 Agent 客户端。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/withcoral/coral",
+    "githubRepo": "withcoral/coral",
+    "stars": "5016",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "claude mcp add --scope user --transport http coral <your-mcp-url>   # Claude Code",
+      "codex mcp add coral --url <your-mcp-url>                            # Codex"
+    ]
+  },
+  "deslop": {
+    "key": "deslop",
+    "name": "deslop",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:13.438Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于语料与心理语言学的 Claude 去 AI 腔改写技能",
+    "introduction": "deslop 是一个专为 Claude 设计的 Agent Skill，旨在通过逐句扫描和由外而内的结构化改写（涵盖内容、句法、用词等），消除文本中的大模型生成痕迹。它利用语料语言学和心理语言学规则，在保留关键事实（如数字、代码）的前提下，将文本调整至符合人类写作特征的“自然区间”，并支持根据模型版本迭代更新检测规则。",
+    "experienceGuide": [
+      "步骤1：克隆仓库并将 deslop 文件夹复制到本地 Claude 的技能目录中（例如执行 `cp -r deslop ~/.claude/skills/deslop`）。",
+      "步骤2：在 Claude 对话中粘贴需要润色的草稿，并输入指令如 “deslop this” 或 “run a slop pass”，观察其如何分步扫描问题、执行改写并验证是否丢失了原始事实。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/etodanik/deslop",
+    "githubRepo": "etodanik/deslop",
+    "stars": "42",
+    "license": "MIT",
+    "quickCommands": [
+      "gh repo clone etodanik/deslop"
+    ]
+  },
+  "byob": {
+    "key": "byob",
+    "name": "byob",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:19.043Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "本地原生桌面AI协作代理，支持任意LLM端点与文件操作",
+    "introduction": "byob 是一个基于 Rust 开发的原生桌面 AI Agent 框架，无需 Electron 即可在 Linux、macOS 和 Windows 上运行。它允许用户连接任何 OpenAI 兼容的 LLM 端点（如 Ollama、vLLM 或本地 llama-server），并在指定文件夹中执行读写文件、运行代码及生成图表文档等任务。其核心特性包括内置浏览器 UI 支持、插件化架构以及跨会话的记忆与工作区管理功能。",
+    "experienceGuide": [
+      "步骤1：通过命令行安装应用，使用 `cargo install byob` 获取包含浏览器 UI 的完整版本，或使用 `cargo install byob --no-default-features` 获取更轻量的纯桌面版本。",
+      "步骤2：启动应用后，配置一个可用的 OpenAI 兼容 API 端点（例如本地运行的 Ollama 服务），尝试让 Agent 在当前工作目录中读取文件或生成一个简单的 HTML 小应用以体验其工具调用能力。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/Scronkfinkle/byob",
+    "githubRepo": "Scronkfinkle/byob",
+    "stars": "7",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "cargo install byob                          # with the browser UI built in",
+      "cargo install byob --no-default-features    # slim: desktop only, a few MB smaller"
+    ]
+  },
+  "dbbranch": {
+    "key": "dbbranch",
+    "name": "db-branch",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:21.139Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于ZFS克隆秒级创建MySQL/PG数据库分支的自托管工具",
+    "introduction": "db-branch 是一款自托管的数据库分支管理工具，利用 ZFS 的写时复制（Copy-on-Write）特性，在数秒内为 MySQL 和 PostgreSQL 创建零拷贝的逻辑分支。它通过内置 MCP Server 支持 AI Agent 安全隔离地执行高风险查询或迁移，并允许 CI/CD 流程为每个 Pull Request 动态分配独立的数据库副本，测试后可自动过期删除。",
+    "experienceGuide": [
+      "步骤1：访问 https://demo.db-branch.com/ 体验浏览器内的模拟控制台，了解基本交互逻辑；或在本地安装 Multipass 后运行 README 中提供的 `multipass launch` 命令快速启动包含 Ubuntu、ZFS 和示例数据的评估环境。",
+      "步骤2：进入 VM 终端后，使用 `sudo db-branch branch create try --base shop --ttl 1h --record` 创建一个带 TTL 的分支，尝试连接该分支进行数据修改，随后使用 `branch reset` 验证状态回滚功能，最后确认分支到期后是否被自动清理。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/db-branch/db-branch",
+    "githubRepo": "db-branch/db-branch",
+    "stars": "66",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "gh repo clone db-branch/db-branch"
+    ]
+  },
+  "pulsar": {
+    "key": "pulsar",
+    "name": "Pulsar",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:21.919Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于MCP协议的本地AI编码代理通信总线，实现跨工具智能体发现与消息多播。",
+    "introduction": "Pulsar 是一个 MCP (Model Context Protocol) 服务器，旨在将本地运行的各类 AI 编码代理（如 Claude Code, Codex, Cursor 等）连接至统一通信总线。它支持代理间的自动发现、基于标签的定向或多播消息传递，以及空闲唤醒机制，从而实现无需轮询的高效协作。该工具通过标准化接口屏蔽不同 Harness 的差异，提供请求-回复模式及线程管理，确保代理间交互的安全性与可追溯性。",
+    "experienceGuide": [
+      "步骤1：在终端运行 `npx pulsar setup` 启动安装向导，该命令会自动检测本地已安装的 AI 代理并配置相应的 MCP 服务器与扩展文件。",
+      "步骤2：重启你的 AI 编码代理会话，尝试使用内置指令列出当前活跃代理（如查看 project 或 branch 标签），并向特定代理发送测试消息以验证通信链路是否畅通。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/yocontra/pulsar",
+    "githubRepo": "yocontra/pulsar",
+    "stars": "40",
+    "license": "MIT",
+    "quickCommands": [
+      "npx pulsar setup"
+    ]
+  },
+  "cheesedb": {
+    "key": "cheesedb",
+    "name": "Cheesedb",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:21.991Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "专为AI记忆设计的嵌入式Go数据库，支持血缘感知与可撤销删除",
+    "introduction": "CheeseDB 是一个原生 Go 编写的嵌入式、仅追加且哈希链式的 AI 记忆数据库引擎。它通过记录每条记忆的源数据依赖关系（Provenance-aware），实现了精确的“可撤销”功能：当删除某个错误、恶意或隐私源时，所有基于该源推导出的下游记忆会被自动级联清除，从而防止提示注入或数据污染在 Agent 中持续生效。",
+    "experienceGuide": [
+      "步骤1：确保本地已安装 Go 环境，运行命令 `go install github.com/govinargo-labs/cheesedb/cmd/cheesedb@latest` 安装 CLI 工具，或通过 `go get` 引入库进行集成开发。",
+      "步骤2：使用 `cheesedb` 命令行创建一个新的 Agent 实例并添加带有来源标记的记忆条目；随后尝试删除某个特定来源，验证依赖该来源的记忆是否被正确移除，同时确认独立来源支撑的记忆依然保留。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://github.com/govinargo-labs/cheesedb",
+    "githubRepo": "govinargo-labs/cheesedb",
+    "stars": "14",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "go install github.com/govinargo-labs/cheesedb/cmd/cheesedb@latest  # the command"
+    ]
+  },
+  "agentmonlive": {
+    "key": "agentmonlive",
+    "name": "AgentMon Live",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:22.835Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "实时可视化监控 Claude Code 等 AI 编码代理行为的插件",
+    "introduction": "AgentMon Live 是一个专为 AI 编码代理（如 Claude Code、Codex、Kiro Crew）设计的实时监控插件。它通过浏览器界面聚合展示多个并行会话的工具调用、文件变更及验证结果，帮助用户在不切换终端的情况下追踪子代理行为与资源消耗。此外，针对 Claude Code 用户，它还提供了“完成门控”功能以检测未完成的测试或断言修改。",
+    "experienceGuide": [
+      "步骤1：在 Claude Code 环境中运行安装命令 `claude plugin install agentmon-live --marketplace codenotary/agentmon-live`，或在 Codex/Kiro 中按 README 指引添加插件源。",
+      "步骤2：启动编码会话后，按下快捷键 `o` 或在终端输入 `/agentmon` 打开浏览器视图，观察实时的 Agent 流程图、工具调用日志及 Token 使用统计。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/codenotary/agentmon-live",
+    "githubRepo": "codenotary/agentmon-live",
+    "stars": "49",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "claude plugin install agentmon-live --marketplace codenotary/agentmon-live",
+      "Claude Code when done.",
+      "git clone https://github.com/codenotary/agentmon-live",
+      "codex plugin marketplace add codenotary/agentmon-live",
+      "codex plugin add agentmon-live@agentmon-live"
+    ]
+  },
+  "ondago": {
+    "key": "ondago",
+    "name": "Ondago",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:28.741Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "跨设备与Agent的AI编程会话同步与管理平台",
+    "introduction": "Ondago 是一个统一的 AI 编程工作空间，支持在本地、云端容器及移动端无缝切换 Claude Code、Codex 等 Agent 的会话状态。它通过端到端加密技术保障代码与会话上下文的安全同步，允许开发者在不同环境间继续任务、移交 Agent 或邀请队友评审，实现真正的无边界开发体验。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://ondago.ai/ 注册账号并进入 Dashboard，查看预置的示例会话以了解界面布局。",
+      "步骤2：尝试连接本地 CLI 工具（如 Claude Code）或在云端启动新任务，测试在手机浏览器中接管该会话并输入指令，验证上下文同步效果。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://ondago.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "opentodo": {
+    "key": "opentodo",
+    "name": "OpenTodo",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:30.274Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "自托管本地优先任务管理，数据完全掌控于己",
+    "introduction": "OpenTodo 是一款基于 Go 语言构建的开源任务管理应用，支持单一二进制部署或 Docker 容器化运行。它采用本地优先架构，允许用户在自己的服务器上托管数据，同时提供跨设备同步、离线使用及自然语言快速录入功能。",
+    "experienceGuide": [
+      "步骤1：通过 Docker 快速启动服务，执行命令 `docker run -d -p 8080:8080 -v opentodo-data:/data ghcr.io/opentodoapp/opentodo:stable`，随后访问 http://localhost:8080 进入 Web 界面。",
+      "步骤2：体验核心功能“Quick Add”，在输入框尝试键入包含日期、优先级和项目的自然语言指令（如 `Call Sarah next Wed 3pm #work p1`），观察系统如何自动解析并创建结构化任务。"
+    ],
+    "defaultPort": 8080,
+    "directUrl": "https://github.com/OpenTodoApp/OpenTodo",
+    "githubRepo": "OpenTodoApp/OpenTodo",
+    "stars": "532",
+    "license": "AGPL-3.0",
+    "quickCommands": [
+      "docker run -d -p 8080:8080 -v opentodo-data:/data ghcr.io/opentodoapp/opentodo:stable",
+      "git clone https://github.com/OpenTodoApp/OpenTodo.git",
+      "docker compose up -d",
+      "npx openapi-typescript openapi.json -o opentodo.d.ts"
+    ]
+  },
+  "spool": {
+    "key": "spool",
+    "name": "Spool",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:33.192Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "替你拨打并处理繁琐电话的AI语音助手",
+    "introduction": "Spool是一款基于Web的AI电话代理，专门处理保险理赔、机票改签等耗时且复杂的客服通话。它通过自动化拨号、等待及对话交互来减轻用户负担，同时提供敏感信息加密存储与通话前脚本审核机制以确保安全可控。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://betalist.com/startups/tryspool 注册账号，并使用优惠码 BETALIST 获取快速访问权限。",
+      "步骤2：在后台配置需要处理的电话任务（如退费或预约），审核AI生成的通话脚本后发起呼叫，体验其自动周旋与等待功能。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://betalist.com/startups/tryspool",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "liquidd12": {
+    "key": "liquidd12",
+    "name": "Liquid d1.2",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:33.193Z",
+    "categoryType": "models",
+    "categoryLabel": "AI 模型与多模态",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "tagline": "支持音频输入的全模态决策模型，提供校准概率与端侧低延迟推理",
+    "introduction": "Liquid AI 发布的 d1.2 系列是专为结构化决策任务设计的全模态基础模型，新增对音频输入的支持及五项核心能力（如数值提取、实体定位、边界框检测等）。该模型通过返回校准概率而非单一答案来评估置信度，在 Artificial Analysis Decision Index v2.1 评测中表现领先，并针对 <50ms 的端侧部署进行了优化。",
+    "experienceGuide": [
+      "步骤1：访问 Liquid API 控制台或 Playground，注册获取 API Key，根据需求选择 d1.2 ($0.02/M tokens) 或 d1.2-ultra ($0.042/M tokens) 进行调用测试。",
+      "步骤2：尝试上传包含文本、图像或音频的混合输入数据，执行“从发票读取金额”或“在图片中定位签名”等特定任务，观察模型返回的结构化结果及其附带的概率置信度分数。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.liquid.ai/blog/d1-2",
+    "githubRepo": "Liquid4All/cookbook",
+    "stars": "2787",
+    "license": null,
+    "quickCommands": []
+  },
+  "thingstudio": {
+    "key": "thingstudio",
+    "name": "ThingStudio",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:34.111Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "面向单片机的 Node-RED 式可视化编程工具，编译为 MicroPython 本地运行",
+    "introduction": "ThingStudio 提供基于浏览器的节点连线编辑器，将可视化流程编译为 MicroPython 代码并烧录至 ESP32、Pico 等硬件。它采用事件驱动架构替代传统主循环，支持全本地离线开发，无需云端账号或互联网连接。",
+    "experienceGuide": [
+      "步骤1：访问 https://demo.thingstudio.net/ 在浏览器中直接体验编辑器，构建简单流程并查看生成的 MicroPython 代码；若需连接真实硬件，请通过 GitHub Releases 下载对应系统的安装包或运行安装脚本部署本地后端。",
+      "步骤2：确保已安装 Python 3.10+ 和 Node.js 22.12+（如需源码构建），启动 ThingStudio 后端服务，使用 USB 连接支持的开发板，通过“Tools → Install runtime”安装设备运行时后，即可在编辑器中调试并上传流程。"
+    ],
+    "defaultPort": 8765,
+    "directUrl": "https://thingstudio.net/",
+    "githubRepo": "mkarliner/ThingStudio",
+    "stars": "24",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "curl -fsSL https://github.com/mkarliner/ThingStudio/releases/latest/download/install.sh | sh"
+    ]
+  },
+  "rbit": {
+    "key": "rbit",
+    "name": "Rbit",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:35.016Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于Rust的极简自托管Git服务，单二进制部署",
+    "introduction": "Rbit是一款使用Rust编写的轻量级自托管Git代码托管平台，旨在提供极速且简单的私有化部署体验。它采用SQLite作为后端存储并内嵌文件存储，无需依赖外部数据库或服务即可运行单一二进制文件。支持HTTPS/SSH协议、组织权限管理、Webhooks及双因素认证等核心功能，适合个人开发者或小团队快速搭建私有Git仓库。",
+    "experienceGuide": [
+      "步骤1：克隆仓库并编译运行：执行 `git clone https://github.com/GitRbit/rbit.git`，进入目录后使用 `cargo build --release` 编译生成二进制文件，直接运行该二进制即可启动服务（默认端口通常为3000或配置指定端口）。",
+      "步骤2：访问Web界面进行初始化：在浏览器中打开本地服务地址，注册管理员账户，创建第一个仓库并尝试通过Git命令行推送代码，验证HTTPS/SSH连接及基础功能可用性。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://rbit.sh/",
+    "githubRepo": "GitRbit/rbit",
+    "stars": null,
+    "license": null,
+    "quickCommands": [
+      "gh repo clone GitRbit/rbit"
+    ]
+  },
+  "pinecall": {
+    "key": "pinecall",
+    "name": "Pinecall",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:37.690Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "开源语音AI构建平台，快速部署多端智能体",
+    "introduction": "Pinecall 是一个专为语音 AI 设计的开源 Harness（框架/工具链），允许开发者通过表单配置或代码编写来构建 Voice Agent。它提供托管电话线、实时语音进出处理、对话轮次管理、长期记忆及检索增强功能，并支持将智能体无缝部署至手机号、网页或 WhatsApp 等渠道，同时提供完整的通话日志以供审计与分析。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://pinecall.ai 注册账号，进入控制台创建一个新的 Voice Agent 项目。",
+      "步骤2：在配置界面选择“表单模式”定义基础人设与流程，或切换至“代码模式”集成自定义逻辑，随后绑定测试号码进行端到端的语音交互体验。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://pinecall.ai",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "optimizely供应链投毒": {
+    "key": "optimizely供应链投毒",
+    "name": "Optimizely 供应链投毒",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:38.511Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "提供CSP报告收集与分析的网络安全监控平台",
+    "introduction": "Report-URI是一个专注于内容安全策略（CSP）违规报告的收集、聚合与分析服务。它允许开发者通过简单的HTTP端点接收浏览器发送的安全违规数据，并提供可视化仪表盘以识别潜在的跨站脚本攻击或供应链投毒风险。",
+    "experienceGuide": [
+      "步骤1：访问 report-uri.com 注册账户并创建一个新的 CSP 报告端点",
+      "步骤2：在目标网站的 HTTP 响应头中配置 Content-Security-Policy-Report-Only 指向该端点，观察实时违规日志"
+    ],
+    "defaultPort": 443,
+    "directUrl": "https://report-uri.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "win11遥测曝光": {
+    "key": "win11遥测曝光",
+    "name": "Win11 遥测曝光",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:39.848Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "Binary Ninja 的跨平台调试器插件，支持多系统目标与时间旅行调试",
+    "introduction": "该项目是 Binary Ninja 逆向工程平台的官方调试器插件，采用 C++ 编写。它提供了对 macOS、Linux 和 Windows 本地及远程目标的全面支持，并集成了 GDB/LLDB 协议以及 Windows/Linux 的时间旅行调试（TTD）功能。",
+    "experienceGuide": [
+      "步骤1：克隆 GitHub 仓库 Vector35/debugger，并根据 README 中的兼容性矩阵确认你的宿主系统与目标平台是否匹配。",
+      "步骤2：按照文档指引编译或安装该插件至 Binary Ninja 环境中，尝试加载一个测试二进制文件以验证断点设置与单步执行功能。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://xusheng.dev/",
+    "githubRepo": "Vector35/debugger",
+    "stars": "342",
+    "license": "NOASSERTION",
+    "quickCommands": []
+  },
+  "openframe": {
+    "key": "openframe",
+    "name": "OpenFrame",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:41.691Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "需人工审批的AI IT运维智能体，确保生产环境安全可控。",
+    "introduction": "OpenFrame是一款专注于IT运维领域的AI Agent产品，能够自动诊断故障并生成修复方案。其核心机制在于“人机协同”，所有代码或配置变更在执行前必须经过人工批准，从而避免自动化操作对生产环境造成不可控风险。",
+    "experienceGuide": [
+      "步骤1：访问官网注册账号，连接你的IT基础设施（如服务器、云平台API）以授权Agent读取日志和状态。",
+      "步骤2：触发一次模拟故障或查看历史告警，观察Agent生成的修复建议，并在控制台点击“批准”或“拒绝”来体验审批流程。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/openframe-3",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "attest": {
+    "key": "attest",
+    "name": "Attest",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:44.024Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "用于验证 AI Agent 行为、工具调用及状态变更的测试框架",
+    "introduction": "Attest 是一个面向 Python 和 TypeScript 的 AI Agent 测试框架，支持通过 pytest 或 Vitest 对回复内容、工具调用序列及外部状态变更进行确定性检查。它提供录制与回放机制，允许在 CI 环境中使用本地代理重放已记录的模型响应以消除变量，并强制实施合并前的质量门禁。",
+    "experienceGuide": [
+      "步骤1：克隆 GitHub 仓库 `attest-framework/refund-desk`，确保环境安装 uv、Node.js 22+ 和 pnpm，然后运行 `make setup walkthrough` 启动端到端演示。",
+      "步骤2：观察控制台输出，体验从“仅测试输出”到“追踪检查”再到“严格回放”的过程，注意查看 `reports/walkthrough/` 目录下的证据文件以理解回归测试如何拦截错误行为。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://attest-framework.github.io/",
+    "githubRepo": "attest-framework/refund-desk",
+    "stars": "0",
+    "license": "Apache-2.0",
+    "quickCommands": []
+  },
+  "cmucslearn": {
+    "key": "cmucslearn",
+    "name": "CMU CS Learn",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:44.775Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "卡内基梅隆大学计算机学院官方免费在线课程平台",
+    "introduction": "CMU CS Learn 是卡内基梅隆大学计算机学院推出的开放教育资源平台，将核心计算机科学课程视频免费发布于 YouTube。平台提供自定进度的课件体系，旨在通过高质量的教学内容降低学习门槛，支持全球学习者自主掌握前沿计算科学知识。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://cs.cmu.edu/learn 浏览课程目录，选择感兴趣的计算机科学主题（如算法、操作系统或AI）进入详情页。",
+      "步骤2：点击课程链接跳转至 YouTube 观看讲座视频，并结合官网提供的讲义或作业资源进行同步学习，建议按章节顺序推进以构建完整知识体系。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://cs.cmu.edu/learn",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "formalverificationisnotverifiable": {
+    "key": "formalverificationisnotverifiable",
+    "name": "Formal Verification Is Not Verifiable",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:45.141Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "探讨形式化验证与AI结合局限性的学术博客",
+    "introduction": "该产品为个人学术博客，核心内容聚焦于基于属性的测试框架、形式化验证及其在AI辅助程序合成中的应用。它通过深度文章剖析验证器自身不可验证的理论悖论，为软件工程师和研究者提供关于代码正确性保障的前沿观点。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://alperenkeles.com/ ，浏览其博客列表或关于页面以获取作者背景及最新研究动态。",
+      "步骤2：重点阅读关于“Designing Effective Property-Based Testing Frameworks”及相关形式化验证的文章，理解AI时代下验证工具的局限性讨论。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://alperenkeles.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "localhost2137": {
+    "key": "localhost2137",
+    "name": "Localhost2137",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:47.697Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "本地运行有状态服务模拟器，无需真实账号即可测试集成与Agent",
+    "introduction": "Localhost2137 是一个基于 TypeScript 的本地运行时工具，提供 Slack、Stripe 等外部服务的有状态模拟器。它允许开发者和 AI Coding Agent 在本地环境中使用标准 SDK 和 Webhook 进行集成测试，通过虚拟时间、可控数据及事件模拟，彻底消除对真实 API 密钥和服务账户配置的依赖。",
+    "experienceGuide": [
+      "步骤1：确保环境满足 Node.js 24+ 和 pnpm，执行 `pnpm i -g localhost2137` 安装 CLI，随后运行 `localhost demo clone slack-ping-bot` 获取官方示例并进入目录。",
+      "步骤2：在终端 A 运行 `localhost dev` 启动模拟器（默认端口 2137），在终端 B 运行 `localhost seed` 注入初始数据，最后在终端 C 使用 `localhost exec slack send-message ...` 发送消息以验证 Bot 响应逻辑。"
+    ],
+    "defaultPort": 2137,
+    "directUrl": "https://localhost2137.dev/",
+    "githubRepo": "localhost2137/localhost2137",
+    "stars": "3",
+    "license": null,
+    "quickCommands": [
+      "pnpm i -g localhost2137"
+    ]
+  },
+  "trustycsv": {
+    "key": "trustycsv",
+    "name": "Trusty CSV",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:50.310Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "tagline": "面向开发者的CSV文本编辑器，支持Diff与正则替换",
+    "introduction": "Trusty CSV 是一款专为处理大型数据文件设计的桌面工具，摒弃传统电子表格的网格交互模式。它将 CSV 视为纯文本代码，提供高性能的语法高亮、行级 Diff 对比及正则查找替换功能，适合需要频繁清洗或版本控制数据的开发者使用。",
+    "experienceGuide": [
+      "步骤1：访问官网下载对应操作系统的安装包并启动应用",
+      "步骤2：导入一个较大的 CSV 文件，尝试使用搜索栏进行正则匹配或查看文件变更历史（Diff）以体验其文本编辑特性"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/trusty-csv",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "claudecode团队谈验证": {
+    "key": "claudecode团队谈验证",
+    "name": "Claude Code 团队谈验证",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:50.527Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "Anthropic官方技术博客，分享Claude Code验证与开发实践",
+    "introduction": "claude.dev 是 Anthropic 开发者团队维护的技术博客平台，专注于分享构建 Claude 和 Claude Code 的实战经验。内容涵盖端到端测试、属性测试及差分测试等高级验证策略，旨在指导开发者如何让 AI Coding Agent 通过证据自证工作质量，并探讨如何确保验证器本身的可靠性。",
+    "experienceGuide": [
+      "步骤1：访问 https://claude.dev/ 浏览最新的技术文章与视频日志",
+      "步骤2：重点阅读关于“验证主线”的文章，了解如何在本地项目中实施端到端或属性测试以增强 Agent 输出的可信度"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://claude.dev/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "minute": {
+    "key": "minute",
+    "name": "Minute",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:51.591Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "本地离线运行的 Mac 会议记录与智能总结工具",
+    "introduction": "Minute 是一款专为 macOS 设计的开源会议助手，完全在本地运行 Whisper 语音模型和大语言模型，实现录音、实时转写及会议纪要生成。它无需 Bot 入会，通过捕获系统音频和麦克风数据来识别 Zoom、Teams 等主流会议软件，确保所有数据不出本机且无账号依赖。",
+    "experienceGuide": [
+      "步骤1：访问官网或 GitHub Releases 页面下载对应芯片架构（Apple Silicon 或 Intel）的 .zip 安装包并解压运行。",
+      "步骤2：首次启动需授予“屏幕录制”权限以捕获系统音频；在设置中开启“检测会议”，当加入支持的会议应用时，界面将弹出录制提示，点击即可开始本地实时转写与后续总结。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://minutenotes.app/",
+    "githubRepo": "mraza007/minute",
+    "stars": "28",
+    "license": "MIT",
+    "quickCommands": [
+      "git clone https://github.com/mraza007/minute.git"
+    ]
+  },
+  "stateweave": {
+    "key": "stateweave",
+    "name": "StateWeave",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:51.791Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "为 AI Agent 提供安全隔离的沙盒测试环境，防止真实数据污染。",
+    "introduction": "StateWeave 是一个专为 AI Agent 设计的仿真测试平台，通过创建应用程序的完整“克隆体”来模拟真实运行环境。它允许开发者在隔离的沙盒中执行高风险操作和自动化流程，确保 Agent 的行为逻辑经过验证后再部署至生产环境，从而有效规避数据损坏或系统误操作风险。",
+    "experienceGuide": [
+      "步骤1：访问 StateWeave 官网注册账号，并连接需要测试的应用程序 API 或数据库以生成沙盒副本。",
+      "步骤2：配置待测试的 AI Agent 指向该沙盒环境，执行典型任务流，观察其在无副作用环境下的决策与交互表现。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/stateweave",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "opencodebrowse": {
+    "key": "opencodebrowse",
+    "name": "OpenCode Browse",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:52.686Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "让 AI 编码代理安全接管真实浏览器，自动处理登录与交互。",
+    "introduction": "OpenCode Browse 是一个 MCP 服务器与 Chromium 扩展的组合工具，允许 OpenCode、Claude Code 等 AI 代理直接操控用户的真实浏览器。它支持在后台分组打开标签页进行读取、点击、输入和截图操作，并在遇到登录或 2FA 验证时自动将控制权交还给用户，确保安全性与隐私。",
+    "experienceGuide": [
+      "步骤1：首先安装 Chrome/Edge 等浏览器的 OpenCode Browse 扩展，随后通过命令行运行 `curl -fsSL https://opencode.ai/browse/install | bash` 安装本地 MCP 服务组件。",
+      "步骤2：启动 OpenCode CLI 或其他支持的 MCP 客户端，尝试让代理访问一个需要登录的网站，观察其是否在后台打开标签页并正确触发“人工接管”流程以完成身份验证。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://opencode.ai/product/browse",
+    "githubRepo": "anomalyco/opencode",
+    "stars": "227635",
+    "license": "MIT",
+    "quickCommands": [
+      "curl -fsSL https://opencode.ai/v2/install | bash",
+      "npm i -g @opencode/cli@latest      # or bun/pnpm/yarn",
+      "brew install anomalyco/tap/opencode-v2 # macOS and Linux (recommended, always up to date)",
+      "brew install opencode              # macOS and Linux (official brew formula, updated less)",
+      "brew install --cask opencode-desktop"
+    ]
+  },
+  "mem关停": {
+    "key": "mem关停",
+    "name": "Mem 关停",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:56.539Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "tagline": "已宣布将于2027年1月关停的AI笔记与知识管理工具",
+    "introduction": "Mem 是一款曾主打 AI 驱动的知识管理与笔记应用，具备自动关联、智能检索及会议记录整理功能。该产品现已正式宣布停止服务，官方提供了从 Mem 迁移至 Notion、Obsidian、Apple Notes 等主流平台的详细指南与数据导出支持。",
+    "experienceGuide": [
+      "步骤1：访问官网公告页面 https://get.mem.ai/blog/mem-is-shutting-down 查看具体的关停时间表与迁移政策",
+      "步骤2：若为现有用户，请在2026年12月18日（转为只读）前通过官方提供的“Move your notes”入口下载完整备份"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://get.mem.ai/blog/mem-is-shutting-down",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "cookieaway": {
+    "key": "cookieaway",
+    "name": "Cookie Away",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:57.592Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "自动处理 Cookie 横幅的 Chrome 扩展，智能识别并点击拒绝选项。",
+    "introduction": "Cookie Away 是一款专为浏览器设计的隐私保护工具，旨在自动化处理网页中频繁出现的 Cookie 同意弹窗。它通过智能算法定位“拒绝”或“管理设置”按钮，即使用户界面故意隐藏这些选项也能有效应对，从而减少用户手动操作负担并提升浏览体验。",
+    "experienceGuide": [
+      "步骤1：访问 Chrome Web Store 搜索 'Cookie Away' 并安装该扩展程序。",
+      "步骤2：打开任意包含 Cookie 横幅的网站，观察扩展是否自动点击了拒绝按钮；若未生效，可检查扩展图标状态或查看控制台日志以调试特定网站的适配情况。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/cookie-away",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "recallaiagentsapi": {
+    "key": "recallaiagentsapi",
+    "name": "Recall.ai Agents API",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:57.829Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "Freemium",
+    "tagline": "提供高可靠会议录制与数据提取的开发者API基础设施",
+    "introduction": "Recall.ai 是一款专为开发者设计的会议录制 API，支持从 Zoom、Google Meet 和 Teams 等平台自动获取转录文本、视频录制及元数据。其核心优势在于通过分离音频流实现100%准确的说话人识别，并提供统一的接口以简化集成流程，确保99.9%的服务可用性。",
+    "experienceGuide": [
+      "步骤1：访问 recall.ai 官网注册账号并获取 API Key，查阅官方文档了解 Meeting Bot API 的基本调用方式。",
+      "步骤2：利用提供的 SDK 或 REST API 发起一个测试请求，连接到一个真实的视频会议链接，验证是否能成功获取包含准确说话人标签的转录文本和高清录制文件。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.recall.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "backplane": {
+    "key": "backplane",
+    "name": "Backplane",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:13:58.885Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于 KiCad 的开源智能体硬件设计工作台",
+    "introduction": "Backplane 是一个专为 AI Agent 设计的开源硬件开发环境，作为 KiCad 的深度分支，它通过 IPC API 让智能体直接操作原理图与 PCB。该工具支持多种主流大模型接入，提供实时可视化审查、版本历史回溯及自动化导出功能，实现了从自然语言指令到可制造硬件文件的闭环工作流。",
+    "experienceGuide": [
+      "步骤1：访问 GitHub Releases 页面下载对应操作系统（Linux/macOS/Windows）的安装包或运行一键安装脚本，并确保本地已安装 KiCad 和至少一个支持的 Agent CLI（如 Claude Code）。",
+      "步骤2：启动应用后添加现有的 KiCad 项目文件夹，在界面底部选择偏好的 AI 模型，尝试输入“检查 DRC 并修复”或“添加 3.3V LDO 电路”等指令，观察右侧视图中的实时变更。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://backplaneworks.com/",
+    "githubRepo": "BackplaneWorks/Backplane",
+    "stars": "1153",
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "agency": {
+    "key": "agency",
+    "name": "Agency",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:14:02.082Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "将闲置笔记本转化为专属 AI Agent 运行环境的桌面系统",
+    "introduction": "Agency 是一款专为 AI Agent 设计的轻量级操作系统发行版，旨在将闲置笔记本电脑快速转化为独立的智能体计算节点。通过提供专用安装器与 U 盘启动镜像，用户可一键完成系统刷写，从而获得一个隔离、安全且针对 Agent 工作流优化的本地运行环境。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://agency.makors.xyz/ 下载 Agency 安装器或 ISO 镜像文件",
+      "步骤2：使用 Rufus 或 BalenaEtcher 等工具将镜像写入 U 盘，并在目标闲置笔记本上从 U 盘启动以完成系统安装"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://agency.makors.xyz/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "nimony": {
+    "key": "nimony",
+    "name": "Nimony",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:14:02.553Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费开源",
+    "tagline": "Nim 3 下一代编译器，无需 C 依赖的原生代码生成工具链",
+    "introduction": "Nimony 是 Nim 3 语言的官方编译器，支持 x86_64、ARM、RISC-V 等架构的原生代码生成，彻底移除对 C 编译器的依赖。它引入了借用检查、显式空值安全及静态契约验证等特性，通过增量并行构建实现快速反馈循环，并提供从微控制器到 WebAssembly 的全栈统一开发体验。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://nimony.org/ 点击 'Get the nightly toolchain' 下载对应平台的预构建二进制包",
+      "步骤2：解压后将 bin/ 目录加入系统 PATH，运行 `nimony n` 即可在无 C 编译器环境下进行编译测试"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://nimony.org/",
+    "githubRepo": "nim-lang/nimony-website",
+    "stars": "7",
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "twobucket": {
+    "key": "twobucket",
+    "name": "TwoBucket",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:03.644Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "tagline": "专为上门洗车团队打造的一站式接单与收款SaaS平台",
+    "introduction": "TwoBucket 是一款垂直于汽车服务行业的轻量级 SaaS 工具，整合了客户自助预订、车况照片上传、在线报价确认及多通道支付功能。系统支持直接对接 Stripe 或 Square 等第三方支付网关实现零抽成收款，并内置 AI 助手接口以简化报价单创建流程，提供跨移动端和 Web 端的多语言、多货币适配能力。",
+    "experienceGuide": [
+      "步骤1：访问官网注册账号并开启7天免费试用，配置基础服务菜单与 Stripe/Square 支付密钥",
+      "步骤2：生成专属预订链接发送给测试用户，体验从选车、传图到接收报价单及完成支付的完整闭环"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/twobucket",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "agenticcanvas": {
+    "key": "agenticcanvas",
+    "name": "Agentic Canvas",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:06.220Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "人与AI Agent协作的可视化HTML设计画布",
+    "introduction": "Agentic Canvas 是一款基于无限画布的可视化设计工具，允许人类用户与 AI Agent（如 Claude、Cursor 等）在同一环境中直接编辑真实的 HTML/CSS 代码。通过 MCP 协议连接智能体，实现视觉修改即代码变更的实时同步，支持从 AI 生成到人工微调再到 AI 续写的无缝工作流，且所有文件仅保留在浏览器本地。",
+    "experienceGuide": [
+      "步骤1：访问官网或相关发布页面进入 Agentic Canvas 界面，无需注册即可开始使用。",
+      "步骤2：配置 MCP 连接以接入支持的 AI Agent（如 Claude 或 Cursor），尝试让 Agent 生成初始页面，随后直接在画布上拖拽调整细节，观察代码与视觉的实时联动效果。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/agentgrid-io",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "agweb": {
+    "key": "agweb",
+    "name": "Agweb",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:07.362Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "专为 Coding Agent 设计的 macOS 无焦点浏览器，支持多智能体并发与低资源占用。",
+    "introduction": "Agweb 是一款基于 WebKit 引擎构建的 macOS 原生浏览器，旨在解决 AI 编程代理在自动化测试中窗口抢焦点及资源消耗过高的问题。它通过命令行接口驱动，允许代理在不干扰用户前台操作的情况下执行网页交互，并具备闲置标签页挂起机制以显著降低内存占用。此外，其仪表盘可实时可视化多个代理的工作状态，且支持密码隔离与录屏功能，提升了调试效率与安全性。",
+    "experienceGuide": [
+      "步骤1：访问 GitHub Releases 页面下载 Agweb.dmg 安装包，将其拖入 Applications 文件夹并启动应用。",
+      "步骤2：在应用菜单栏选择 'Help' > 'Install Command Line Tool' 安装 CLI 工具，随后在终端运行 `agweb -w test open example.com` 体验基础浏览与快照功能。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/paul-nameless/agweb",
+    "githubRepo": "paul-nameless/agweb",
+    "stars": "270",
+    "license": "MIT",
+    "quickCommands": [
+      "gh repo clone paul-nameless/agweb"
+    ]
+  },
+  "pixeloffice": {
+    "key": "pixeloffice",
+    "name": "Pixel Office",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:08.173Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "可视化多智能体协作与任务管理的像素风办公室模拟系统",
+    "introduction": "Pixel Office 是一个基于 MIT 协议开源的多智能体（Multi-Agent）协作可视化平台，允许用户通过 npx 命令在本地快速部署。它将 Claude、Codex 等真实 AI Agent 映射为具有独立记忆、技能和权限的虚拟员工，提供角色创建、任务分发及状态监控功能。系统支持 Agent 间的消息传递、会议纪要生成以及基于任务完成度的经济激励体系，旨在以游戏化方式直观展示复杂工作流的执行状态。",
+    "experienceGuide": [
+      "步骤1：确保本地已安装 Node.js 环境，并在终端中运行 `npx pixel-office` 启动服务，配置所需的 LLM API Key（如 Anthropic, OpenAI 或 OpenRouter）。",
+      "步骤2：访问本地生成的 Web 界面，使用“角色创建器”定义 Agent 的岗位描述与权限，随后在“任务板”上分配具体编码或分析任务，观察 Agent 在像素办公室中的实时工作状态与交互日志。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/pixel-office-3",
+    "githubRepo": null,
+    "stars": null,
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "tulvo": {
+    "key": "tulvo",
+    "name": "Tulvo",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:08.905Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "面向小企业的 AI 驱动数据基础设施与看板搭建平台",
+    "introduction": "Tulvo 通过自然语言指令为小型企业自动生成数据库结构、字段定义及可视化看板，解决多应用间数据孤岛问题。它支持表单、Webhook 及 Stripe 等外部事件接入，并提供 MCP 接口允许 Claude、ChatGPT 等 AI 助手直接读写数据，实现业务数据的统一管理与智能交互。",
+    "experienceGuide": [
+      "步骤1：访问 Tulvo 官网注册账号并进入免费试用流程，在初始设置界面输入描述性语句（如“我们是12人设计公司，有30个客户和销售pipeline”）以触发 AI 自动构建数据模型。",
+      "步骤2：在生成的看板中测试数据录入功能，尝试配置一个 Webhook 或连接 Stripe 账户验证数据同步能力，并检查是否已生成可供 MCP 客户端调用的 API 密钥或端点。"
+    ],
+    "defaultPort": 443,
+    "directUrl": "https://www.producthunt.com/products/tulvo",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "jiff10": {
+    "key": "jiff10",
+    "name": "Jiff 1.0",
+    "date": "2026-11-17",
+    "updatedAt": "2026-11-18T03:14:09.889Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "免费开源",
+    "tagline": "Rust 语言高性能日期时间库，原生支持时区与夏令时处理",
+    "introduction": "Jiff 1.0 是一款专为 Rust 设计的日期时间库，旨在解决传统库在时区转换和夏令时（DST）处理上的复杂性。它通过将时区感知能力置于 API 核心，自动处理跨时区计算中的常见边界情况，提供类型安全且高效的日期时间操作体验。",
+    "experienceGuide": [
+      "步骤1：在 Cargo.toml 中添加 jiff = \"1\" 依赖，并运行 cargo build 引入库",
+      "步骤2：使用 jiff::Zoned 类型创建带时区的日期对象，测试不同时区间的转换逻辑以验证 DST 自动处理能力"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "frevanamultiplayer": {
+    "key": "frevanamultiplayer",
+    "name": "Frevana Multiplayer",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:11.648Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "支持多人协作与接力编辑的 AI Agent 工作区平台",
+    "introduction": "Frevana Multiplayer 是一个专为团队设计的 AI Agent 协作平台，允许用户邀请队友进入同一工作区共享技能、应用及最佳实践。它解决了传统单人使用 Agent 时上下文断裂的问题，支持人与 Agent 在同一产物上接力操作，实现从提示生成到人工修正再到 Agent 继续执行的无缝闭环。",
+    "experienceGuide": [
+      "步骤1：访问官网注册账号并创建新的 Workspace，通过生成的邀请链接将团队成员加入协作空间。",
+      "步骤2：在工作区内启动一个 Agent 任务，尝试在 Agent 执行中途暂停并手动修改输出结果，随后让 Agent 基于修改后的内容继续后续步骤，体验人机接力流程。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/frevana-2",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "thelastcomplication": {
+    "key": "thelastcomplication",
+    "name": "The Last Complication",
+    "date": "2026-11-16",
+    "updatedAt": "2026-11-18T03:14:13.649Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "基于制表逻辑的浏览器端走棋解谜游戏",
+    "introduction": "这是一款由 Zachtronics 风格启发的极简主义解谜游戏，玩家需在三十格棋盘上通过掷骰子移动棋子以构建钟表机芯。核心机制包含严格的移动规则（如不可越过成对棋子、特定格子的陷阱与停止点），要求玩家在每周十次投掷的限制下精确规划每一步，任何无效操作或无法使用的投掷均导致失败。",
+    "experienceGuide": [
+      "步骤1：直接访问官网 https://lastcomplication.com/ ，无需注册或下载即可在浏览器中开始游戏。",
+      "步骤2：仔细阅读首页印制的规则说明，注意第26格的强制停止和第27格的“落水”惩罚机制，尝试规划前几次投掷以确保棋子能按精确点数离开棋盘。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://lastcomplication.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  }
+}
