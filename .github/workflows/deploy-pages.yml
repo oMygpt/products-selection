@@ -45,16 +45,19 @@ jobs:
           node-version: "22"
 
       - name: Checkout upstream briefings repo (.muse-repo)
-        if: ${{ secrets.BRIEFINGS_DEPLOY_KEY != '' }}
         env:
           BRIEFINGS_DEPLOY_KEY: ${{ secrets.BRIEFINGS_DEPLOY_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$BRIEFINGS_DEPLOY_KEY" > ~/.ssh/briefings_key
-          chmod 600 ~/.ssh/briefings_key
-          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-          GIT_SSH_COMMAND="ssh -i ~/.ssh/briefings_key -o IdentitiesOnly=yes" \
-            git clone --depth 1 git@github.com:alonegg/daily-product-briefings.git .muse-repo
+          if [ -n "$BRIEFINGS_DEPLOY_KEY" ]; then
+            mkdir -p ~/.ssh
+            printf '%s\n' "$BRIEFINGS_DEPLOY_KEY" > ~/.ssh/briefings_key
+            chmod 600 ~/.ssh/briefings_key
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/briefings_key -o IdentitiesOnly=yes" \
+              git clone --depth 1 git@github.com:alonegg/daily-product-briefings.git .muse-repo
+          else
+            echo "BRIEFINGS_DEPLOY_KEY not set, skipping upstream clone"
+          fi
 
       - name: Enrich new products via Qwen Agent
         if: ${{ !contains(github.event.head_commit.message, '[skip enrich]') }}
@@ -87,9 +90,12 @@ jobs:
           fi
 
       - name: Deploy to Cloudflare Pages
-        if: ${{ secrets.CLOUDFLARE_API_KEY != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
         run: |
-          npx --yes wrangler@4 pages deploy playground/public --project-name=products-selection --branch=main --commit-dirty=true
+          if [ -n "$CLOUDFLARE_API_KEY" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            npx --yes wrangler@4 pages deploy playground/public --project-name=products-selection --branch=main --commit-dirty=true
+          else
+            echo "Cloudflare secrets not set, skipping CF Pages deploy"
+          fi
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
