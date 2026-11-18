@@ -1,0 +1,18 @@
+{
+  "type": "design",
+  "designSystems": [],
+  "primaryDesignSystem": null,
+  "assets": {
+    "Daily Product Workbench (Editorial Edition)": {
+      "versions": [
+        {
+          "path": "index.html",
+          "createdAt": "2026-11-17T14:46:31.275Z",
+          "status": "needs-review"
+        }
+      ]
+    }
+  },
+  "createdAt": "2026-11-17T14:46:31.280Z",
+  "updatedAt": "2026-11-18T02:16:10.031Z"
+}
