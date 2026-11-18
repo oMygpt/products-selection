@@ -1,5 +1,8 @@
+import { selectTrials } from './trial-desk.js';
+
 const GH_TOKEN_STORAGE_KEY = 'dpb_gh_token';
 const USER_STATE_STORAGE_KEY = 'dpb_user_state';
+const TRIAL_STORAGE_KEY = 'dpb_trial_choice';
 
 const state = {
   isLocalServer: false,
@@ -7,7 +10,12 @@ const state = {
   ghToken: localStorage.getItem(GH_TOKEN_STORAGE_KEY) || '',
   ghUser: null,
   ghScopes: '',
+  page: 'today',
   days: [],
+  todayDate: '',
+  todayData: null,
+  archiveFallback: null,
+  trialChoice: null,
   currentDate: null,
   currentDayData: null,
   staticAllCache: null,
@@ -34,6 +42,12 @@ const state = {
 };
 
 // DOM Elements
+const appShellEl = document.getElementById('appShell');
+const todayViewEl = document.getElementById('todayView');
+const todayDateEl = document.getElementById('todayDate');
+const todayContentEl = document.getElementById('todayContent');
+const recordsViewEl = document.getElementById('recordsView');
+const recordsContentEl = document.getElementById('recordsContent');
 const workspaceEl = document.getElementById('workspace');
 const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
 const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
@@ -99,7 +113,6 @@ const wbStackBtn = document.getElementById('wbStackBtn');
 const wbMemoToggleBtn = document.getElementById('wbMemoToggleBtn');
 const wbMemoBarEl = document.getElementById('wbMemoBar');
 const wbNoteInputEl = document.getElementById('wbNoteInput');
-const wbSaveNoteBtn = document.getElementById('wbSaveNoteBtn');
 
 const wbInspectLoadingEl = document.getElementById('wbInspectLoading');
 const wbCodespaceBannerEl = document.getElementById('wbCodespaceBanner');
@@ -521,12 +534,188 @@ function updateStatusBadges() {
   triedCountBadgeEl.textContent = items.filter(i => i.status === 'tried' || i.status === 'stack').length;
 }
 
+function setPage(page) {
+  if (state.page === page) return;
+  closeWorkbench();
+  tweaksPanelEl.classList.add('hidden');
+  state.page = page;
+  appShellEl.dataset.page = page;
+  todayViewEl.classList.toggle('hidden', page !== 'today');
+  recordsViewEl.classList.toggle('hidden', page !== 'records');
+  document.querySelectorAll('.site-nav [data-page-link]').forEach(button => {
+    if (button.dataset.pageLink === page) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  });
+  document.getElementById('mainStage').scrollTop = 0;
+  if (page === 'records') renderRecords();
+}
+
+function rememberTrial(product) {
+  state.trialChoice = { date: product.date, key: product.key, name: product.name };
+  localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(state.trialChoice));
+}
+
+function renderToday() {
+  todayDateEl.dateTime = state.todayDate;
+  todayDateEl.textContent = state.todayDate;
+  todayContentEl.setAttribute('aria-busy', 'false');
+
+  const data = state.todayData;
+  const selectedKey = state.trialChoice?.date === data?.date ? state.trialChoice.key : null;
+  const { featured, alternatives } = selectTrials(data?.products || [], selectedKey, state.userState.items);
+  const libraryLink = (date, label) => `<button class="desk-text-button" data-open-issue="${escapeHtml(date)}">${label}</button>`;
+
+  if (!featured) {
+    const resume = state.trialChoice?.key && state.trialChoice.name
+      ? `<button class="desk-primary" data-resume-trial>继续试用 · ${escapeHtml(state.trialChoice.name)}</button>`
+      : '';
+    const fallback = state.archiveFallback
+      ? libraryLink(state.archiveFallback.date, `查看 ${escapeHtml(state.archiveFallback.date)} 期`)
+      : '<button class="desk-text-button" data-page-link="library">浏览产品库</button>';
+    const message = data?.products.length ? '本期暂无带试用指引的产品' : '今天暂无可试用的产品';
+    todayContentEl.innerHTML = `
+      <div class="desk-empty">
+        <h2>${message}</h2>
+        <div class="desk-actions">${resume}${data?.products.length ? libraryLink(data.date, '查看本期条目') : ''}${fallback}</div>
+      </div>`;
+    return;
+  }
+
+  const { product, task, mode, url } = featured;
+  const trialKey = escapeHtml(product.key);
+  const primary = url
+    ? `<a class="desk-primary" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-start-trial="${trialKey}">${mode.action} <span aria-hidden="true">↗</span></a>`
+    : `<button class="desk-primary" data-open-trial="${trialKey}">${mode.action} <span aria-hidden="true">→</span></button>`;
+  todayContentEl.innerHTML = `
+    <article class="desk-feature">
+      <div class="desk-product">
+        <div class="desk-product-mode">${mode.label}${product.pricingModel ? ` <span>·</span> ${escapeHtml(product.pricingModel)}` : ''}</div>
+        <h2>${escapeHtml(product.name)}</h2>
+        <p class="desk-product-deck">${escapeHtml(product.tagline || product.categoryLabel || '')}</p>
+        <div class="desk-actions">
+          ${primary}
+          ${url ? `<button class="desk-text-button" data-open-trial="${trialKey}">试用指引</button>` : ''}
+        </div>
+        <p class="desk-requirement">${mode.requirement}</p>
+      </div>
+      <div class="desk-task">
+        <h3>上手试什么</h3>
+        <p>${escapeHtml(task).replace(/`([^`]+)`/g, '<code>$1</code>')}</p>
+      </div>
+    </article>
+    <div class="desk-alternatives-heading">
+      ${alternatives.length ? '<h2>其他选择</h2>' : '<span></span>'}
+      ${libraryLink(data.date, `查看本期全部 ${data.products.length} 条 <span aria-hidden="true">→</span>`)}
+    </div>
+    ${alternatives.length ? `
+      <ul class="desk-alternatives">
+        ${alternatives.map(entry => `
+          <li><button class="desk-alternative" data-choose-trial="${escapeHtml(entry.product.key)}">
+            <span class="desk-alt-content">
+              <span class="desk-alt-mode">${entry.mode.label}</span>
+              <strong>${escapeHtml(entry.product.name)}</strong>
+              <span class="desk-alt-deck">${escapeHtml(entry.product.tagline || '')}</span>
+            </span>
+            <span class="desk-alt-arrow" aria-hidden="true">→</span>
+          </button></li>`).join('')}
+      </ul>` : ''}
+  `;
+}
+
+function renderRecords() {
+  const entries = Object.entries(state.userState.items || {})
+    .filter(([, entry]) => entry.status || entry.note)
+    .sort(([, a], [, b]) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+  recordsContentEl.innerHTML = entries.length ? `
+    <ul class="desk-records">
+      ${entries.map(([key, entry]) => `
+        <li>
+          <button class="desk-record" data-record-key="${escapeHtml(key)}">
+            <strong>${escapeHtml(entry.name || key)}</strong>
+            <span>${escapeHtml(entry.date || '')}${entry.status ? ` · ${entry.status === 'stack' ? '已收藏' : '已试过'}` : ''}</span>
+          </button>
+        </li>`).join('')}
+    </ul>` : `
+    <div class="desk-empty">
+      <h2>还没有试用记录</h2>
+      <p>标记已试或收藏后，产品会出现在这里。</p>
+      <button class="desk-text-button" data-page-link="today">返回今日试用</button>
+    </div>`;
+}
+
+async function readDay(date) {
+  const res = await fetch(state.isLocalServer ? `/api/day/${date}` : `./data/day/${date}.json`);
+  if (!res.ok) throw new Error(`Unable to load issue ${date}`);
+  const data = await res.json();
+  if (!Array.isArray(data.products)) throw new Error(`Invalid issue ${date}`);
+  return data;
+}
+
+async function updateToday(data) {
+  state.todayData = data?.date === state.todayDate ? data : null;
+  state.archiveFallback = null;
+  renderToday();
+
+  if (selectTrials(state.todayData?.products || []).featured) return;
+  for (const issue of state.days) {
+    if (issue.date >= state.todayDate) continue;
+    try {
+      const previous = issue.date === data?.date ? data : await readDay(issue.date);
+      if (previous.products.length) {
+        state.archiveFallback = previous;
+        renderToday();
+        break;
+      }
+    } catch {
+      // The next available issue can still be used as a fallback.
+    }
+  }
+}
+
+async function openSavedProduct(key, entry) {
+  if (!entry?.date || !/^\d{4}-\d{2}-\d{2}$/.test(entry.date)) {
+    showToast('这条记录缺少可打开的刊期');
+    return;
+  }
+  const page = state.page;
+  try {
+    const data = [state.todayData, state.currentDayData, state.archiveFallback]
+      .find(issue => issue?.date === entry.date) || await readDay(entry.date);
+    const product = data.products.find(item => item.key === key);
+    if (state.page !== page) return;
+    if (product) {
+      openWorkbench(key, product);
+      return;
+    }
+  } catch {
+    // A dated product may have been removed from its original issue.
+  }
+  showToast('暂时无法打开这条历史产品');
+}
+
+function openIssue(date) {
+  setPage('library');
+  state.scope = 'daily';
+  state.selectedType = 'all';
+  state.selectedForm = 'all';
+  state.selectedStatus = null;
+  state.searchQuery = '';
+  globalSearchInput.value = '';
+  clearSearchBtn.classList.add('hidden');
+  document.querySelectorAll('.strip-tab, .filter-chip').forEach(button =>
+    button.classList.toggle('active', button.dataset.type === 'all' || button.dataset.form === 'all')
+  );
+  if (date === state.currentDate) applyFiltersAndRender();
+  else loadDay(date);
+}
+
 // ─────────────────────────────────────────────────────────────
 // DUAL-MODE DATA LOADING (LOCAL SERVER + STATIC GITHUB PAGES)
 // ─────────────────────────────────────────────────────────────
 function loadLocalStorageUserState() {
   try {
-    return JSON.parse(localStorage.getItem(USER_STATE_STORAGE_KEY) || '{"items":{}}');
+    const stored = JSON.parse(localStorage.getItem(USER_STATE_STORAGE_KEY) || 'null');
+    return stored?.items && typeof stored.items === 'object' ? stored : { items: {} };
   } catch {
     return { items: {} };
   }
@@ -535,6 +724,14 @@ function loadLocalStorageUserState() {
 async function init() {
   restoreTweaks();
   bindEvents();
+  state.todayDate = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).format(new Date());
+  try {
+    state.trialChoice = JSON.parse(localStorage.getItem(TRIAL_STORAGE_KEY) || 'null');
+  } catch {
+    // A malformed browser entry can be replaced at the next selection.
+  }
 
   if (state.ghToken) {
     verifyAndSetGhToken(state.ghToken, true);
@@ -576,17 +773,25 @@ async function init() {
   }).join('');
 
   if (state.days.length > 0) {
-    await loadDay(state.days[0].date, true);
+    await loadDay(state.days[0].date);
   }
+  await updateToday(state.currentDayData);
 }
 
 async function loadDay(date, autoOpenFirst = false) {
-  state.currentDate = date;
   dateSelectEl.value = date;
-  state.focusedIndex = -1;
+  let dayData;
+  try {
+    dayData = await readDay(date);
+  } catch {
+    if (dateSelectEl.value === date) dateSelectEl.value = state.currentDate || '';
+    showToast('无法读取这一期，请稍后重试');
+    return;
+  }
+  if (dateSelectEl.value !== date) return;
 
-  const res = await fetch(state.isLocalServer ? `/api/day/${date}` : `./data/day/${date}.json`);
-  const dayData = await res.json();
+  state.currentDate = date;
+  state.focusedIndex = -1;
   state.currentDayData = dayData;
 
   const ghCount = dayData.products.filter(p => p.deliveryForm === 'github' || p.githubRepo).length;
@@ -990,7 +1195,7 @@ async function createRepoCodespace(repo, machineName) {
 
 function renderCodespaceBanner() {
   const product = state.activeProduct;
-  if (!product || !product.githubRepo) {
+  if (!product?.githubRepo || product.deliveryForm !== 'github') {
     wbCodespaceBannerEl.classList.add('hidden');
     wbCodespaceBannerEl.innerHTML = '';
     return;
@@ -1358,11 +1563,6 @@ function renderWorkbenchSummary(product, inspectInfo) {
   const guideSteps = Array.isArray(product.experienceGuide) ? product.experienceGuide : [];
 
   wbSummaryBoxEl.innerHTML = `
-    <div class="wb-section-title">产品介绍与体验模式</div>
-    <div style="font-family:var(--font-reading); font-size:14.5px; font-weight:600; color:var(--ink);">
-      ${escapeHtml(product.tagline || meta?.description || '')}
-    </div>
-    ${introText ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body); line-height:1.7;">${escapeHtml(introText)}</div>` : ''}
     ${guideSteps.length > 0 ? `
       <div class="experience-guide-box">
         <div class="experience-guide-title">上手体验指引</div>
@@ -1371,6 +1571,11 @@ function renderWorkbenchSummary(product, inspectInfo) {
         </ol>
       </div>
     ` : ''}
+    <div class="wb-section-title">产品介绍</div>
+    <div style="font-family:var(--font-reading); font-size:14.5px; font-weight:600; color:var(--ink);">
+      ${escapeHtml(product.tagline || meta?.description || '')}
+    </div>
+    ${introText ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body); line-height:1.7;">${escapeHtml(introText)}</div>` : ''}
     ${(starsVal || licenseVal || langVal || product.pricingModel || topics.length > 0) ? `
       <div class="repo-stats-bar">
         ${product.pricingModel ? `<span class="repo-stat-chip">${escapeHtml(product.pricingModel)}</span>` : ''}
@@ -1465,13 +1670,14 @@ function renderWorkbenchDocBody(product, inspectInfo) {
   document.getElementById('fallbackToWebBtn')?.addEventListener('click', () => switchWorkbenchTab('web'));
 }
 
-async function openWorkbench(productKey) {
+async function openWorkbench(productKey, selectedProduct = null) {
   const idx = state.displayedProducts.findIndex(p => p.key === productKey);
   if (idx !== -1) state.focusedIndex = idx;
 
-  const product = state.displayedProducts[idx] || state.currentDayData?.products.find(p => p.key === productKey);
+  const product = selectedProduct || state.displayedProducts[idx] || state.currentDayData?.products.find(p => p.key === productKey);
   if (!product) return;
 
+  if (!state.activeProduct) state.workbenchTrigger = document.activeElement;
   clearCsPoll();
   state.activeProduct = product;
   state.activeInspectInfo = null;
@@ -1488,6 +1694,8 @@ async function openWorkbench(productKey) {
   workspaceEl.classList.add('with-workbench');
   workspaceEl.classList.remove('sidebar-drawer-open');
   sidebarToggleBtn.classList.remove('active');
+  switchWorkbenchTab('readme');
+  wbCloseBtn.focus({ preventScroll: true });
 
   wbMetaStampsEl.innerHTML = `
     <span class="stamp stamp-type">${escapeHtml(product.categoryLabel || '垂直应用')}</span>
@@ -1515,16 +1723,13 @@ async function openWorkbench(productKey) {
   wbTriedBtn.classList.toggle('active-tried', status === 'tried');
   wbStackBtn.classList.toggle('active-stack', status === 'stack');
   wbNoteInputEl.value = note;
-  wbMemoBarEl.classList.add('hidden');
+  setMemoOpen(false);
 
   renderCodespaceBanner();
   renderWorkbenchSummary(product, null);
   renderWorkbenchCommands(product, null);
   wbDocBodyEl.innerHTML = '';
   wbInspectLoadingEl.classList.remove('hidden');
-
-  if (state.wbTab === 'codespace') renderCodespaceTab();
-  if (state.wbTab === 'web') loadWebPreviewIframe();
 
   try {
     let info;
@@ -1542,7 +1747,7 @@ async function openWorkbench(productKey) {
       info = await inspectProductClientSide(product);
     }
 
-    if (state.activeProduct?.key !== product.key) return;
+    if (state.activeProduct !== product) return;
     state.activeInspectInfo = info;
     wbInspectLoadingEl.classList.add('hidden');
 
@@ -1568,12 +1773,14 @@ async function openWorkbench(productKey) {
     if (state.wbTab === 'codespace') renderCodespaceTab();
     if (state.wbTab === 'web') loadWebPreviewIframe();
   } catch {
+    if (state.activeProduct !== product) return;
     wbInspectLoadingEl.classList.add('hidden');
     renderWorkbenchDocBody(product, null);
   }
 }
 
 function closeWorkbench() {
+  if (workbenchEl.classList.contains('hidden')) return;
   clearCsPoll();
   workbenchEl.classList.add('hidden');
   wbResizerEl.classList.add('hidden');
@@ -1581,8 +1788,15 @@ function closeWorkbench() {
   workspaceEl.classList.remove('sidebar-drawer-open');
   wbIframeEl.src = 'about:blank';
   state.activeProduct = null;
+  state.workbenchTrigger?.focus({ preventScroll: true });
+  state.workbenchTrigger = null;
   document.querySelectorAll('.product-card').forEach(el => el.classList.remove('active-card'));
   document.querySelectorAll('.intel-matrix tbody tr').forEach(el => el.classList.remove('active-row'));
+}
+
+function setMemoOpen(open) {
+  wbMemoBarEl.classList.toggle('hidden', !open);
+  wbMemoToggleBtn.setAttribute('aria-expanded', String(open));
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1590,9 +1804,9 @@ function closeWorkbench() {
 // ─────────────────────────────────────────────────────────────
 async function saveProductState(productKey, newStatus, newNote) {
   const product =
+    (state.activeProduct?.key === productKey ? state.activeProduct : null) ||
     state.displayedProducts.find(p => p.key === productKey) ||
-    state.currentDayData?.products.find(p => p.key === productKey) ||
-    state.activeProduct;
+    state.currentDayData?.products.find(p => p.key === productKey);
 
   const prevEntry = state.userState.items?.[productKey] || {};
   const finalStatus = newStatus !== undefined
@@ -1634,6 +1848,7 @@ async function saveProductState(productKey, newStatus, newNote) {
 
   updateStatusBadges();
   renderProductsView(state.displayedProducts, state.scope === 'all');
+  if (state.page === 'records') renderRecords();
   if (state.activeProduct?.key === productKey) {
     wbTriedBtn.classList.toggle('active-tried', finalStatus === 'tried');
     wbStackBtn.classList.toggle('active-stack', finalStatus === 'stack');
@@ -1867,6 +2082,7 @@ function bindEvents() {
     syncMuseBtn.textContent = '同步';
     showToast(data.output.trim() || '已同步最新简报');
     await loadDay(state.currentDate, false);
+    if (state.currentDate === state.todayDate) await updateToday(state.currentDayData);
   });
 
   rawBriefBtn.addEventListener('click', () => {
@@ -1912,6 +2128,39 @@ function bindEvents() {
   });
 
   document.body.addEventListener('click', (e) => {
+    const pageLink = e.target.closest('[data-page-link]');
+    if (pageLink) {
+      setPage(pageLink.dataset.pageLink);
+      return;
+    }
+    const issueLink = e.target.closest('[data-open-issue]');
+    if (issueLink) {
+      openIssue(issueLink.dataset.openIssue);
+      return;
+    }
+    const trialControl = e.target.closest('[data-choose-trial], [data-open-trial], [data-start-trial]');
+    if (trialControl) {
+      const { chooseTrial, openTrial, startTrial } = trialControl.dataset;
+      const product = state.todayData?.products.find(item => item.key === (chooseTrial || openTrial || startTrial));
+      if (!product) return;
+      rememberTrial(product);
+      if (chooseTrial) {
+        renderToday();
+        todayContentEl.querySelector('.desk-primary')?.focus();
+      }
+      if (openTrial) openWorkbench(product.key, product);
+      return;
+    }
+    if (e.target.closest('[data-resume-trial]')) {
+      openSavedProduct(state.trialChoice?.key, state.trialChoice);
+      return;
+    }
+    const record = e.target.closest('[data-record-key]');
+    if (record) {
+      const key = record.dataset.recordKey;
+      openSavedProduct(key, state.userState.items[key]);
+      return;
+    }
     const copyRawBtn = e.target.closest('[data-copy-raw]');
     if (copyRawBtn) {
       e.stopPropagation();
@@ -1957,16 +2206,22 @@ function bindEvents() {
   wbTriedBtn.addEventListener('click', () => { if (state.activeProduct) saveProductState(state.activeProduct.key, 'tried', undefined); });
   wbStackBtn.addEventListener('click', () => { if (state.activeProduct) saveProductState(state.activeProduct.key, 'stack', undefined); });
   wbMemoToggleBtn.addEventListener('click', () => {
-    const hidden = wbMemoBarEl.classList.toggle('hidden');
-    if (!hidden) wbNoteInputEl.focus();
+    const open = wbMemoBarEl.classList.contains('hidden');
+    setMemoOpen(open);
+    if (open) wbNoteInputEl.focus();
   });
-  wbSaveNoteBtn.addEventListener('click', () => {
-    if (state.activeProduct) saveProductState(state.activeProduct.key, undefined, wbNoteInputEl.value.trim());
+  wbMemoBarEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!state.activeProduct) return;
+    saveProductState(state.activeProduct.key, undefined, wbNoteInputEl.value.trim());
+    setMemoOpen(false);
+    wbMemoToggleBtn.focus();
   });
   wbNoteInputEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && state.activeProduct) {
-      saveProductState(state.activeProduct.key, undefined, wbNoteInputEl.value.trim());
-      wbMemoBarEl.classList.add('hidden');
+    if (!e.isComposing && e.key === 'Escape') {
+      e.stopPropagation();
+      setMemoOpen(false);
+      wbMemoToggleBtn.focus();
     }
   });
 
@@ -1974,7 +2229,10 @@ function bindEvents() {
 
   document.addEventListener('keydown', (e) => {
     const tag = document.activeElement?.tagName?.toLowerCase();
+    if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
     if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if (e.key === 'Enter' && (tag === 'button' || tag === 'a')) return;
+    if (state.page !== 'library' && e.key !== 'Escape' && e.key !== '/') return;
 
     if (e.key === 'j' || e.key === 'J') { e.preventDefault(); moveKeyboardFocus(1); }
     else if (e.key === 'k' || e.key === 'K') { e.preventDefault(); moveKeyboardFocus(-1); }
@@ -1988,7 +2246,7 @@ function bindEvents() {
       if (target) { e.preventDefault(); saveProductState(target.key, 'stack', undefined); }
     } else if (e.key === 'm' || e.key === 'M') { e.preventDefault(); modeMatrixBtn.click(); }
     else if (e.key === 'g' || e.key === 'G') { e.preventDefault(); modeGalleryBtn.click(); }
-    else if (e.key === '/') { e.preventDefault(); globalSearchInput.focus(); }
+    else if (e.key === '/') { e.preventDefault(); setPage('library'); globalSearchInput.focus(); }
     else if (e.key === 'Escape') {
       if (ghKeyDialog.open) ghKeyDialog.close();
       else if (rawDialogEl.open) rawDialogEl.close();
@@ -1999,4 +2257,7 @@ function bindEvents() {
   });
 }
 
-init();
+init().catch(() => {
+  todayContentEl.setAttribute('aria-busy', 'false');
+  todayContentEl.innerHTML = '<p class="desk-empty" role="alert">暂时无法加载简报，请刷新后重试。</p>';
+});
