@@ -18,6 +18,13 @@
 4. **全自动发布流水线（`.github/workflows/deploy-pages.yml`）**：
    - 每日定时（北京时间 `08:00`、`16:00`、`22:00`）或每次 push 自动拉取最新简报 → 运行 `enrich-agent.mjs` → 编译静态数据 → 同步部署到 **Cloudflare Pages** 与 **GitHub Pages**。
 
+## 在线访问
+
+- **主域名**：https://picks.chunlin.ch
+- **短链别名**：https://try.chunlin.ch
+- **Cloudflare Pages**：https://products-selection.pages.dev
+- **GitHub Pages**：https://omygpt.github.io/products-selection/
+
 ---
 
 ## 本地调试与手动运行

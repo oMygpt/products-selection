@@ -72,18 +72,22 @@
 }
 
 :root {
-  --font-display: "Instrument Serif", "Newsreader", "Noto Serif SC", "Songti SC", serif;
-  --font-serif: "Newsreader", "Noto Serif SC", "Songti SC", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Plus Jakarta Sans", "LXGW WenKai Screen", "LXGW WenKai", "PingFang SC", "Noto Sans SC", sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
-}
-
-[data-font="serif"] {
-  --font-reading: var(--font-serif);
+  --font-heading: var(--font-display);
+  --font-reading: var(--font-sans);
 }
 
 [data-font="sans"] {
+  --font-heading: var(--font-display);
   --font-reading: var(--font-sans);
+}
+
+[data-font="serif"] {
+  --font-heading: var(--font-serif);
+  --font-reading: var(--font-serif);
 }
 
 * {
@@ -166,14 +170,15 @@ body {
 
 .pub-title {
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   line-height: 1.1;
   color: var(--ink);
 }
 
 .pub-title-cn {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 13.5px;
   font-weight: 600;
   color: var(--ink-body);
@@ -585,7 +590,7 @@ body {
 }
 
 .marginalia-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 14.5px;
   font-weight: 700;
   color: var(--ink);
@@ -605,7 +610,7 @@ body {
 }
 
 .signal-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-weight: 700;
   color: var(--ink);
   display: block;
@@ -676,7 +681,7 @@ body {
 }
 
 .lead-headline {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 22px;
   font-weight: 700;
   line-height: 1.25;
@@ -827,12 +832,13 @@ body {
 }
 
 .card-title {
-  font-family: var(--font-serif);
-  font-size: 18px;
+  font-family: var(--font-heading);
+  font-size: 17.5px;
   font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--ink);
   text-decoration: none;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .card-domain-hint {
@@ -859,16 +865,16 @@ body {
   flex-direction: column;
   gap: 8px;
   font-family: var(--font-reading);
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--ink-body);
-  line-height: 1.65;
+  line-height: 1.68;
 }
 
 .dossier-entry-kicker {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-muted);
   display: block;
@@ -984,7 +990,7 @@ body {
 }
 
 .matrix-prod-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-weight: 700;
   font-size: 14.5px;
   color: var(--ink);
@@ -1060,7 +1066,7 @@ body {
 }
 
 .wb-product-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 21px;
   font-weight: 700;
   line-height: 1.2;

@@ -492,7 +492,7 @@ function renderMarkdown(mdText, rawBaseUrl = '', repoSlug = '', defaultBranch = 
 // ─────────────────────────────────────────────────────────────
 function restoreTweaks() {
   const savedTheme = localStorage.getItem('dpb_theme') || 'editorial';
-  const savedFont = localStorage.getItem('dpb_font') || 'serif';
+  const savedFont = localStorage.getItem('dpb_font_v2') || 'sans';
   const savedCol = localStorage.getItem('dpb_col_width') || '340';
   const savedWbWidth = localStorage.getItem('dpb_wb_width');
 
@@ -1821,7 +1821,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       const f = btn.dataset.setFont;
       document.documentElement.setAttribute('data-font', f);
-      localStorage.setItem('dpb_font', f);
+      localStorage.setItem('dpb_font_v2', f);
       document.querySelectorAll('#fontSwitchGroup .tweak-pill').forEach(b => b.classList.toggle('active', b === btn));
     });
   });
