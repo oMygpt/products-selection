@@ -4,10 +4,10 @@ const DIRECTORY_DOMAINS = [
 ];
 
 const ENTRY_MODES = {
-  desktop: { label: '桌面 / 插件', action: '查看安装方式', requirement: '需安装客户端或插件', priority: 1 },
-  web: { label: '网页产品', action: '打开网页体验', requirement: '注册要求以产品页面为准', priority: 2 },
-  github: { label: '开源项目', action: '查看上手指引', requirement: '需按指引配置运行环境', priority: 3 },
-  api: { label: '模型 / API', action: '查看调用方式', requirement: '可能需要账号或 API Key', priority: 4 }
+  desktop: { label: '桌面 / 插件', action: '查看安装方式', requirement: '需安装客户端或插件' },
+  web: { label: '网页产品', action: '打开网页体验', requirement: '注册要求以产品页面为准' },
+  github: { label: '开源项目', action: '查看上手指引', requirement: '需按指引配置运行环境' },
+  api: { label: '模型 / API', action: '查看调用方式', requirement: '可能需要账号或 API Key' }
 };
 
 function getTrialUrl(value) {
@@ -43,12 +43,11 @@ function getTrialCandidate(product) {
     ? 'github'
     : product.deliveryForm;
   const mode = demo
-    ? { label: '在线 Demo', action: '打开在线 Demo', requirement: '在浏览器中体验', priority: 0 }
+    ? { label: '在线 Demo', action: '打开在线 Demo', requirement: '在浏览器中体验' }
     : { ...ENTRY_MODES[form] };
   if (!demo && /注册|登录/.test(guide[0]) && !/无需(?:注册|登录)/.test(guide[0])) {
     mode.requirement = form === 'desktop' ? '需安装，可能需要登录' : '可能需要注册或登录';
   }
-  if (!demo && form === 'desktop' && /USB|开发板/.test(guide.join(' '))) mode.priority += 3;
   return {
     product,
     task: guide.at(-1),
@@ -58,26 +57,37 @@ function getTrialCandidate(product) {
   };
 }
 
-export function selectTrials(products, selectedKey, userItems = {}) {
-  const candidates = products.map(getTrialCandidate).filter(Boolean).sort((a, b) =>
-    Number(userItems[a.product.key]?.status === 'tried') - Number(userItems[b.product.key]?.status === 'tried') ||
-    a.mode.priority - b.mode.priority
-  );
-  const featured = candidates.find(entry => entry.product.key === selectedKey) || candidates[0];
-  if (!featured) return { featured: null, alternatives: [] };
+export function getTrialCandidates(products) {
+  return products.map(getTrialCandidate).filter(Boolean);
+}
 
+export function drawTrials(candidates, userItems = {}, previousKeys = []) {
+  if (!candidates.length) return [];
+
+  const remaining = [...candidates];
+  for (let i = remaining.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
+  }
+  const isTried = entry => userItems[entry.product.key]?.status === 'tried';
+  const wasInPreviousDraw = entry => previousKeys.includes(entry.product.key);
+  remaining.sort((a, b) =>
+    Number(isTried(a)) - Number(isTried(b)) ||
+    Number(wasInPreviousDraw(a)) - Number(wasInPreviousDraw(b))
+  );
+
+  const mainIndex = remaining.findIndex(entry => entry.product.key !== previousKeys[0]);
+  const [featured] = remaining.splice(Math.max(mainIndex, 0), 1);
+  const selected = [featured];
   const represented = new Set([featured.group]);
-  const alternatives = [];
-  const remaining = candidates.filter(entry => entry !== featured);
-  for (const entry of remaining) {
-    if (represented.has(entry.group)) continue;
-    alternatives.push(entry);
-    represented.add(entry.group);
-    if (alternatives.length === 2) break;
+  while (selected.length < 3 && remaining.length) {
+    const tried = isTried(remaining[0]);
+    const diverseIndex = remaining.findIndex(entry =>
+      isTried(entry) === tried && !represented.has(entry.group)
+    );
+    const [next] = remaining.splice(Math.max(diverseIndex, 0), 1);
+    selected.push(next);
+    represented.add(next.group);
   }
-  for (const entry of remaining) {
-    if (alternatives.length === 2) break;
-    if (!alternatives.includes(entry)) alternatives.push(entry);
-  }
-  return { featured, alternatives };
+  return selected;
 }
