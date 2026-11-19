@@ -89,10 +89,13 @@ jobs:
             echo "No data changes to commit."
           fi
 
+      - name: Prepare versioned Pages artifact
+        run: node playground/prepare-pages.mjs "$RUNNER_TEMP/products-selection-site"
+
       - name: Deploy to Cloudflare Pages
         run: |
           if [ -n "$CLOUDFLARE_API_KEY" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            npx --yes wrangler@4 pages deploy playground/public --project-name=products-selection --branch=main --commit-dirty=true
+            npx --yes wrangler@4 pages deploy "$RUNNER_TEMP/products-selection-site" --project-name=products-selection --branch=main --commit-dirty=true
           else
             echo "Cloudflare secrets not set, skipping CF Pages deploy"
           fi
@@ -103,7 +106,7 @@ jobs:
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "playground/public"
+          path: ${{ runner.temp }}/products-selection-site
 
       - name: Deploy to GitHub Pages
         id: deployment
