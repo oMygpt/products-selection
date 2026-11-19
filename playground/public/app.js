@@ -44,7 +44,9 @@ const state = {
 // DOM Elements
 const appShellEl = document.getElementById('appShell');
 const todayViewEl = document.getElementById('todayView');
+const todayTitleEl = document.getElementById('todayTitle');
 const todayDateEl = document.getElementById('todayDate');
+const todayStatusEl = document.getElementById('todayStatus');
 const todayContentEl = document.getElementById('todayContent');
 const recordsViewEl = document.getElementById('recordsView');
 const recordsContentEl = document.getElementById('recordsContent');
@@ -556,27 +558,32 @@ function rememberTrial(product) {
 }
 
 function renderToday() {
-  todayDateEl.dateTime = state.todayDate;
-  todayDateEl.textContent = state.todayDate;
+  const data = state.archiveFallback || state.todayData;
+  const showingArchive = Boolean(state.archiveFallback);
+  const selectedKey = data && state.trialChoice?.date === data.date ? state.trialChoice.key : null;
+  const { featured, alternatives } = selectTrials(data?.products || [], selectedKey, state.userState.items);
+  todayTitleEl.textContent = showingArchive ? '往期精选' : '今日试用';
+  todayDateEl.dateTime = data?.date || state.todayDate;
+  todayDateEl.textContent = todayDateEl.dateTime;
+  todayStatusEl.textContent = state.todayData ? '今日暂无可试用产品' : '今日简报待更新';
+  todayStatusEl.classList.toggle('hidden', !showingArchive);
   todayContentEl.setAttribute('aria-busy', 'false');
 
-  const data = state.todayData;
-  const selectedKey = state.trialChoice?.date === data?.date ? state.trialChoice.key : null;
-  const { featured, alternatives } = selectTrials(data?.products || [], selectedKey, state.userState.items);
   const libraryLink = (date, label) => `<button class="desk-text-button" data-open-issue="${escapeHtml(date)}">${label}</button>`;
+  const canResume = state.trialChoice?.key && state.trialChoice.name;
+  const resume = canResume
+    ? `<button class="${featured ? 'desk-text-button' : 'desk-primary'}" data-resume-trial>继续试用 · ${escapeHtml(state.trialChoice.name)}</button>`
+    : '';
 
   if (!featured) {
-    const resume = state.trialChoice?.key && state.trialChoice.name
-      ? `<button class="desk-primary" data-resume-trial>继续试用 · ${escapeHtml(state.trialChoice.name)}</button>`
-      : '';
-    const fallback = state.archiveFallback
-      ? libraryLink(state.archiveFallback.date, `查看 ${escapeHtml(state.archiveFallback.date)} 期`)
-      : '<button class="desk-text-button" data-page-link="library">浏览产品库</button>';
     const message = data?.products.length ? '本期暂无带试用指引的产品' : '今天暂无可试用的产品';
+    const fallback = data?.products.length
+      ? libraryLink(data.date, '查看本期条目')
+      : '<button class="desk-text-button" data-page-link="library">浏览产品库</button>';
     todayContentEl.innerHTML = `
       <div class="desk-empty">
         <h2>${message}</h2>
-        <div class="desk-actions">${resume}${data?.products.length ? libraryLink(data.date, '查看本期条目') : ''}${fallback}</div>
+        <div class="desk-actions">${resume}${fallback}</div>
       </div>`;
     return;
   }
@@ -595,6 +602,7 @@ function renderToday() {
         <div class="desk-actions">
           ${primary}
           ${url ? `<button class="desk-text-button" data-open-trial="${trialKey}">试用指引</button>` : ''}
+          ${showingArchive && state.trialChoice?.date !== data.date ? resume : ''}
         </div>
         <p class="desk-requirement">${mode.requirement}</p>
       </div>
@@ -653,23 +661,23 @@ async function readDay(date) {
 
 async function updateToday(data) {
   state.todayData = data?.date === state.todayDate ? data : null;
-  state.archiveFallback = null;
-  renderToday();
-
-  if (selectTrials(state.todayData?.products || []).featured) return;
-  for (const issue of state.days) {
-    if (issue.date >= state.todayDate) continue;
-    try {
-      const previous = issue.date === data?.date ? data : await readDay(issue.date);
-      if (previous.products.length) {
-        state.archiveFallback = previous;
-        renderToday();
-        break;
+  let fallback = null;
+  if (!selectTrials(state.todayData?.products || []).featured) {
+    for (const issue of state.days) {
+      if (issue.date >= state.todayDate) continue;
+      try {
+        const previous = issue.date === data?.date ? data : await readDay(issue.date);
+        if (selectTrials(previous.products).featured) {
+          fallback = previous;
+          break;
+        }
+      } catch {
+        // The next available issue can still be used as a fallback.
       }
-    } catch {
-      // The next available issue can still be used as a fallback.
     }
   }
+  state.archiveFallback = fallback;
+  renderToday();
 }
 
 async function openSavedProduct(key, entry) {
@@ -2141,7 +2149,8 @@ function bindEvents() {
     const trialControl = e.target.closest('[data-choose-trial], [data-open-trial], [data-start-trial]');
     if (trialControl) {
       const { chooseTrial, openTrial, startTrial } = trialControl.dataset;
-      const product = state.todayData?.products.find(item => item.key === (chooseTrial || openTrial || startTrial));
+      const data = state.archiveFallback || state.todayData;
+      const product = data?.products.find(item => item.key === (chooseTrial || openTrial || startTrial));
       if (!product) return;
       rememberTrial(product);
       if (chooseTrial) {
