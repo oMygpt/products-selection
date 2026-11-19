@@ -818,6 +818,13 @@ body {
 
 .desk-alternatives-heading h2 { font-size: 15px; }
 
+.desk-alternatives-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 16px;
+}
+
 .desk-alternatives,
 .desk-records {
   display: grid;

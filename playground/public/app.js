@@ -1,4 +1,4 @@
-import { selectTrials } from './trial-desk.js';
+import { drawTrials, getTrialCandidates } from './trial-desk.js';
 
 const GH_TOKEN_STORAGE_KEY = 'dpb_gh_token';
 const USER_STATE_STORAGE_KEY = 'dpb_user_state';
@@ -16,6 +16,8 @@ const state = {
   todayData: null,
   archiveFallback: null,
   trialChoice: null,
+  trialCandidates: [],
+  trialSample: [],
   currentDate: null,
   currentDayData: null,
   staticAllCache: null,
@@ -555,13 +557,13 @@ function setPage(page) {
 function rememberTrial(product) {
   state.trialChoice = { date: product.date, key: product.key, name: product.name };
   localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(state.trialChoice));
+  todayContentEl.querySelector('[data-resume-trial]')?.remove();
 }
 
 function renderToday() {
   const data = state.archiveFallback || state.todayData;
   const showingArchive = Boolean(state.archiveFallback);
-  const selectedKey = data && state.trialChoice?.date === data.date ? state.trialChoice.key : null;
-  const { featured, alternatives } = selectTrials(data?.products || [], selectedKey, state.userState.items);
+  const [featured, ...alternatives] = state.trialSample;
   todayTitleEl.textContent = showingArchive ? '往期精选' : '今日试用';
   todayDateEl.dateTime = data?.date || state.todayDate;
   todayDateEl.textContent = todayDateEl.dateTime;
@@ -591,6 +593,7 @@ function renderToday() {
   }
 
   const { product, task, mode, url } = featured;
+  const canResumeOther = state.trialChoice?.date !== data.date || state.trialChoice?.key !== product.key;
   const trialKey = escapeHtml(product.key);
   const primary = url
     ? `<a class="desk-primary" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-start-trial="${trialKey}">${mode.action} <span aria-hidden="true">↗</span></a>`
@@ -604,7 +607,7 @@ function renderToday() {
         <div class="desk-actions">
           ${primary}
           ${url ? `<button class="desk-text-button" data-open-trial="${trialKey}">试用指引</button>` : ''}
-          ${showingArchive && state.trialChoice?.date !== data.date ? resume : ''}
+          ${canResumeOther ? resume : ''}
         </div>
         <p class="desk-requirement">${mode.requirement}</p>
       </div>
@@ -615,7 +618,10 @@ function renderToday() {
     </article>
     <div class="desk-alternatives-heading">
       ${alternatives.length ? '<h2>其他选择</h2>' : '<span></span>'}
-      ${libraryLink(data.date, `查看本期全部 ${data.products.length} 条 <span aria-hidden="true">→</span>`)}
+      <div class="desk-alternatives-actions">
+        ${state.trialCandidates.length > 1 ? '<button class="desk-text-button" data-redraw-trials>换一组</button>' : ''}
+        ${libraryLink(data.date, `查看本期全部 ${data.products.length} 条 <span aria-hidden="true">→</span>`)}
+      </div>
     </div>
     ${alternatives.length ? `
       <ul class="desk-alternatives">
@@ -663,14 +669,17 @@ async function readDay(date) {
 
 async function updateToday(data) {
   state.todayData = data?.date === state.todayDate ? data : null;
+  let candidates = getTrialCandidates(state.todayData?.products || []);
   let fallback = null;
-  if (!selectTrials(state.todayData?.products || []).featured) {
+  if (!candidates.length) {
     for (const issue of state.days) {
       if (issue.date >= state.todayDate) continue;
       try {
         const previous = issue.date === data?.date ? data : await readDay(issue.date);
-        if (selectTrials(previous.products).featured) {
+        const previousCandidates = getTrialCandidates(previous.products);
+        if (previousCandidates.length) {
           fallback = previous;
+          candidates = previousCandidates;
           break;
         }
       } catch {
@@ -679,6 +688,8 @@ async function updateToday(data) {
     }
   }
   state.archiveFallback = fallback;
+  state.trialCandidates = candidates;
+  state.trialSample = drawTrials(candidates, state.userState.items);
   renderToday();
 }
 
@@ -2148,14 +2159,26 @@ function bindEvents() {
       openIssue(issueLink.dataset.openIssue);
       return;
     }
+    if (e.target.closest('[data-redraw-trials]')) {
+      closeWorkbench();
+      const previousKeys = state.trialSample.map(entry => entry.product.key);
+      state.trialSample = drawTrials(state.trialCandidates, state.userState.items, previousKeys);
+      renderToday();
+      todayContentEl.querySelector('[data-redraw-trials]')?.focus({ preventScroll: true });
+      return;
+    }
     const trialControl = e.target.closest('[data-choose-trial], [data-open-trial], [data-start-trial]');
     if (trialControl) {
       const { chooseTrial, openTrial, startTrial } = trialControl.dataset;
-      const data = state.archiveFallback || state.todayData;
-      const product = data?.products.find(item => item.key === (chooseTrial || openTrial || startTrial));
-      if (!product) return;
+      const key = chooseTrial || openTrial || startTrial;
+      const index = state.trialSample.findIndex(entry => entry.product.key === key);
+      if (index === -1) return;
+      const { product } = state.trialSample[index];
       rememberTrial(product);
       if (chooseTrial) {
+        const [featured] = state.trialSample;
+        state.trialSample[0] = state.trialSample[index];
+        state.trialSample[index] = featured;
         renderToday();
         todayContentEl.querySelector('.desk-primary')?.focus();
       }
