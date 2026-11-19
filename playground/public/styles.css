@@ -689,8 +689,16 @@ body {
   letter-spacing: -.055em;
 }
 
-.desk-heading time {
+.desk-edition {
+  display: flex;
+  align-items: baseline;
+  gap: 6px 12px;
+  flex-wrap: wrap;
   color: var(--ink-muted);
+  font-size: 12px;
+}
+
+.desk-heading time {
   font: 500 12px var(--font-mono);
 }
 
