@@ -565,8 +565,10 @@ function renderToday() {
   todayTitleEl.textContent = showingArchive ? '往期精选' : '今日试用';
   todayDateEl.dateTime = data?.date || state.todayDate;
   todayDateEl.textContent = todayDateEl.dateTime;
-  todayStatusEl.textContent = state.todayData ? '今日暂无可试用产品' : '今日简报待更新';
-  todayStatusEl.classList.toggle('hidden', !showingArchive);
+  if (todayStatusEl) {
+    todayStatusEl.textContent = state.todayData ? '今日暂无可试用产品' : '今日简报待更新';
+    todayStatusEl.classList.toggle('hidden', !showingArchive);
+  }
   todayContentEl.setAttribute('aria-busy', 'false');
 
   const libraryLink = (date, label) => `<button class="desk-text-button" data-open-issue="${escapeHtml(date)}">${label}</button>`;
