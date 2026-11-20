@@ -1700,5 +1700,191 @@
     "stars": "91161",
     "license": "MIT",
     "quickCommands": []
+  },
+  "manufact": {
+    "key": "manufact",
+    "name": "Manufact",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:27.929Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "MCP插件全生命周期云服务平台，涵盖部署、跨客户端测试与市场合规检查。",
+    "introduction": "Manufact 提供 MCP (Model Context Protocol) 插件的云端托管与自动化质检服务，支持将服务器一键部署至生产环境。其核心功能包括在 ChatGPT、Claude 等真实 AI 客户端中运行评测任务以验证兼容性，并自动生成符合应用商店要求的提交材料与用量分析数据。",
+    "experienceGuide": [
+      "步骤1：访问 manufact.com 注册账号，利用其提供的模板或连接现有 GitHub 仓库进行 MCP Server 的云端部署。",
+      "步骤2：进入 'Cross-client testing' 模块，配置目标 AI 客户端（如 ChatGPT/Claude）并上传测试用例，查看自动生成的评测报告与失败归因分析。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://manufact.com/",
+    "githubRepo": "mcp-use/mcp-use",
+    "stars": "11000",
+    "license": "MIT",
+    "quickCommands": []
+  },
+  "tamserve": {
+    "key": "tamserve",
+    "name": "tamserve",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:29.910Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于SAM3与轻量追踪器的高效实时视频多目标追踪服务",
+    "introduction": "tamserve是一个开源的实时视频目标追踪系统，通过结合Meta SAM 3模型进行关键帧定位与EdgeTAM轻量级追踪器处理中间帧，实现高效的多目标同时追踪。该架构显著降低了GPU显存占用并提升了推理速度，支持在单张RTX 4090上稳定运行大规模并发追踪任务，适用于仓库监控等需要实时识别和跟踪特定物体（如叉车、人员）的场景。",
+    "experienceGuide": [
+      "步骤1：确保环境已安装Python及CUDA驱动，执行命令 `pip install \"tamserve[sam3]\"` 安装核心依赖及SAM3模型支持。",
+      "步骤2：配置摄像头输入源或上传测试视频，启动服务后尝试输入自然语言指令（如“叉车”）以初始化追踪任务，观察多目标并行追踪效果及显存占用情况。"
+    ],
+    "defaultPort": 8000,
+    "directUrl": "https://news.ycombinator.com/item?id=50523377",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "testsprite40": {
+    "key": "testsprite40",
+    "name": "TestSprite 4.0",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:30.005Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "基于产品预期独立复查代码的AI测试智能体",
+    "introduction": "TestSprite 4.0 是一款专注于软件质量保障的 AI Agent，它依据用户批准的产品需求文档（PRD）或工单建立独立的测试基准。该工具在每次代码变更后自动执行前后端测试，通过对比“预期行为”与“实际结果”来精准定位回归缺陷，并提供失败回放功能以辅助调试。",
+    "experienceGuide": [
+      "步骤1：访问 TestSprite 官网注册账号，连接你的 GitHub 仓库并导入初始的产品需求文档或 PRD 作为测试基准。",
+      "步骤2：创建一个 Pull Request 触发自动化流程，观察 AI 生成的测试用例及执行报告，重点查看失败项中的“预期 vs 实际”对照及视频回放链接。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/testsprite",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "mastrafactory": {
+    "key": "mastrafactory",
+    "name": "Mastra Factory",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:30.126Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "基于 Mastra 框架的开源软件工厂，自动化处理 Issue、计划与 PR。",
+    "introduction": "Mastra Factory 是一个开源的软件工程自动化代理系统，旨在将代码仓库中的 Issue 自动转化为实施计划和经过评审的 Pull Request。它底层依托 Mastra 框架的持久化 Agent、带引用的 Markdown 知识库及云端沙箱技术，支持在本地基础设施或 Mastra 平台上运行，实现从任务分诊到代码合并的全流程自动化。",
+    "experienceGuide": [
+      "步骤1：在终端执行 `npm create factory@latest <project-name>` 初始化项目，并根据提示配置 GitHub 仓库连接与模型提供商。",
+      "步骤2：进入项目目录运行 `npm run dev` 启动本地服务，访问打印出的 URL 创建测试 Issue，观察 Factory 如何自动生成计划并触发 PR 流程。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://factory.mastra.ai/",
+    "githubRepo": "mastra-ai/mastra",
+    "stars": "29683",
+    "license": "NOASSERTION",
+    "quickCommands": [
+      "npm create mastra@latest"
+    ]
+  },
+  "verseenginebyctruh": {
+    "key": "verseenginebyctruh",
+    "name": "Verse Engine by Ctruh",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:34.086Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "浏览器原生3D流式引擎，将复杂场景转化为可即时访问的链接",
+    "introduction": "Verse Engine 是一个基于 WebGPU 的 3D/XR 流式传输平台，旨在解决大型 3D 资产在移动设备和普通浏览器中的加载与渲染难题。它支持从 Blender、Unity 等工具一键发布，或通过平面图、照片快速生成可漫游的 3D 空间，仅向用户设备流式传输当前视角所需的几何体和纹理数据，从而实现无需下载应用即可在任意设备上流畅体验亿级三角形规模的场景。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://verse.ctruh.com/ 注册账号并进入控制台，选择“Create”功能模块。",
+      "步骤2：尝试上传一个简单的 3D 文件（如 .glb/.gltf）或使用其 AI 功能输入一段文字描述生成基础场景，随后点击“Publish”获取分享链接，并在手机浏览器中打开以测试流式加载效果。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://verse.ctruh.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "exenro": {
+    "key": "exenro",
+    "name": "Exenro",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:35.009Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "聚合未上市公司二级市场股价与公允价值估算的行情站",
+    "introduction": "Exenro 是一款专注于私募市场数据的研究型 Web 应用，通过整合二级市场交易价格、最新融资轮次及公司基本面信号，为 OpenAI、Anthropic 等未上市巨头提供实时的公允价值估算。该平台不撮合交易，而是将价格走势、隐含市值、IPO 动向及相关新闻集中展示，帮助投资者和分析师直观理解当前市场对私有公司的定价逻辑。",
+    "experienceGuide": [
+      "步骤1：访问 Exenro 官网或 BetaList 页面，搜索如 'OpenAI' 或 'Stripe' 等知名未上市公司名称进入详情页。",
+      "步骤2：查看核心仪表盘中的“公允价值估算”与“价格走势”，对比其二级市场报价与最近一轮融资估值的差异，并关注 IPO 信号板块以评估流动性预期。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://betalist.com/startups/exenro",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "openmapp": {
+    "key": "openmapp",
+    "name": "OpenMapp",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:35.671Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "全美巴西柔术馆地图，提供实时课表与真实访客价格查询",
+    "introduction": "OpenMapp 是一个专注于巴西柔术（BJJ）垂直领域的信息聚合平台，收录了全美超过1300家道馆的详细数据。它通过整合经过验证的课程时间表、开放垫（Open Mat）安排及真实的 Drop-in 访客价格，帮助练习者在出差或旅行时快速筛选可训练的道馆。平台核心在于消除信息不对称，让用户无需逐一联系即可明确各馆的接待政策与费用标准。",
+    "experienceGuide": [
+      "步骤1：访问 OpenMapp 官方网站，在搜索栏输入目标城市名称或邮政编码以定位附近的巴西柔术馆。",
+      "步骤2：点击具体道馆详情页，重点查看“Open Mat”标签下的日期时间以及是否标注“Accepts Visitors”，并核对列出的 Drop-in 单次体验价格。"
+    ],
+    "defaultPort": 80,
+    "directUrl": "https://betalist.com/startups/openmapp",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "foolscap": {
+    "key": "foolscap",
+    "name": "Foolscap",
+    "date": "2026-11-20",
+    "updatedAt": "2026-11-20T08:08:35.960Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "不代笔的长篇写作助手，实时梳理全书线索与伏笔状态。",
+    "introduction": "Foolscap 是一款专为长篇小说和回忆录设计的辅助写作应用，其核心机制在于利用 AI 进行语义分析而非文本生成。它能实时追踪全书内容，识别前后呼应的线索、未收束的伏笔以及逻辑矛盾点，并以用户自己的语言呈现反馈。产品强调隐私保护，支持将书籍标记为私密模式，确保内容绝不用于模型训练或进入公共 AI 系统。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://foolscap.works/ 注册账号并创建新项目，导入或开始撰写你的长篇文稿。",
+      "步骤2：在写作过程中观察侧边栏或提示区，查看系统自动标记的“悬而未决”线索与“已呼应”段落，体验非生成式的结构梳理功能。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://foolscap.works/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
   }
 }
