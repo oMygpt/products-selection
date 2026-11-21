@@ -1886,5 +1886,191 @@
     "stars": null,
     "license": null,
     "quickCommands": []
+  },
+  "opencomputer": {
+    "key": "opencomputer",
+    "name": "OpenComputer",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:06.418Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "开源的Devin平替，在Slack中指挥AI代理自主完成编码任务并生成PR。",
+    "introduction": "OpenComputer 是一个开源的 AI 编码代理平台，允许团队通过 Slack 线程直接分配任务。它在独立的计算环境中运行 Claude Code、Codex 或 OpenCode 等模型，实时执行代码修改、测试并自动创建 Pull Request。支持自托管至 AWS/GCP 或使用官方云服务，确保数据隐私与计算资源可控。",
+    "experienceGuide": [
+      "步骤1：访问 GitHub 仓库 diggerhq/opencomputer 查看 README，点击 'Try OpenComputer in Slack' 按钮连接 Slack 工作区进行快速体验，或参考 Self-hosting 文档部署到自有云环境。",
+      "步骤2：在 Slack 频道中 @Computer 并描述具体的编码需求（如修复 Bug 或添加功能），观察其在独立虚拟机中的执行日志，确认生成的 PR 是否符合预期后合并。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/diggerhq/opencomputer",
+    "githubRepo": "diggerhq/opencomputer",
+    "stars": "809",
+    "license": "Apache-2.0",
+    "quickCommands": [
+      "gh repo clone diggerhq/opencomputer"
+    ]
+  },
+  "currents": {
+    "key": "currents",
+    "name": "Currents",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:06.450Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "为AI代理提供Playwright测试上下文与修复能力的MCP服务",
+    "introduction": "Currents 是一款基于 Playwright 的测试记录平台，通过托管 MCP 服务器将 CI 中的报错、Trace、截图及视频数据暴露给 Claude 和 Codex 等 AI 代理。它内置了自动修复失败测试、收集变更证据以及录制浏览器对比视图的智能体技能，支持 OAuth 一键连接，无需手动配置 API Key。",
+    "experienceGuide": [
+      "步骤1：访问 Currents 官网注册账号并开启 14 天免费试用（无需信用卡），在设置中启用 MCP 服务器功能。",
+      "步骤2：在 Claude 或 ChatGPT/Codex 插件目录中搜索 'Currents' 并通过 OAuth 授权连接，随后尝试让 AI 读取最近的失败测试日志并执行修复建议。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/currents-4",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "notched": {
+    "key": "notched",
+    "name": "Notched",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:07.587Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "tagline": "Mac菜单栏实时音频陷波滤镜，自定义频段消除刺耳音调",
+    "introduction": "Notched是一款基于macOS的菜单栏应用，通过实时音频处理技术为系统所有输出声音（音乐、视频、浏览器等）添加可调节的陷波滤波器。用户可根据个人听觉偏好设定特定频率缺口，并支持左右耳独立配置及21种自适应背景声混合功能。该工具定位为听力舒适辅助软件，采用本地化处理确保隐私安全，非医疗器械且无账号追踪机制。",
+    "experienceGuide": [
+      "步骤1：访问官网 trynotched.com 点击顶部在线试听按钮体验核心滤波效果，确认符合预期后下载 Mac 版客户端或按指引将网页添加至手机主屏幕作为 PWA 使用",
+      "步骤2：安装后在菜单栏启动应用，播放任意音频源，拖动界面中的音高滑块寻找需过滤的频率区间，开启背景声开关测试自动避让功能，注意 Mac 版每日免费时长限制"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://trynotched.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "remene": {
+    "key": "remene",
+    "name": "Remene",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:08.111Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "将MRI影像与报告转化为通俗语言及备诊指南的医疗辅助工具",
+    "introduction": "Remene 是一款基于 Web 的医疗影像解读助手，允许用户上传 MRI 光盘文件夹或报告文本。它利用 AI 技术逐层解析影像结构并翻译医学术语，生成带有具体切片定位说明、术语表及待问医生问题的 PDF 备诊单。系统采用双重 AI 复核机制确保解释准确性，并在处理前自动去除个人身份信息以保护隐私。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://remene.si/，选择上传从放射科获取的 MRI 光盘文件夹（DICOM 格式）或拍照/PDF 形式的报告文本。",
+      "步骤2：浏览免费的影像查看功能后，付费解锁 AI 分析，查看每个解剖结构的通俗解释、术语翻译以及生成的“待问医生问题”PDF 文档。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://remene.si/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "kuckuc": {
+    "key": "kuckuc",
+    "name": "Kuc-kuc",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:10.968Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "tagline": "基于气象预警的独居老人主动关怀与紧急联络系统",
+    "introduction": "Kuc-kuc 是一款垂直领域的智能关怀服务，通过定期监测特定区域的气象预报数据，在极端天气来临前或发生时自动触发语音呼叫。系统核心逻辑包括向独居老人询问健康状况，若未接通或反馈异常则自动升级至邻居介入及家属通知流程，实现从预警到线下确认的闭环管理。",
+    "experienceGuide": [
+      "步骤1：访问官网提供的演示页面，输入自己的真实手机号码以体验完整的自动化呼叫流程（注意：演示会实际拨打你的电话）。",
+      "步骤2：观察后台界面或 Telegram 通知，了解从气象阈值触发、首次呼叫、邻居升级呼叫到最终状态确认的全链路日志记录机制。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/kuc-kuc",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "tamekoshi": {
+    "key": "tamekoshi",
+    "name": "Tamekoshi",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:11.591Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "tagline": "常驻屏幕顶部的自主电子宠物，并行拆解任务并代你执行操作。",
+    "introduction": "Tamekoshi 是一款具备自主规划能力的桌面端 AI Agent，以“电子宠物”形态常驻系统顶部。它能够将复杂指令拆解为多个子代理（Subagents）并行处理，并在隔离环境中执行浏览器、终端或移动端操作。产品内置严格的人机协作护栏，涉及写入、发送或支付等关键动作时需用户显式确认，同时支持通过 WhatsApp/Telegram 进行异步任务交互与会议记录生成。",
+    "experienceGuide": [
+      "步骤1：访问官网下载并安装 Tamekoshi 桌面客户端，启动后观察其作为悬浮窗或菜单栏图标常驻屏幕顶部。",
+      "步骤2：尝试输入包含多个独立需求的复合指令（如“搜索A信息、整理B文档、回复C邮件”），观察其如何拆分为并行子任务，并注意在关键操作节点进行人工审批确认。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/tamekoshi",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "tripmojo": {
+    "key": "tripmojo",
+    "name": "Tripmojo",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:11.746Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "tagline": "基于邮件同步的AI旅行智能体，自动整合行程并辅助出行决策",
+    "introduction": "Tripmojo 是一款 Agentic 旅行应用，通过接入 Gmail 自动解析机票与酒店确认邮件，将分散信息聚合为动态更新的共享行程卡。其内置 AI Agent 具备群聊交互、实时值机尝试、延误提醒及旅途分账管理等自动化能力，旨在解决传统旅行中信息碎片化与操作繁琐的问题。",
+    "experienceGuide": [
+      "步骤1：在 iOS App Store 或 Android Google Play 搜索下载 Tripmojo 应用",
+      "步骤2：授权连接 Gmail 账户以自动导入历史预订邮件，体验行程卡片生成及 AI 助手在群聊中的互动功能"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/tripmojo",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "fackd": {
+    "key": "fackd",
+    "name": "Fack'd",
+    "date": "2026-11-21",
+    "updatedAt": "2026-11-21T08:08:13.949Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "为 YouTube 视频提供实时事实核查与来源标注的在线工具",
+    "introduction": "Fack'd 是一款专注于新闻、访谈和辩论类视频的事实核查平台，能够自动识别视频中可验证的说法并赋予时间戳。系统对每个说法进行评级（如支持、误导、虚假等），并提供可点击的独立来源链接以佐证结论，其中“虚假”评级需两个独立来源背书。用户可通过浏览器直接访问已核查的视频列表，或注册后每月免费自查一定数量的新视频。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://fackd.com/，在首页浏览“Recently checked videos”列表，点击任意视频标题查看其对应的核查结果页面。",
+      "步骤2：在核查详情页中，尝试点击不同评级的说法条目，观察右侧显示的时间戳跳转功能及底部附带的来源链接，体验其证据链展示逻辑；若需核查新视频，请注册登录并使用每月免费额度。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://fackd.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
   }
 }
