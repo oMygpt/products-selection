@@ -2072,5 +2072,200 @@
     "stars": null,
     "license": null,
     "quickCommands": []
+  },
+  "glassmail": {
+    "key": "glassmail",
+    "name": "Glassmail",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:07:56.734Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "tagline": "原生 Mac 邮件客户端，支持多账户聚合与本地隐私 AI 处理",
+    "introduction": "Glassmail 是一款基于 Swift 构建的原生 macOS 邮件应用，统一聚合 Gmail、iCloud、Outlook 及任意 IMAP 账户。其核心特性在于完全本地的 AI 处理能力，利用 Apple Intelligence 或本地小模型（如 Gemma/Qwen）实现邮件摘要、智能回复及收件箱优先级排序，确保数据不经过第三方服务器。此外，它提供与 Claude/Codex 等工具的本机集成能力，允许在严格权限控制下搜索邮件内容。",
+    "experienceGuide": [
+      "步骤1：访问官网 glassmail.app 下载并安装适用于 macOS 14+ 的客户端，启动后添加你的邮箱账户（Gmail/iCloud/IMAP等）。",
+      "步骤2：体验“Ask your inbox”功能，尝试询问“今天谁在等我”，观察本地 AI 如何在不上传数据的情况下整理高优先级对话；同时测试长线程的自动摘要功能。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://glassmail.app/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "smorza": {
+    "key": "smorza",
+    "name": "Smorza",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:07:57.697Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "tagline": "为每个 Mac 应用提供独立音量与输出设备控制的菜单栏工具",
+    "introduction": "Smorza 是一款基于 macOS Core Audio process taps 技术的开源菜单栏应用，实现了类似 Windows 的音频混音器功能。它允许用户为每个正在播放声音的应用单独设置音量、静音状态及输出设备（如将 Discord 指向 AirPods，音乐留在音箱），且无需安装额外驱动或内核扩展。该工具通过记忆各应用在特定设备上的音量设置，并提供快捷键、Solo 模式及系统级音量键重映射等功能，显著提升了多任务场景下的音频管理效率。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://smorza.app 或 GitHub Releases 页面下载 .dmg 安装包，将其拖入 Applications 文件夹并启动；首次运行需授予麦克风权限以启用音频捕获功能。",
+      "步骤2：点击菜单栏图标打开面板，尝试调整不同应用的滑块以测试独立音量控制，右键点击应用行可切换其专属输出设备，或在设置中配置快捷键以实现快速静音或调节当前活跃应用音量。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/rokoov/smorza",
+    "githubRepo": "rokoov/smorza",
+    "stars": "10",
+    "license": "MIT",
+    "quickCommands": [
+      "gh repo clone rokoov/smorza"
+    ]
+  },
+  "zeroc": {
+    "key": "zeroc",
+    "name": "Zero C#",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:07:58.215Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "tagline": "无运行时无GC的C#编译器，生成极小原生程序",
+    "introduction": "Zero C# 是 bflat 的一个分支，旨在将 C# 代码直接编译为不依赖 .NET 运行时的微型原生二进制文件。它通过 Arena 内存分配机制替代垃圾回收（GC），并移除异常处理、反射和异步支持以换取极致的体积与性能，Hello World 程序在 Windows 上仅约 11KB。该工具保留了 C# 的核心语法、类型检查及泛型特性，支持 Linux、macOS、Windows、WebAssembly 甚至 DOS 平台。",
+    "experienceGuide": [
+      "步骤1：克隆 GitHub 仓库 OnurGumus/zero-csharp，确保本地已安装 Docker（macOS）或 binutils（Linux），然后运行 ./setup.sh 检查前置条件并构建容器镜像。",
+      "步骤2：执行 ./build.sh Arena 编译示例程序，随后使用 ./run.sh Arena 运行生成的原生二进制文件，体验无 GC 环境下的 C# 编程流程；也可尝试 ./build.sh --wasm 生成 WebAssembly 模块并用 wasmtime 运行。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://onurgumus.github.io/zero-csharp/index.html",
+    "githubRepo": "OnurGumus/zero-csharp",
+    "stars": "42",
+    "license": "NOASSERTION",
+    "quickCommands": [
+      "docker run --rm --platform linux/amd64 -v \"$PWD:/src\" -w /src \\"
+    ]
+  },
+  "quebec": {
+    "key": "quebec",
+    "name": "Quebec",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:07:58.289Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "tagline": "高精度词级时间戳强制对齐 API，专为视频剪辑与字幕同步设计。",
+    "introduction": "Quebec 是由 Yarn 团队开发的强制对齐（Forced Alignment）API，旨在为音频中的每个单词提供精确到毫秒级的起止时间戳。它通过自定义解码器约束搜索路径并结合神经模型优化边界，在未见过的测试集上实现了 75% 的词边界误差小于 20 毫秒，显著优于 WhisperX、MFA 等现有方案。该服务支持按秒计费，无需注册即可通过 curl 获取密钥调用，主要服务于需要精准剪辑或字幕生成的开发者。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://quebec.yarn.so/ ，按照指引使用 curl 命令快速获取 API Key，无需传统账号注册流程。",
+      "步骤2：准备一段英文音频及对应的文本转录稿，调用 API 进行对齐测试，重点观察返回 JSON 中每个单词的 start/end 时间戳精度，并与已知基准工具对比效果。"
+    ],
+    "defaultPort": 443,
+    "directUrl": "https://quebec.yarn.so/",
+    "githubRepo": "m-bain/whisperX",
+    "stars": "25585",
+    "license": "BSD-2-Clause",
+    "quickCommands": [
+      "pip install whisperx",
+      "uvx whisperx",
+      "uvx git+https://github.com/m-bain/whisperX.git",
+      "git clone https://github.com/m-bain/whisperX.git",
+      "uv sync --all-extras --dev",
+      "pip install \"whisperx[fast]\""
+    ]
+  },
+  "pdfreflow": {
+    "key": "pdfreflow",
+    "name": "PDFreflow",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:08:00.795Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "tagline": "将复杂双栏PDF重排为手机单栏阅读的本地化阅读器",
+    "introduction": "PDFreflow是一款专为移动端设计的文档阅读工具，核心功能是将双栏学术论文、技术手册等复杂布局的PDF文件实时解析并重排为适合手机屏幕滚动的单栏格式。它在保留公式、图表和引文链接位置的同时，支持深色模式及字体自定义，且所有处理均在设备本地完成，确保隐私安全。",
+    "experienceGuide": [
+      "步骤1：Android用户前往Google Play商店下载应用，iOS用户需通过TestFlight申请测试版；安装后直接导入带有文字层的PDF文件（注意不支持扫描件）。",
+      "步骤2：打开文档体验自动重排效果，尝试调整字号至180%并切换深色模式，验证公式与图片是否保持原位且清晰可读；前30页免费，如需完整阅读长文档可购买€9.99的一次性Premium解锁。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.pdfreflow.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "hippomaps": {
+    "key": "hippomaps",
+    "name": "HippoMaps",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:08:02.077Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费开源",
+    "tagline": "基于OpenStreetMap数据的自然语言地图搜索与导航服务",
+    "introduction": "HippoMaps 是一个基于 OpenStreetMap 数据的地图应用，通过自研的确定性解析器将自然语言查询（如“苏黎世河边的咖啡馆”）转换为 Overpass API 查询。它提供地点详情、多模式路线规划（驾车/骑行/步行）、欧洲公共交通信息及语音导航功能，无需用户注册即可使用。",
+    "experienceGuide": [
+      "步骤1：访问 https://hippomaps.ch/ ，在搜索框中输入自然语言查询，例如“柏林市中心的素食餐厅”。",
+      "步骤2：查看返回的地点列表及详情页，尝试点击不同交通方式图标以获取路线规划，并测试语音导航功能。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://hippomaps.ch/",
+    "githubRepo": null,
+    "stars": null,
+    "license": "GPL-3.0",
+    "quickCommands": []
+  },
+  "altercontacts": {
+    "key": "altercontacts",
+    "name": "AlterContacts",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:08:02.494Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "tagline": "面向顾问的语音优先AI客户关系助手，自动整理档案并拟写跟进消息。",
+    "introduction": "AlterContacts 是一款专为理财顾问、经纪人等依赖人际关系的职业设计的 AI 助手。它通过语音笔记和会议录音自动提取关键信息，实时更新客户档案，并基于上下文主动起草后续沟通内容供用户审批发送。",
+    "experienceGuide": [
+      "步骤1：访问官网 https://altercontacts.ai/，注册账号并在兑换码处输入 PRODUCTHUNT 以领取一个月 Pro 免费试用权限。",
+      "步骤2：尝试使用“Quick voice notes”功能录制一段简短的客户会议总结，观察系统如何自动识别细节并更新对应的客户 Profile，随后查看其生成的跟进邮件草稿。"
+    ],
+    "defaultPort": 3000,
+    "directUrl": "https://altercontacts.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
+  },
+  "backspin": {
+    "key": "backspin",
+    "name": "Backspin",
+    "date": "2026-11-22",
+    "updatedAt": "2026-11-22T08:08:03.243Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "tagline": "基于浏览器的交互式DJ教学平台，提供虚拟唱机与实时反馈课程。",
+    "introduction": "Backspin 是一个无需安装或注册的在线 DJ 学习工具，内置两台虚拟黑胶唱机和调音台界面。它通过“演示-练习”模式提供21节结构化课程，涵盖从基础混音、对拍、EQ调节到搓盘及整场演出编排的技能。系统具备实时纠错能力，能具体指出操作偏差而非仅提示重试，并内置6首练习曲目以支持即时上手体验。",
+    "experienceGuide": [
+      "步骤1：直接访问官网链接进入应用页面，无需注册账号即可开始使用虚拟唱机界面。",
+      "步骤2：选择任意一节课程（如“第一次混音”），点击“Show me”观看动作演示，随后在界面上模仿操作，观察系统给出的具体错误反馈以调整技巧。"
+    ],
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/backspin",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "quickCommands": []
   }
 }
