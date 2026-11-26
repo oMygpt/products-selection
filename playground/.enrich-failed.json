@@ -17,9 +17,9 @@
     }
   },
   "watchedearth": {
-    "attempts": 1,
-    "lastError": "Bad control character in string literal in JSON at position 597 (line 15 column 19)",
-    "updatedAt": "2026-11-26T15:29:51.941Z",
+    "attempts": 2,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:36.184Z",
     "product": {
       "key": "watchedearth",
       "name": "watched.earth",
@@ -30,6 +30,1026 @@
       "tagline": "输入任意地点，算出过去 7 天里飞过你头顶的每一颗卫星，并给出公开的卫星照片：实测中央公园，7 天 251 颗卫星经过，其中 28 张有公开影像，最近一张是 Sentinel-2A 11 月 4 日拍的 10 米分辨率晴空图；另分\"可能拍过\"\"本可转向\"\"只是飞过\"三档，GOES-19 每 10 分钟看一次的地方还单独列出。",
       "description": "头顶每天都有几百颗卫星经过，它第一次把\"谁在看你\"算成了一张可查的时间线——包括那些没公开照片的。",
       "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "wanakastudio": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:36.187Z",
+    "product": {
+      "key": "wanakastudio",
+      "name": "Wanaka Studio",
+      "date": "2026-11-05",
+      "url": "https://www.producthunt.com/products/wanaka-studio",
+      "directUrl": "https://www.producthunt.com/products/wanaka-studio",
+      "githubRepo": null,
+      "tagline": "Make and publish 3D games with the first AI game engine",
+      "description": "Make and publish 3D games with the first AI game engine\n\n今日榜首（397 票）；它把“做游戏”从代码、引擎、建模的门槛降到“当导演”——AI 负责搭，人凭品味在编辑器里迭代，而不是一键出一个同质化小游戏；免费起步。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "uncrackedcity": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:36.236Z",
+    "product": {
+      "key": "uncrackedcity",
+      "name": "Uncracked City",
+      "date": "2026-11-05",
+      "url": "https://uncracked.city",
+      "directUrl": "https://uncracked.city",
+      "githubRepo": null,
+      "tagline": "真实城市里的侦探游戏：搜查真实街区、向嫌疑人自由提问（打字或语音，六种语言），有人会撒谎，拿线索对质戳破谎言后写报告——只有三次机会。",
+      "description": "— Show HN\n\n五个教学关（巴黎、里约、马拉喀什、东京、悉尼）之后是真实案件，多数案件至今无人破解；每破一案就在护照上盖一个城市章；免账号，已上 Google Play，iOS 版即将上架。",
+      "categoryType": "devtools",
+      "deliveryForm": "desktop"
+    }
+  },
+  "kimik31pro权重释出": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:36.270Z",
+    "product": {
+      "key": "kimik31pro权重释出",
+      "name": "Kimi K3.1 Pro 权重释出",
+      "date": "2026-11-05",
+      "url": "https://dev.to",
+      "directUrl": "https://dev.to",
+      "githubRepo": null,
+      "tagline": "真实开源但陷「隐藏付费推广」丑闻",
+      "description": "月之暗面如期于 2026-11-04 在 HuggingFace 发布 moonshotai/Kimi-K3.1-Pro 开放权重：2.8T 总参 / 104B 激活 MoE、1M 上下文、MXFP4 量化（激活 MXFP8，量化感知训练）；原生多模态智能体，兼容 OpenAI/Anthropic 接口，API $2/$10 per M tokens。Artificial Analysis  Intelligence Index 曾给 55（开放权重第一）。；- ⚠️ 信任警示：同期曝公司指使 23 名网红未披露报酬地夸赞模型（「隐藏付费推广」丑闻），且用户投诉配额消耗过快、半年内第三次公开道歉（恢复 25% 月配额）。AA 已据此收紧评测方法。；模型真实且强，但「基准冠军」叙事已被营销丑闻反噬——引用 Kimi 的基准需明确标注厂商口径、并提示付费推广争议；对陈老师「LLM 综述 / 模型演进」关注，建议以「能力真、信任存疑」双线记录。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "pcdealcheck": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:37.116Z",
+    "product": {
+      "key": "pcdealcheck",
+      "name": "PC Deal Check",
+      "date": "2026-11-05",
+      "url": "https://pcdealcheck.com",
+      "directUrl": "https://pcdealcheck.com",
+      "githubRepo": null,
+      "tagline": "给整机报价的“第二意见”：粘贴美国零售商链接或上传价格截图，AI 识别配置，自研定价引擎按市场价逐件估算，给出报价评级和报告。",
+      "description": "买整机最怕为不了解的配置多付钱，它把“这台值不值”变成一份带日期的逐件估价和比价链接，附 11 月 1 日的真实样例报告（一台标价 $1,399.99 的 PowerSpec G531 评为 A，零件估价约 $1,569）；公开 beta、免账号，只针对美国市场价。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "ripple": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:37.147Z",
+    "product": {
+      "key": "ripple",
+      "name": "Ripple",
+      "date": "2026-11-05",
+      "url": "https://ricursive.com",
+      "directUrl": "https://ricursive.com",
+      "githubRepo": null,
+      "tagline": "65B Preview（HN 首页 159）— 美区开放权重 agentic-coding SOTA，训练成本仅 $32M",
+      "description": "Ricursive Intelligence 从零训练 65B dense（非 MoE）模型，预训练 12T tokens、支持 1M 上下文；Terminal-Bench 2.1 80.52，美区开放权重 SOTA（超 Reflection Beam 501B 80.1、Meta Muse Spark 816B 76.4 等更大模型）。自称全程训练成本 $32M，约为前 SOTA 的 1/10，1.4M rollouts 即达 80.5（约为 Reflection Beam 的 1/70）。可在 HuggingFace、Together、GMI Cloud、OpenRouter 获取。；「开放权重 + 成本战」主线的标志性样本——用 dense 架构 + 自研合成数据/RL 配方以小博大；与 Kimi/Hy4 同处「开放权重日」集群，对陈老师「模型成本/可自托管」关注有参照。注意其为 preview、厂商口径基准为主。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "trustmebroreviews": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:38.144Z",
+    "product": {
+      "key": "trustmebroreviews",
+      "name": "trustmebro.reviews",
+      "date": "2026-11-05",
+      "url": "https://trustmebro.reviews",
+      "directUrl": "https://trustmebro.reviews",
+      "githubRepo": null,
+      "tagline": "从 Reddit 和 HN 的 1,357 万条原文观点里排出的产品榜：47,699 个产品、301 个分类，给出“共识分”，并标出检测到的 4,158 起复制粘贴水军 campaign。",
+      "description": "不看厂商宣传、不看五星评分，只看网友在讨论里真实推荐了什么——显卡、键盘、咖啡机、信用卡都能查，每条摘录都可溯源；“过去 60 天最热”里 Claude、ChatGPT、RX 9070 XT 排前列，购物前拿来交叉验证正好。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "planart": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:38.189Z",
+    "product": {
+      "key": "planart",
+      "name": "PlanArt",
+      "date": "2026-11-05",
+      "url": "https://floorplanai.art/",
+      "directUrl": "https://floorplanai.art/",
+      "githubRepo": null,
+      "tagline": "文字或草图生成户型概念图：输入房间数、面积、地块尺寸，或上传现有平面图、草图，选 2D 技术图、2.5D 或 3D 等轴风格出图，还能圈一块区域用文字改、手动调墙体家具。",
+      "description": "它诚实地标明了边界——出的是概念图不是可施工的图纸，尺寸和固定设施只是生成参考、仍需设计师核验；免登录就能试一次生成，登录后每天 100 积分，订阅 $7.92/月起。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "opendocbot": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:38.710Z",
+    "product": {
+      "key": "opendocbot",
+      "name": "OpenDocBot",
+      "date": "2026-11-04",
+      "url": "https://opendocbot.com",
+      "directUrl": "https://opendocbot.com",
+      "githubRepo": "Office/AI",
+      "tagline": "把自有模型接入 Word/Excel/PPT 的 agentic Office",
+      "description": "把自有模型接入 Word/Excel/PPT 的 agentic Office\n\n运行在 Word/Excel/PowerPoint 任务窗格的开放接口 agentic Office。接入你已付费用的模型与密钥（OpenAI/Anthropic/Gemini/DeepSeek/Bedrock/Ollama 等任意 OpenAI 兼容端点），不加每席费；可在 Microsoft Marketplace 安装（Microsoft 365 桌面/网页），≤30 人团队免费含自托管/SSO。通过 Office.js 改文档、带「审批开启」每步确认、建议模式只读留批注。；- 重要边界：是 source-available（fair-code 许可证），并非 OSI 开源；文档内容不经其服务器，密钥本地存、直发供应商。；直接对接陈老师「Word/PPT 生成与排版」工作流——可把现有模型/订阅直接接进 Office 做 agentic 编辑，且免费档够个人/小团队；但 fair-code 非真开源，重度依赖需自托管评估许可证限制。",
+      "categoryType": "agent",
+      "deliveryForm": "github"
+    }
+  },
+  "kairos": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:38.726Z",
+    "product": {
+      "key": "kairos",
+      "name": "Kairos",
+      "date": "2026-11-04",
+      "url": "https://github.com/fintech/agent",
+      "directUrl": "https://github.com/fintech/agent",
+      "githubRepo": "fintech/agent",
+      "tagline": "开源风险/欺诈决策平台（agent-first）",
+      "description": "开源风险/欺诈决策平台（agent-first）\n\n开源的实时欺诈与风险决策，对标 Sardine/Sift/Riskified/SEON，但多两样——(a) 你的 coding agent 通过 MCP 调它（Claude Code/Cursor/Codex 读决策、建工作流、每次动作记在其密钥下）；(b) 决策模型（Grayson）在少标签/非结构化数据上也能用，并可与逻辑回归/XGBoost 组合做实验选优。每次注册/登录/下单/支付/出款实时返回 approve/step-up/review/block + 风险分 + 理由。TypeScript/Python SDK、CLI、HTTP API、Docker 自托管。；FOF / 投研 / 风控相邻——把「agent 调优风险模型」做成开源闭环（agent 提变体 → Kairos 在旧标签上训练、新标签上测 → 发布胜者），对「规则化、可自查」的个人/小团队风控与量化风控研究有参照；Apache-2.0、有 Shopify/Stripe webhook 集成。\n\n它把“调风控模型”交给了 coding agent——经 MCP 接入后，agent 自己读近期决策、提假设、跑实验、按时间切分验证，选出的模型还要人复核才能上线；自带读非结构化文本的决策模型 Grayson，可与 XGBoost 组合，Apache-2.0 开源，Docker 自托管或用托管版。",
+      "categoryType": "agent",
+      "deliveryForm": "github"
+    }
+  },
+  "beamfy": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:39.437Z",
+    "product": {
+      "key": "beamfy",
+      "name": "Beamfy",
+      "date": "2026-11-04",
+      "url": "https://github.com/Tower/Apppage",
+      "directUrl": "https://github.com/Tower/Apppage",
+      "githubRepo": "Tower/Apppage",
+      "tagline": "面向盲人与低视力者的 AI 视觉助手（74 语）",
+      "description": "面向盲人与低视力者的 AI 视觉助手（74 语）\n\n它从行走场景出发调教提示词——短句加方向词、不确定就直说不确定，而不是报“安全”；为 VoiceOver 和 TalkBack 而建、照片不存服务器，支持 74 种语言，iPhone 和 Android 都有，7 天全功能后每天仍有免费描述额度。",
+      "categoryType": "agent",
+      "deliveryForm": "github"
+    }
+  },
+  "diogenes": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:39.617Z",
+    "product": {
+      "key": "diogenes",
+      "name": "Diogenes",
+      "date": "2026-11-04",
+      "url": "https://diogenesgateway.com",
+      "directUrl": "https://diogenesgateway.com",
+      "githubRepo": null,
+      "tagline": "免账号 MCP 网关接 45 个 Gemini 模型 + 护栏",
+      "description": "免账号 MCP 网关接 45 个 Gemini 模型 + 护栏\n\n跑在 Cloudflare Edge 的多协议终端中心 / 远程 Streamable HTTP MCP Server，聚合 121 个边缘微服务，打包成 9 个定向 MCP Suite（每个 12–15 工具，避免上下文膨胀）。提供完全免账号、零密钥访问全部 45 个 Google Gemini 模型（含 Gemini 4 Argon/3.1 Pro/3.8 Flash），支持 Cursor/Claude Desktop/Zed/Windsurf/Antigravity。`?demo=true` 免费测，付费请求返回 `HTTP 402`（L402/x402/MPP 加密按次付费，不注册平台账号）。；- 护栏（Diogenes Agent Guardrails Suite，12 工具）：预执行命令安全校验、AST 级只读 SQL 注入校验、临时 Python 沙箱、MCP 服务器清单审计与工具中毒检测、会话中 MCP rug-pull 检测、采样反向注入防火墙、间接提示注入/隐形 Unicode/信标清洗、零 PII 与密钥凭据脱敏、循环中断器等。；隐私 / agent 基建的代表——「免账号即可用 45 个 Gemini + 内置护栏与 PII 脱敏」对「能本地就本地、最小权限、不想绑账号」的偏好有吸引力；MIT 开源、各 Suite 有公开仓库。注意其通过加密按次付费调用付费模型、以及依赖边缘网关的信任模型。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "nana": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:39.960Z",
+    "product": {
+      "key": "nana",
+      "name": "nana",
+      "date": "2026-11-04",
+      "url": "https://www.producthunt.com/products/nana-2",
+      "directUrl": "https://www.producthunt.com/products/nana-2",
+      "githubRepo": null,
+      "tagline": "Windows 上每个 coding agent 一个终端",
+      "description": "Windows 上每个 coding agent 一个终端\n\nWindows 上同时跑多个 agent 最容易丢状态——它直接标出每个 agent 是在干活、等你还是已完成，等批复时发系统通知；关掉窗口也不停，因为终端活在一个小的服务器进程里，还能经 SSH 管 Linux 和 macOS；Rust + GPUI + Ghostty 终端引擎，不是 Electron 套壳，免费 beta。",
+      "categoryType": "agent",
+      "deliveryForm": "desktop"
+    }
+  },
+  "rigorix": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:40.068Z",
+    "product": {
+      "key": "rigorix",
+      "name": "Rigorix",
+      "date": "2026-11-04",
+      "url": "https://crates.io/npm/PyPI",
+      "directUrl": "https://crates.io/npm/PyPI",
+      "githubRepo": null,
+      "tagline": "AI agent 执行治理开源引擎（后果瞬间再校验）",
+      "description": "AI agent 执行治理开源引擎（后果瞬间再校验）\n\n核心命题——「审批不等于授权，世界会变」。在执行后果的瞬间重新校验权威（受益人被冻结？限额被降？凭据被撤？），并签出任何第三方可离线验证的证据（HMAC 签名 + 哈希链 + Ed25519 锚定，验证器发在 crates.io/npm/PyPI，Rust/Python/TS 已发布、Java/Go 在仓）。单一网关、单一账本：顺序/前提/效果/容量/承诺五问，均在同一步骤的同一执行路径上校验。明确列出五项边界（它收窄检查与后果间的窗口、不知领域真相、非沙箱、跨会话容量需争议性存储才真实、只记录决策不为下游系统背书）。；Agent 治理从「拦截」升级为「后果瞬间的权威再校验 + 可验证证据」的硬核样本，与 Nomos/AgentTrafficCop/Maat/Rufous/Deedglass 同谱；OSS 引擎 + 已发布验证 SDK + 企业控制台三层边界，适合「高后果 agent 动作（付款/迁移/生产变更）」场景（陈老师相关）。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "phoneuse": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:40.191Z",
+    "product": {
+      "key": "phoneuse",
+      "name": "PhoneUse",
+      "date": "2026-11-04",
+      "url": "https://phoneuse.com",
+      "directUrl": "https://phoneuse.com",
+      "githubRepo": null,
+      "tagline": "给 AI agent 用的手机（真实 iPhone 机架）",
+      "description": "给 AI agent 用的手机（真实 iPhone 机架）\n\n把 Claude Code/Codex/Cursor/Windsurf 接到真实手机上自动化任意 App，经 MCP/API/CLI。关键卖点：不是模拟器，是零售 iPhone 15 Pro + 真实 SIM + 机器人触控，过设备完整性检测（7/7 通过、0 flag，读起来像人）；可发 Instagram、收真实短信/2FA、跑 Uber。云手机 $20/月起（无限分钟、常驻 Android），真实 iPhone $149/月，312 台在线。；「手机成为 agent 最后一跳」的务实化——解决了浏览器 agent 与模拟器在原生 App/短信/2FA 上的死穴；但明确主打「super undetectability」，存在平台条款与伦理灰区（自动化社交/交易账号、绕过检测），引用与试用需谨慎；对「agent 触达真实世界」研究有样本价值。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "brink": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:40.483Z",
+    "product": {
+      "key": "brink",
+      "name": "Brink",
+      "date": "2026-11-04",
+      "url": "https://www.producthunt.com/products/brink-2",
+      "directUrl": "https://www.producthunt.com/products/brink-2",
+      "githubRepo": null,
+      "tagline": "把 MacBook 触控板边缘变成控制键",
+      "description": "把 MacBook 触控板边缘变成控制键\n\n它用的是系统原生 HUD 加触感刻度，滑动时指针不动，还能按住 Shift+Option 微调；Rust + Tauri 写成、已签名公证，也支持 Magic Trackpad 和 Magic Mouse，macOS 13+ 可用。",
+      "categoryType": "productivity",
+      "deliveryForm": "desktop"
+    }
+  },
+  "astra读写权重被证伪qwen38本地复现": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:40.970Z",
+    "product": {
+      "key": "astra读写权重被证伪qwen38本地复现",
+      "name": "「Astra 读写权重」被证伪 / Qwen 3.8 本地复现",
+      "date": "2026-11-04",
+      "url": "https://honnibal.dev",
+      "directUrl": "https://honnibal.dev",
+      "githubRepo": null,
+      "tagline": "权重空间编程要分两层看",
+      "description": "昨日头条「GPT-6 Astra 直接读写 Qwen 权重把 MATH-500 7.9%→48.1%」遭 spaCy 作者 Matthew Honnibal 与 Sean Goedecke 同步拆解：该博客把两类实验混为一谈——(a) 「不借助工具、纯读浮点权重」的小网络识别仅在 17K–172K 参数网络上成立（实验 1/2/4）；(b) 头条那个 Qwen 数学改写（实验 8）实际借助 Python 代码、并让模型跑了最多 50 批练习题，并非「只看权重」。Sean 指出 Qwen 例本质是「人 ML 工程师也会做的代码化分析」。；- 但 Simon Willison 在自家笔记本用 Qwen 3.8 27B（17GB）真复现了「无工具识别小游戏权重」：认出 Pong（1h5m）、Pac-Man（46m）、Breakout（52m），Freeway 失败——耗时数十分钟、且只对极小网络稳健。；「权重空间理解（读小网络）」是真实、可本地复现的；「改写大模型权重修数学」是代码辅助的、非新颖、且被夸大的。模型自我改进/权重空间编程仍是真前沿，但引用商业与自媒体叙事需打折扣——直接对接陈老师「LLM 综述 / 模型演进」关注，建议以拆解后的口径为准。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "hackertv": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:41.135Z",
+    "product": {
+      "key": "hackertv",
+      "name": "HackerTV",
+      "date": "2026-11-04",
+      "url": "https://hackertv.org",
+      "directUrl": "https://hackertv.org",
+      "githubRepo": null,
+      "tagline": "HN 推荐视频做 24/7 电视频道",
+      "description": "HN 推荐视频做 24/7 电视频道\n\n不用算法猜你喜欢什么，换台（↑↓、数字键、G 看节目单）就是在翻 HN 评论区筛出来的谈话、讲座和纪录片；和前两天 Karpathy 的 HackerTube 不同，它主打“打开就有人在播”的直播感，免费免登录。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "fairpage": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:41.933Z",
+    "product": {
+      "key": "fairpage",
+      "name": "Fairpage",
+      "date": "2026-11-04",
+      "url": "https://fairpage.co/",
+      "directUrl": "https://fairpage.co/",
+      "githubRepo": null,
+      "tagline": "给 agent 建站补上的编辑器和 CMS：agent 用 CLI 把网站写成文件，之后任何人都能直接在页面上点文字改字、或选中一段说出想要的改法。",
+      "description": "它解决了 vibe coding 交接的老问题——改动被限制在网站自己的颜色、字体和间距里，超出设计会说明原因并给最接近的替代；编辑和 agent 的推送进同一份可撤销历史，还能从 WordPress、Squarespace、Wix 导入旧站并保留链接；年付 $29 起，Plus（$99/年）目前分批开放、需排队。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "somacheck": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:41.972Z",
+    "product": {
+      "key": "somacheck",
+      "name": "SomaCheck",
+      "date": "2026-11-04",
+      "url": "https://apps.apple.com/us/app/somacheck-vibecheck/id6792978184",
+      "directUrl": "https://apps.apple.com/us/app/somacheck-vibecheck/id6792978184",
+      "githubRepo": null,
+      "tagline": "iPhone 应用：选一个纠结的话题（决定、关系、健康、处境），做一个 3 秒手腕动作，它就给一个“Aligned / Unaligned”的身体反馈，附带呼吸重置和引导整合练习。",
+      "description": "它把“凭直觉拿主意”变成一个 3 秒可重复的仪式，模型在手机本地越用越贴合你，还能让授权的 AI agent 发来一句话请你“体感核查”；明确声明不是医疗设备、不诊断不治疗，免费，iOS 17+。",
+      "categoryType": "vertical",
+      "deliveryForm": "desktop"
+    }
+  },
+  "hackerchurn": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:42.201Z",
+    "product": {
+      "key": "hackerchurn",
+      "name": "HackerChurn",
+      "date": "2026-11-04",
+      "url": "https://hissingkitty.com/hacker-churn",
+      "directUrl": "https://hissingkitty.com/hacker-churn",
+      "githubRepo": null,
+      "tagline": "HN 想取消的 SaaS 工具榜",
+      "description": "HN 想取消的 SaaS 工具榜\n\n它不只给怨气榜，还标出每个人转投了哪里（LastPass→Bitwarden、Evernote→Obsidian）以及多少人干脆自己写了替代品；方法是抽样评论、AI 打标、每条计数都链回原评论，每夜更新——当作社区情绪风向标看，别当成严谨调查。",
+      "categoryType": "productivity",
+      "deliveryForm": "web"
+    }
+  },
+  "stringman": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:42.266Z",
+    "product": {
+      "key": "stringman",
+      "name": "Stringman",
+      "date": "2026-11-04",
+      "url": "https://neufangled.com",
+      "directUrl": "https://neufangled.com",
+      "githubRepo": null,
+      "tagline": "$795 开源、可气隙的房间级缆索机器人",
+      "description": "用四台电机 + 天花板四角锚点的缆索架构覆盖整间房（7×7×3m 工作体积约 147m³），均价 $795，约 500× 工作体积/美元（对比 0.75m 机械臂）。开源 + 可气隙：机械 CAD、PCB、控制软件全公开；UI 本地服务、AI 模型跑在你自己硬件、数据不出网（可切回纯 LAN）；Mac 即可做控制器，带 Python API 与 MCP server 给 agent 调用；兼容 LeRobot（Pi.05/JEPA/DiT），50 条样本可学新行为。；本地优先 / 开源硬件 / agent 工具链三位一体——既满足「能本地就本地」偏好，又给 agent 一个真实物理执行器（取放零件、标记目的地），还天然是机器人教学 capstone（逆运动学/遥操作/模仿学习）；陈老师若做实验室自动化或 AI+教育演示，是高质量样本。注意需天花板锚点与一定安装门槛。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "difftour": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:42.800Z",
+    "product": {
+      "key": "difftour",
+      "name": "diff-tour",
+      "date": "2026-11-03",
+      "url": "https://github.com/init-co-jp/diff-tour",
+      "directUrl": "https://github.com/init-co-jp/diff-tour",
+      "githubRepo": "init-co-jp/diff-tour",
+      "tagline": "AI 写代码，学着像资深工程师一样读它",
+      "description": "AI 写代码，学着像资深工程师一样读它\n\nAI 越能写代码，读代码反而越重要——它把“重跑两次会怎样、能回滚吗、测试会不会失效”这类评审直觉做成可跟读的教程；只读不改代码、无服务器无遥测，MIT 开源。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "xmind2027": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:43.170Z",
+    "product": {
+      "key": "xmind2027",
+      "name": "Xmind 2027",
+      "date": "2026-11-03",
+      "url": "https://xmind.ai",
+      "directUrl": "https://xmind.ai",
+      "githubRepo": null,
+      "tagline": "你的思维导图现在是 AI 思考伙伴",
+      "description": "你的思维导图现在是 AI 思考伙伴\n\nXmind 把思维导图变成 AI 思考伙伴——丢入想法/文件/图片/链接，Agent 组织成图；支持网页/文档/PDF/YouTube→图、头脑风暴、AI 模板、图生图、录音转图、AI 待办/Gantt、一键生成 pitch 视频。还提供 Xmind MCP Server 与 Skills & CLI（让 agent 从文档/代码/图片创建/读取/校验原生 .xmind 文件）。；AI 结构化思维 / 知识整理工具，对陈老师「论文/书结构化、思维导图」有直接用途；成熟商业产品，MCP/CLI 让 agent 可编排。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "curiouslm": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:43.411Z",
+    "product": {
+      "key": "curiouslm",
+      "name": "CuriousLM",
+      "date": "2026-11-03",
+      "url": "https://curiouslm.com",
+      "directUrl": "https://curiouslm.com",
+      "githubRepo": null,
+      "tagline": "在你设备上运行的私人 AI，无账号",
+      "description": "在你设备上运行的私人 AI，无账号\n\n在你设备本地运行的私人 AI，无账号、离线可用、聊天留本机；提供 Curious 2B 模型下载（261020 版，约 1.1GB，建议 8GB+ RAM），Android App 可任意界面提问、更快回复。；本地优先 / 隐私主线代表，与「能本地就本地」偏好一致；2B 小模型能力有限，适合轻量私聊。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "selfgrowingwebsitesbygretash": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:43.511Z",
+    "product": {
+      "key": "selfgrowingwebsitesbygretash",
+      "name": "Self-Growing Websites by Greta.sh",
+      "date": "2026-11-03",
+      "url": "https://greta.sh",
+      "directUrl": "https://greta.sh",
+      "githubRepo": "SEO/AEO",
+      "tagline": "建一个能自己做 SEO & AEO 的网站",
+      "description": "建一个能自己做 SEO & AEO 的网站\n\n描述业务，Greta 建站、上线、并持续加你批准的页面（「会自己生长」的网站）；全栈、MCP 连接 Claude/Gemini/Slack/GitHub、自定义域名、一键部署（含搜索排名与安全检查）、100+ 模板。；AI 建站 / agent 交付样本，与 GEO（AI 搜索可见度）主线相关；闭源 SaaS，对做落地页/官网有用，但「自动 SEO」成效待证。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "subvocal": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:43.657Z",
+    "product": {
+      "key": "subvocal",
+      "name": "Subvocal",
+      "date": "2026-11-03",
+      "url": "https://subvocal.company/",
+      "directUrl": "https://subvocal.company/",
+      "githubRepo": null,
+      "tagline": "YC F26 智能眼镜，RF 传感把默念译成文字，宣称 200+ wpm",
+      "description": "YC F26 智能眼镜，RF 传感把默念译成文字，宣称 200+ wpm\n\nThe Subvocal Company（Georgia Tech 校友 Aarush Yadav + Arnav Kumar，YC Fall 2026 批次）做无摄像头、RF 传感智能眼镜，把「默念」（silent mouthing）实时译成文字/命令，宣称 >200 wpm，无需开口、几乎无可见嘴部动作。已公开预购：$199 可退定金锁 $499 早鸟价（原价 $699），预计 2027 Q1 发货。；- 融资：约 $1.3M 种子前（Afore Capital + YC + 天使），YC 内部称「见过最疯狂的 demo」。YC 合伙人 David Lieb（Google Photos 联创）称其「用 4 个月做出、在 YC 办公室现场演示」。；- 反例/风险：开发者 Joe Blau 称「用 1 个 prompt 给 AirPods Pro 3 复刻」并发布 Subvox（其实是基于头部运动数据的 25Hz 小词表模板，远非 200wpm）；隐私疑问：谁存你说而未说出的信号。200+wpm 尚未独立验证，跨人泛化需校准。；AI 输入范式（无声高速通道）的代表作，与 `Silent-Voice`（开源 EMG 方案）同谱但走消费硬件；对「公开场合与 AI 对话」场景有意义，但落地精度与隐私待证。\n\n不用麦克风也不用摄像头读唇，而是用低功耗射频感应面部 speech 肌肉的细微变化，所以在图书馆、办公室、地铁里也能像语音一样快地输入；YC 2026 秋季班团队，已开放预订。注意：仍是预订硬件，声称的速度和准确率尚未经独立验证。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "agentinbox": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:43.694Z",
+    "product": {
+      "key": "agentinbox",
+      "name": "Agent Inbox",
+      "date": "2026-11-03",
+      "url": "https://www.producthunt.com/products/agent-inbox",
+      "directUrl": "https://www.producthunt.com/products/agent-inbox",
+      "githubRepo": null,
+      "tagline": "给你的 agent 一个邮箱、Slack 和 Telegram 账号",
+      "description": "给你的 agent 一个邮箱、Slack 和 Telegram 账号\n\n它把“agent 等人批复”这个老大难做成了一个统一收件箱——同一 agent 在三个渠道是同一个身份，还能邀队友进来、让 agent 直接找对的人；由 Novu 出品，免费起步、无需信用卡。",
+      "categoryType": "productivity",
+      "deliveryForm": "web"
+    }
+  },
+  "momentic": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:44.363Z",
+    "product": {
+      "key": "momentic",
+      "name": "Momentic",
+      "date": "2026-11-03",
+      "url": "https://momentic.ai",
+      "directUrl": "https://momentic.ai",
+      "githubRepo": null,
+      "tagline": "YC W24，让 agent 真用 App 抓 bug",
+      "description": "AI QA 平台「Mo」用自然语言写端到端测试、对真实 App 跑、自动愈合随 UI 变化的测试、CI 里用退出码做必过检查。已 GA，厂商口径数据：77,783 测试、70,580,526 次运行、116,965 个 bug 被抓（其中 117,010 在生产前）。；- 模式：知识库（产品术语/规则）+ App 图 + 步骤级失败证据（截图/轨迹）+ 永久愈合（diff 供 review）+ SOC 2 Type 2。客户含 Notion、Quora、Runway、GPTZero、Retool、Webflow 等。；Agent 验证/护栏主线的商业化代表——「编码 agent 让软件变快，瓶颈变成「确认它能用」，验证要进 agent 循环」。对陈老师评估「编码 agent 产出怎么验收」有直接参照；属闭源商业 SaaS。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "warsawinvoxels": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:44.429Z",
+    "product": {
+      "key": "warsawinvoxels",
+      "name": "Warsaw in voxels",
+      "date": "2026-11-03",
+      "url": "https://p.migdal.pl/warsaw-vibe-voxel/",
+      "directUrl": "https://p.migdal.pl/warsaw-vibe-voxel/",
+      "githubRepo": null,
+      "tagline": "城市中心的交互式 3D 体素地图",
+      "description": "城市中心的交互式 3D 体素地图\n\n数据全是公开的——OpenStreetMap 的街道建筑、波兰测绘局的激光雷达高度和航拍颜色、华沙市的单棵树种数据库，连季节树叶都对得上；开源，桌面浏览器打开就能逛。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "readoutbench": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:44.604Z",
+    "product": {
+      "key": "readoutbench",
+      "name": "ReadoutBench",
+      "date": "2026-11-03",
+      "url": "https://readoutbench.com",
+      "directUrl": "https://readoutbench.com",
+      "githubRepo": null,
+      "tagline": "在 653 个临床试验读出前预测结果",
+      "description": "开放基准，含 653 个 Phase 2/3 公司试验（2026-07~2027-03 完成），参赛者在结果公布前预测「是否达标 / 效应量 / 是否出结果」，按 Brier proper scoring rule 评分（自信错比 hedged 代价更高），随结果到达在 14 个月内计分。两榜：Models（单模型，仅包内信息）与 Open（任意 harness/工具/网络）。强调「答案无法泄露」——未公布的试验没有答案键可泄。；可溯源、防数据泄漏的预测基准范式——与陈老师「定量宏观 / 可验证」强相关（量化预测 + 严格评分 + 来源公开）；非 FOF 但属量化研究方法样本。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "beaconsh": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:44.731Z",
+    "product": {
+      "key": "beaconsh",
+      "name": "beacon.sh",
+      "date": "2026-11-03",
+      "url": "https://beacon.sh",
+      "directUrl": "https://beacon.sh",
+      "githubRepo": null,
+      "tagline": "给 AI coding agent 的开源自改进记忆",
+      "description": "给 AI coding agent 的开源自改进记忆\n\n市面上的 agent 记忆大多是“全记下来”，它用 Jev 低成本筛出真正值得学的纠错和调试模式，再变成跨工具技能；开源、免费起步不用绑卡，团队刚拿了 550 万美元种子轮。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "pocketbuddy": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:45.197Z",
+    "product": {
+      "key": "pocketbuddy",
+      "name": "PocketBuddy",
+      "date": "2026-11-03",
+      "url": "https://pocketbuddy.org/",
+      "directUrl": "https://pocketbuddy.org/",
+      "githubRepo": null,
+      "tagline": "把银行、投资、预算、退休目标收进一个视图，再由 8 个分工不同的 AI 助手每天只给你一个“最值得先做的动作”。",
+      "description": "理财 App 不缺仪表盘，缺的是下一步——它把“今天先干哪一件、为什么”放在最前面；银行连接走 Plaid 只读权限、不存登录凭证、不碰转账，删号是硬删除；14 天免费试用，之后 $9.99/月。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "beebranch": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:45.704Z",
+    "product": {
+      "key": "beebranch",
+      "name": "BeeBranch",
+      "date": "2026-11-02",
+      "url": "https://github.com/GitLab/GitHub",
+      "directUrl": "https://github.com/GitLab/GitHub",
+      "githubRepo": "GitLab/GitHub",
+      "tagline": "✅ 落页",
+      "description": "✅ 落页\n\n- 本地优先的桌面 Git 客户端，Rust/Tauri 跨平台。与「本地优先」主线一致；开源可自托管。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "plutodoor": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:46.019Z",
+    "product": {
+      "key": "plutodoor",
+      "name": "Pluto Door",
+      "date": "2026-11-02",
+      "url": "https://github.com/SSH/Agent",
+      "directUrl": "https://github.com/SSH/Agent",
+      "githubRepo": "SSH/Agent",
+      "tagline": "带 AI agent 的 SSH 客户端 + 每服务器桌面",
+      "description": "带 AI agent 的 SSH 客户端 + 每服务器桌面",
+      "categoryType": "agent",
+      "deliveryForm": "github"
+    }
+  },
+  "clawsgoscience": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:46.479Z",
+    "product": {
+      "key": "clawsgoscience",
+      "name": "ClawsGO Science",
+      "date": "2026-11-02",
+      "url": "https://clawsgo.ai",
+      "directUrl": "https://clawsgo.ai",
+      "githubRepo": null,
+      "tagline": "自带云端实验室的 AI 研究 agent",
+      "description": "自带云端实验室的 AI 研究 agent\n\n把「一个问题」跑成「一篇带引用的论文」。云端常驻工作站预装 500+ 科研工具、90+ 参考数据集（GATK、GROMACS、Quantum ESPRESSO、QGIS 等），Claude 与 GPT agent 可并行跑数天、互相自检，最后交回编译好的 LaTeX 论文（含图、表、引用）。；- 卖点：长程研究 harness（一个任务从问题跟到成稿）、Cluster 模式（主 agent 拆分给最擅长的模型）、Self-review（交稿前对源与代码重读自纠）、全动作可回放（搜索/命令/文件编辑全程留痕）。演示：两个肠道菌群是否致抑郁 → 24 页论文、17 图、10 表、59 引用。Web/macOS/Win/iOS/Android，免费 1500 额度、无需卡。；直接对接陈老师「论文精读 / 研究自动化」——把「读文献→抽效应量→拟合模型→起草」整条流水线自动化且带溯源；但属早期 SaaS，结论仍需专家核验，定价未完全核实。与 Bowerbird/RenderPDF.js/CiteLLM 同属「AI 不瞎编、可溯源」链。\n\n不是只会查文献的聊天框——云端工作站预装了 500 多个科研工具和 90 多个数据集，Claude 和 GPT agent 能并行跑、互相验算，产出是带图表和 LaTeX 源码的可编译稿件；全程操作可回放复查，免费起步送 1500 credits、不用绑卡。",
+      "categoryType": "devtools",
+      "deliveryForm": "desktop"
+    }
+  },
+  "riversideagents": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:46.544Z",
+    "product": {
+      "key": "riversideagents",
+      "name": "Riverside Agents",
+      "date": "2026-11-02",
+      "url": "https://riverside.com",
+      "directUrl": "https://riverside.com",
+      "githubRepo": null,
+      "tagline": "视频 AI 四人组：produce/edit/clip/post",
+      "description": "视频 AI 四人组：produce/edit/clip/post\n\n- 四个专精 agent：Producer（备场：访谈问题/要点/场景/品牌）、Editor（把全长录音剪成成片、加 B-roll/动效/字幕）、Clipper（挑高光切短视频）、Marketer（写文案、做缩略图、排期发布）。agent 之间可交接任务，创作人始终掌审批权，未经批准不发任何东西；云端跑，手机可审。含在所有 Riverside 套餐，高级能力随档位。；「agent 从被动工具→主动接手流水线」的代表作（视频领域），与「反算法、创作者主权」可并存；对做视频/播客内容的陈老师有参考价值（公众号配套视频可用）。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "chainpoints": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:46.614Z",
+    "product": {
+      "key": "chainpoints",
+      "name": "ChainPoints",
+      "date": "2026-11-02",
+      "url": "https://chainpoints.app",
+      "directUrl": "https://chainpoints.app",
+      "githubRepo": null,
+      "tagline": "在 Google Flights 内用积分看机票价格",
+      "description": "在 Google Flights 内用积分看机票价格\n\n- 在 Google Flights 里照常搜，它即时显示「用你已有的信用卡/航司/酒店积分订这班最便宜的方式」：读你各卡真实余额、跑所有 transfer 路线、给出答案。作者自称 17 卡、50 万+积分，案例省 $17,000+。Pro 首月免费、无需卡。；个人财务/旅行省钱工具，把「死积分」变「真实票价」；与「金融平民化」主线同谱；非陈老师核心，但可作为生活/出差工具参考。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "agentmash": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:46.949Z",
+    "product": {
+      "key": "agentmash",
+      "name": "agentmash",
+      "date": "2026-11-02",
+      "url": "https://agentmash.dev",
+      "directUrl": "https://agentmash.dev",
+      "githubRepo": null,
+      "tagline": "团队 coding agent 的开源多人 AI",
+      "description": "团队 coding agent 的开源多人 AI\n\n- 给团队的多个 coding agent 加一层共享上下文：告诉每个 agent「队友的 agent 正在改哪些文件」，agent 之间像 Slack 一样 `@` 提及、互不覆盖代码；可接 Claude Code / Codex / Antigravity / 自托管模型，技能/对话/自动化跨 agent 同步。；多 agent 协作的「上下文协调层」，与陈老师「同时跑多个 coding agent」的工作流共振；开源、可自托管，偏基础设施。\n\n它按名字追踪谁在改哪个共享类型或函数，对方 agent 动笔前就能收到“有人正在改这个”的提醒；还能 @ 队友的 agent 提问、对方批准后才跑；接 Claude Code、Codex、Cursor，2 人以内免费。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "hamdori": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:47.068Z",
+    "product": {
+      "key": "hamdori",
+      "name": "Hamdori",
+      "date": "2026-11-02",
+      "url": "https://www.producthunt.com/products/hamdori",
+      "directUrl": "https://www.producthunt.com/products/hamdori",
+      "githubRepo": null,
+      "tagline": "住在桌面角落的一只 3D 金仓鼠：你打字它就啃瓜子，你走开它就钻进垫料睡觉，鼠标一动又醒过来。",
+      "description": "—\n\n小而克制——能摸头、带 25 分钟专注计时（休息时它会把腮帮子清空）、有个小抽屉放文件；不索要无障碍、录屏等监控权限，Mac 上只计按键次数、不记按了什么；11 月底前 $3.99 一次买断，之后 $4.99。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "outcrop": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:47.080Z",
+    "product": {
+      "key": "outcrop",
+      "name": "Outcrop",
+      "date": "2026-11-02",
+      "url": "https://outcrop.rocks",
+      "directUrl": "https://outcrop.rocks",
+      "githubRepo": null,
+      "tagline": "镜头对准地貌学地质",
+      "description": "- 拍照识别地质/岩石、讲解地貌。教育向的「相机即知识」工具；周末气质，非核心。\n\nAR 地质图直接叠在实景上，还能点开看脚下岩层从地表往下 1.9 亿年的柱状图、以及这块石头形成时大陆在地球上的位置；数据来自 Macrostrat 等公开地质图，iPhone 和 Android 免费，提前下载区域后离线也能用。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "magpie": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:47.474Z",
+    "product": {
+      "key": "magpie",
+      "name": "magpie",
+      "date": "2026-11-02",
+      "url": "https://www.producthunt.com/products/magpie-14",
+      "directUrl": "https://www.producthunt.com/products/magpie-14",
+      "githubRepo": null,
+      "tagline": "把你在 Instagram、X、TikTok、Pinterest、YouTube、Reddit 上随手存的东西收进一个可视化图书馆。",
+      "description": "—\n\n痛点很实在——存了一堆灵感，找的时候永远找不到；它用 AI 按画面内容和颜色打标签，能按“暖光下安静的产品图”这种意思去搜，原帖删了东西还在；500 条收藏内免费。",
+      "categoryType": "productivity",
+      "deliveryForm": "web"
+    }
+  },
+  "whenforus": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:47.918Z",
+    "product": {
+      "key": "whenforus",
+      "name": "whenfor.us",
+      "date": "2026-11-02",
+      "url": "https://whenfor.us",
+      "directUrl": "https://whenfor.us",
+      "githubRepo": null,
+      "tagline": "给群聊找共同空闲时间的极简工具：建个链接发群里，每人拖一拖自己哪天空，热力图直接告诉你哪个时间最合适。",
+      "description": "全程零注册——组织者和参与者都不用账号、不用装 App；每人看到的都是自己时区的时间，不用换算；不像投票只能三选一，它是真按每个人的空闲取交集；免费无广告，活动 90 天后自动删除。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "fluent2": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:47.921Z",
+    "product": {
+      "key": "fluent2",
+      "name": "Fluent 2",
+      "date": "2026-11-02",
+      "url": "https://fluentmac.app",
+      "directUrl": "https://fluentmac.app",
+      "githubRepo": null,
+      "tagline": "在你 Mac 本地运行的 AI 队友",
+      "description": "在你 Mac 本地运行的 AI 队友\n\n- macOS 本地 AI 助手：⌥Space 全局面板、500+ 模型、支持 MCP。与「本地优先/隐私」主线一致；不上云、数据留本机。",
+      "categoryType": "agent",
+      "deliveryForm": "desktop"
+    }
+  },
+  "copper": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:48.063Z",
+    "product": {
+      "key": "copper",
+      "name": "Copper",
+      "date": "2026-11-02",
+      "url": "https://tibleiz.net",
+      "directUrl": "https://tibleiz.net",
+      "githubRepo": null,
+      "tagline": "带 OOP 与泛型的极简底层语言",
+      "description": "- 类 C 的底层/系统语言，却内置 OOP 与泛型——在「贴近硬件」与「表达力」之间取折中。极客/系统向，早期；对系统编程爱好者有看头。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "radiaverse": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:48.459Z",
+    "product": {
+      "key": "radiaverse",
+      "name": "Radiaverse",
+      "date": "2026-11-02",
+      "url": "https://radiaverse.com",
+      "directUrl": "https://radiaverse.com",
+      "githubRepo": null,
+      "tagline": "全球辐射众包地图",
+      "description": "- 全球辐射剂量众包地图，4600 万+测量点。科普/数据可视化样本；非产品，偏公益数据。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "bootgpt": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:48.742Z",
+    "product": {
+      "key": "bootgpt",
+      "name": "bootgpt",
+      "date": "2026-11-01",
+      "url": "https://github.com/kerlenton/bootgpt",
+      "directUrl": "https://github.com/kerlenton/bootgpt",
+      "githubRepo": "kerlenton/bootgpt",
+      "tagline": "把语言模型装进 boot sector，开机即对话",
+      "description": "把语言模型装进 boot sector，开机即对话\n\n- 把一个小语言模型塞进 boot sector，开机即对话（类似「模型即运行时」的硬核延续，呼应前几日的 nesformer/doomformer 范式）。；极客玩票但工程惊艳——把「模型即模拟器/运行时」推到「开机即模型」；非产品，爱好价值高。；- 页面标题「Contra — NES Native Port (WebAssembly)」；浏览器内运行，支持本机单人/双人 + 在线双人（分享邀请链接、双方各自用相同键位）；键位清晰（←↑→↓ 移动、A/Space 跳、S 射击、Enter 开始、Shift 选择）。；演示页未声明 ASM→C→WASM 的具体工具链与许可证（HN 标题称 ASM→C→WASM，页面仅自称「native port + WASM」）。可玩性已确认，许可证/实现路径待作者补充。；复古游戏 WebAssembly 化的趣味样本；联机机制完整，周末娱乐向。\n\n510 字节手写汇编是全部运行时，11.5KB 的 int8 模型存在后面 23 个扇区里，在 16 位实模式的 386 上跑；模型只学了一件事——编造带时间戳、PCI、ACPI 的 dmesg，Python 仿真和真实扇区输出逐字一致；MIT 开源，QEMU 里就能跑。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "mach": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:48.856Z",
+    "product": {
+      "key": "mach",
+      "name": "Mach",
+      "date": "2026-11-02",
+      "url": "https://ASP.NET",
+      "directUrl": "https://ASP.NET",
+      "githubRepo": null,
+      "tagline": "受 ASP.NET Core 启发的现代 C++20 Web 框架",
+      "description": "受 ASP.NET Core 启发的现代 C++20 Web 框架",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "maclet": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:48.905Z",
+    "product": {
+      "key": "maclet",
+      "name": "Maclet",
+      "date": "2026-11-01",
+      "url": "https://github.com/sumant1122/maclet",
+      "directUrl": "https://github.com/sumant1122/maclet",
+      "githubRepo": "sumant1122/maclet",
+      "tagline": "Rust 从零写的原生 macOS 容器运行时（Apple Virtualization + namespace + cgroups + OverlayFS）",
+      "description": "Rust 从零写的原生 macOS 容器运行时（Apple Virtualization + namespace + cgroups + OverlayFS）\n\n- 用 Apple Virtualization Framework + Linux namespaces + cgroups v2 + OverlayFS，原生 macOS 容器运行时，Rust 实现，无 Docker 依赖。；macOS 上「轻量容器」的本地优先实现，与「本地优先/自托管」兴趣共振；新建即 7★，早期但方向明确；对不想装 Docker Desktop 的 Mac 开发者有用。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "ghostman": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:49.299Z",
+    "product": {
+      "key": "ghostman",
+      "name": "Ghostman",
+      "date": "2026-11-01",
+      "url": "https://github.com/4yk5/Ghostman",
+      "directUrl": "https://github.com/4yk5/Ghostman",
+      "githubRepo": "4yk5/Ghostman",
+      "tagline": "键盘驱动的本地 TUI API 客户端 + Webhook  inspector",
+      "description": "TUI 里发请求、看响应、inspect webhook；Python 写。；与「本地优先/隐私」主线一致；轻量 API 调试器，MIT、星数已起（56★），适合不喜欢 GUI 重量级客户端的开发者。\n\nPython + Textual 写成，号称只占约 30MB 内存、150 毫秒冷启动；请求集合就是磁盘上的 YAML 文件，可以直接提交进 Git；按 Ctrl+W 就在本机 9090 端口起一个 webhook 接收器，不用再搭 ngrok 看 Stripe、GitHub 的回调；MIT 开源，已上 PyPI。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "aruma": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:49.597Z",
+    "product": {
+      "key": "aruma",
+      "name": "Aruma",
+      "date": "2026-11-01",
+      "url": "https://github.com/arumadev/aruma",
+      "directUrl": "https://github.com/arumadev/aruma",
+      "githubRepo": "arumadev/aruma",
+      "tagline": "自托管、兼容官方 Firebase SDK 的后端（一个 Go 二进制 + PostgreSQL）",
+      "description": "自托管、兼容官方 Firebase SDK 的后端（一个 Go 二进制 + PostgreSQL）\n\n- 一个 Go 二进制 + PostgreSQL 即提供与官方 Firebase SDK 兼容的后端（auth/db 等）；clean-room 实现，Apache-2.0。；Firebase 的自托管开源替代（反锁定/数据主权），与「本地优先/不把数据交中心化公司」偏好一致；早期（7★），适合想保留 Firebase 开发体验又不绑 Firebase 的团队/个人。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "openseo": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:50.178Z",
+    "product": {
+      "key": "openseo",
+      "name": "OpenSEO",
+      "date": "2026-11-01",
+      "url": "https://github.com/Ahrefs/SEMrush",
+      "directUrl": "https://github.com/Ahrefs/SEMrush",
+      "githubRepo": "Ahrefs/SEMrush",
+      "tagline": "自托管 Ahrefs/SEMrush 开源替代",
+      "description": "- MIT 开源、一条 Docker 命令自托管、无订阅，按次付费、数据留自己基础设施；17 工具（6 关键词+8 网站/反链+3 AI/本地），站点审计 117 项技术检查（最多 500 页），本地排名网格 3×3~7×7；追踪 ChatGPT/Gemini/Claude/Perplexity 是否引用你的站（120+ 模型）。；SEO 工具链自托管化 + 把「AI 引用可见性（GEO）」纳入——对陈老师运营公众号「被 AI 搜索/引用」的内容分发有直接价值；MIT+Docker 一键、私有性友好；与既往 TadaSEO/Visiby 等同谱但更偏自托管。",
+      "categoryType": "vertical",
+      "deliveryForm": "github"
+    }
+  },
+  "redox环形缓冲区": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:50.179Z",
+    "product": {
+      "key": "redox环形缓冲区",
+      "name": "Redox 环形缓冲区",
+      "date": "2026-11-01",
+      "url": "https://redox-os.org",
+      "directUrl": "https://redox-os.org",
+      "githubRepo": "I/O",
+      "tagline": "微内核异步 I/O 基础设施",
+      "description": "- 受 io_uring 启发实现 Redox Rings：与应用/ scheme（用户态守护进程）间用共享内存环形缓冲做异步 I/O，零内存拷贝；`redox-rings` crate + relibc 里类 liburing 的 API（SQ/CQ/共享缓冲池）；配驱动异步执行器、IPC 优化（直接上下文切换省 15–20% 延迟、巨页、XSAVE 优化），redox_ring 比同步 syscall I/O 快 14–15×，IPC 往返从 ~5800 降到 ~2700 cycles。；微内核系统架构的扎实进展；对「高性能/安全 OS」方向有长期参考价值；NLnet 资助、工程完整。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "marelleo": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:50.422Z",
+    "product": {
+      "key": "marelleo",
+      "name": "Marelleo",
+      "date": "2026-11-01",
+      "url": "https://github.com/Zebra-Rodeo/marelleo",
+      "directUrl": "https://github.com/Zebra-Rodeo/marelleo",
+      "githubRepo": "Zebra-Rodeo/marelleo",
+      "tagline": "开源的儿童故事盒：把贴了 NFC 标签的小人偶往盒子上一放，故事就开始播。",
+      "description": "法国爸爸为三个孩子从零学电子做出来的：ESP32-S3 + NFC 读头 + 扬声器的 3D 打印小方块，故事存在 microSD 卡里，家长自己传文件，没有商店、没有订阅、不用装 App；固件、电路板、外壳文件全开源，面包板版甚至不用焊一个点就能先搭起来。",
+      "categoryType": "models",
+      "deliveryForm": "github"
+    }
+  },
+  "usb": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:50.460Z",
+    "product": {
+      "key": "usb",
+      "name": "USB",
+      "date": "2026-11-01",
+      "url": "https://github.com/Koppar-AI/koppar-lte-modem",
+      "directUrl": "https://github.com/Koppar-AI/koppar-lte-modem",
+      "githubRepo": "Koppar-AI/koppar-lte-modem",
+      "tagline": "C LTE modem / Koppar（Show HN，35 赞）— 给电脑装一条电话线",
+      "description": "USB-C 上跑 LTE 数据、SMS、通话音频也走 USB；由 Koppar 按一页规格设计。硬件开源（CERN-OHL-P-2.0）。；「给笔记本/单板机一个真实蜂窝身份」的极客硬件；对「断网/移动场景要真·蜂窝连接」有用；开源硬件+新建即获 21★，社区兴趣明确。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "citellm": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:50.736Z",
+    "product": {
+      "key": "citellm",
+      "name": "CiteLLM",
+      "date": "2026-11-01",
+      "url": "https://citellm.com",
+      "directUrl": "https://citellm.com",
+      "githubRepo": null,
+      "tagline": "让 AI 答案逐句链回 PDF 原文高亮",
+      "description": "让 AI 答案逐句链回 PDF 原文高亮\n\n- 三件套：Check（在 ChatGPT/Claude 插件或独立 Web app 里核对声明，每条答案/抽取值链回 PDF 精确段落高亮）、Ask（跨文档集搜索得带段落级引用的答案）、Extract（按自定义 schema 从文档抽字段，每个值带来源）。；- 设计：人在回路——高亮只说明「答案从哪来」而非「答案对」；可导出高亮 PDF 或带签核的证据报告。安全：不拿你的文档训练、默认处理后即删、可 Docker 自托管。用例覆盖金融（契约合规/信贷协议）、法律、保险、地产、审计。；直击陈老师「论文/财报 PDF 核验、让 AI 不瞎编」的痛点——给 AI 答案附可点击的原文证据，比单纯摘要可靠；ChatGPT/Claude 插件 + 可自托管，私有性友好；早期 SaaS，未核实定价。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "codeconnect": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:51.076Z",
+    "product": {
+      "key": "codeconnect",
+      "name": "CodeConnect",
+      "date": "2026-11-01",
+      "url": "https://codeconnect.sh",
+      "directUrl": "https://codeconnect.sh",
+      "githubRepo": null,
+      "tagline": "iPhone 上看/批 Mac/Linux 上的 Claude Code & Codex，Tailscale 端到端、免费",
+      "description": "iPhone 上看/批 Mac/Linux 上的 Claude Code & Codex，Tailscale 端到端、免费\n\n把 Mac/Linux 上的 Claude Code & Codex 聚到口袋屏，等待你批的会话优先排；完整命令透明审批（危险操作如 `git push --force` 需长按+Face ID），可语音/文字回话、看 diff、实时接管终端。；- 架构：默认走 Tailscale（你自己的 tailnet，WireGuard 端到端），无服务器中转、无 CodeConnect 账户；守护进程只监听 Tailscale 地址+loopback；启动 agent 仅需 `codeconnect claude`/`codeconnect codex`。安装 `curl -fsSL https://codeconnect.sh | sh`（安装器 v1.7.4，macOS 13+/Linux x86_64·aarch64）。；与 `Muster`（Mac 菜单栏管多 agent）同谱但移到手机+端到端加密+零账户；对「同时跑多个 coding agent、又不想把审批流交第三方」的用户直接有用；免费 iPhone 端、工程细节透明。",
+      "categoryType": "agent",
+      "deliveryForm": "desktop"
+    }
+  },
+  "othismo": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:51.104Z",
+    "product": {
+      "key": "othismo",
+      "name": "Othismo",
+      "date": "2026-11-01",
+      "url": "https://othismo.com",
+      "directUrl": "https://othismo.com",
+      "githubRepo": null,
+      "tagline": "「沙箱对象运行时」：每个对象只看命名空间里挂载的东西（Plan 9 式能力）",
+      "description": "「沙箱对象运行时」：每个对象只看命名空间里挂载的东西（Plan 9 式能力）\n\n- 概念：「对象只看得见命名空间里挂载的东西」——每个实例有自己的视图（mount 点），路径即能力（capability），名字不在视图里就 simply not found；只读挂载一路向下只放行安全动词。用 Rust/Node/Task 自托管运行示例。；把「capability/最小权限」做成 Plan 9 式命名空间模型，与「最小权限/本地优先」主线一致；偏底层运行时，对构建可信 agent/插件沙箱有借鉴；早期、文档即示例。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "winch": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:51.400Z",
+    "product": {
+      "key": "winch",
+      "name": "Winch",
+      "date": "2026-11-01",
+      "url": "https://getwinch.app",
+      "directUrl": "https://getwinch.app",
+      "githubRepo": null,
+      "tagline": "让你的 coding agent 跑 ASO（175 国关键词、多语言商店页、商店图），84 个 MCP 工具",
+      "description": "让你的 coding agent 跑 ASO（175 国关键词、多语言商店页、商店图），84 个 MCP 工具\n\n- 跨 175 国在 App Store/Google Play 追关键词、多语言重写商店页、画商店图；问 agent 一句自然语言、看它驱动 Winch（Act 模式光标自动点按）；暴露 84 个 MCP 工具给 Claude Code/Codex/Cursor（含 5 个写商店的操作会先问你）。macOS 13+；免费试用一天、无需 key/卡。；「agent 接管增长/运营」的代表——把 ASO 这种重复繁琐工作交给自有 coding agent，且以 MCP 形式嵌入既有工作流；对做 App 的开发者有用；早期 SaaS。",
+      "categoryType": "agent",
+      "deliveryForm": "desktop"
+    }
+  },
+  "subfaro": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:51.590Z",
+    "product": {
+      "key": "subfaro",
+      "name": "Subfaro",
+      "date": "2026-11-01",
+      "url": "https://subfaro.com",
+      "directUrl": "https://subfaro.com",
+      "githubRepo": null,
+      "tagline": "追踪订阅与涨价、不连银行卡，可接 Claude(MCP)",
+      "description": "追踪订阅与涨价、不连银行卡，可接 Claude(MCP)\n\n- 选服务与套餐即自动填价、每周核价、涨价自更新并告警；免费试用结束/每次续费前提醒；标重叠订阅、年付省多少、只算家庭/合租中你那份；可接 Claude（MCP，只读或读写、可撤销）加订阅、可接 WhatsApp 提醒、Chrome 扩展一键加；无银行/卡登录，数据留用户。；个人财务轻工具，与「最小权限（连 AI 也分只读/读写、可撤销）/本地优先」一致；对管理多个订阅（含 AI 工具订阅）实用。",
+      "categoryType": "agent",
+      "deliveryForm": "desktop"
+    }
+  },
+  "cursedcam": {
+    "attempts": 1,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T15:33:51.700Z",
+    "product": {
+      "key": "cursedcam",
+      "name": "Cursed Cam",
+      "date": "2026-11-01",
+      "url": "https://cursedcam.com/demo",
+      "directUrl": "https://cursedcam.com/demo",
+      "githubRepo": null,
+      "tagline": "用你家照片做成的「鬼片 CCTV 监控」",
+      "description": "用你家照片做成的「鬼片 CCTV 监控」\n\n- 演示页是「闹鬼 CCTV 监控墙」：CAM01 LIFT B、CAM02 GYM… 各路监控带 AC/电量/低电量标签、磁带噪点、音轨开关——氛围拉满的万圣节趣味项目。；纯玩票/氛围项目，工程趣味强；非产品。",
+      "categoryType": "devtools",
       "deliveryForm": "web"
     }
   }
