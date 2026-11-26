@@ -10,9 +10,9 @@ const outputDir = resolve(outputArg);
 
 const entryFiles = {
   'index.html': ['styles.css', 'app.js'],
-  'app.js': ['trial-desk.js']
+  'app.js': ['trial-desk.js', 'markdown.js']
 };
-const uiFiles = ['index.html', 'app.js', 'trial-desk.js', 'styles.css'];
+const uiFiles = ['index.html', 'app.js', 'trial-desk.js', 'markdown.js', 'styles.css'];
 const hash = createHash('sha256');
 for (const file of uiFiles) {
   hash.update(file).update('\0').update(readFileSync(join(publicDir, file)));

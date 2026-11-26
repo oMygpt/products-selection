@@ -1,13 +1,32 @@
 import { selectTrials } from './trial-desk.js';
+import { renderMarkdown, escapeHtml } from './markdown.js';
 
 const GH_TOKEN_STORAGE_KEY = 'dpb_gh_token';
 const USER_STATE_STORAGE_KEY = 'dpb_user_state';
 const TRIAL_STORAGE_KEY = 'dpb_trial_choice';
 
+// Migrate/clear any legacy token previously stored in localStorage
+try { localStorage.removeItem(GH_TOKEN_STORAGE_KEY); } catch {}
+
+const STATUS_LABELS = {
+  want: '想试',
+  trying: '在试',
+  tried: '已试过',
+  stack: '已收藏',
+  dropped: '弃用'
+};
+
+const HEALTH_LABELS = {
+  active: { label: '活跃维护', cls: 'stamp-health-active' },
+  slowing: { label: '更新放缓', cls: 'stamp-health-slowing' },
+  stale: { label: '长期未更新', cls: 'stamp-health-stale' },
+  archived: { label: '已归档停更', cls: 'stamp-health-stale' }
+};
+
 const state = {
   isLocalServer: false,
   localCapabilities: { isLocalServer: false, isMac: false },
-  ghToken: localStorage.getItem(GH_TOKEN_STORAGE_KEY) || '',
+  ghToken: sessionStorage.getItem(GH_TOKEN_STORAGE_KEY) || '',
   ghUser: null,
   ghScopes: '',
   page: 'today',
@@ -19,9 +38,13 @@ const state = {
   currentDate: null,
   currentDayData: null,
   staticAllCache: null,
+  weeklyCache: null,
+  productDetailCache: {},
   scope: 'daily', // 'daily' | 'all'
   selectedType: 'all',
   selectedForm: 'all',
+  selectedScenario: 'all',
+  sortBy: 'default',
   selectedStatus: null, // null | 'stack' | 'tried'
   viewMode: localStorage.getItem('dpb_view_mode') || 'gallery',
   searchQuery: '',
@@ -48,8 +71,17 @@ const todayTitleEl = document.getElementById('todayTitle');
 const todayDateEl = document.getElementById('todayDate');
 const todayStatusEl = document.getElementById('todayStatus');
 const todayContentEl = document.getElementById('todayContent');
+const weeklyViewEl = document.getElementById('weeklyView');
+const weeklyContentEl = document.getElementById('weeklyContent');
 const recordsViewEl = document.getElementById('recordsView');
 const recordsContentEl = document.getElementById('recordsContent');
+const exportRecordsMdBtn = document.getElementById('exportRecordsMdBtn');
+const exportRecordsJsonBtn = document.getElementById('exportRecordsJsonBtn');
+const sortSelectEl = document.getElementById('sortSelect');
+const scenarioFilterBarEl = document.getElementById('scenarioFilterBar');
+const wbShareBtn = document.getElementById('wbShareBtn');
+const wbStatusSelectEl = document.getElementById('wbStatusSelect');
+const wbRatingSelectEl = document.getElementById('wbRatingSelect');
 const workspaceEl = document.getElementById('workspace');
 const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
 const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
@@ -146,14 +178,6 @@ function showToast(msg) {
   showToast._timer = setTimeout(() => t.classList.add('hidden'), 2400);
 }
 
-function escapeHtml(str = '') {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
 function extractDomain(urlStr = '') {
   try {
     const u = new URL(urlStr);
@@ -181,13 +205,24 @@ function extractQuickCommandsFromMd(readmeText, safeRepo = '') {
   const cmdMatches = [];
   const codeBlocks = [...readmeText.matchAll(/```(?:bash|sh|zsh|shell|console|cmd)?\r?\n([\s\S]*?)```/gi)];
   for (const block of codeBlocks) {
-    const lines = block[1]
-      .split(/\r?\n/)
-      .map(l => l.trim().replace(/^\$\s+/, ''))
-      .filter(l =>
-        /^(npx |npm (i|install|exec|create)|pnpm |bunx |bun |uvx |uv |pip3? install|pipx |brew install|cargo install|go install|docker (run|compose)|curl .*\|.*sh|git clone |claude |codex )/i.test(l)
-      );
-    for (let l of lines) {
+    const rawLines = block[1].split(/\r?\n/);
+    const logical = [];
+    let current = '';
+    for (const rawLine of rawLines) {
+      const trimmed = rawLine.trim();
+      if (!trimmed || trimmed.startsWith('#')) {
+        if (current) { logical.push(current.trim()); current = ''; }
+        continue;
+      }
+      const cleaned = current ? trimmed : trimmed.replace(/^\$\s+/, '');
+      current = current ? `${current} ${cleaned}` : cleaned;
+      if (current.endsWith('\\')) current = current.slice(0, -1).trim();
+      else { logical.push(current.trim()); current = ''; }
+    }
+    if (current) logical.push(current.replace(/\\$/, '').trim());
+
+    for (let l of logical) {
+      if (!/^(npx |npm (i|install|exec|create)|pnpm |bunx |bun |uvx |uv |pip3? install|pipx |brew install|cargo install|go install|docker (run|compose)|curl .*\|.*sh|git clone |claude |codex )/i.test(l)) continue;
       if (safeRepo && /<repository[-_]url>|<repo[-_]url>/i.test(l)) {
         l = l.replace(/<repository[-_]url>|<repo[-_]url>/gi, `https://github.com/${safeRepo}.git`);
       }
@@ -222,7 +257,7 @@ async function verifyAndSetGhToken(token, silent = false) {
     state.ghToken = '';
     state.ghUser = null;
     state.ghScopes = '';
-    localStorage.removeItem(GH_TOKEN_STORAGE_KEY);
+    sessionStorage.removeItem(GH_TOKEN_STORAGE_KEY);
     updateGhKeyUi();
     return false;
   }
@@ -237,10 +272,10 @@ async function verifyAndSetGhToken(token, silent = false) {
     const user = await res.json();
     state.ghUser = user;
     state.ghScopes = res.headers.get('x-oauth-scopes') || '';
-    localStorage.setItem(GH_TOKEN_STORAGE_KEY, clean);
+    sessionStorage.setItem(GH_TOKEN_STORAGE_KEY, clean);
     updateGhKeyUi();
     if (!silent) {
-      showToast(`已连接 GitHub 账号 @${user.login}`);
+      showToast(`已连接 GitHub 账号 @${user.login}（仅当前标签页有效）`);
     }
     return true;
   } catch (e) {
@@ -250,7 +285,7 @@ async function verifyAndSetGhToken(token, silent = false) {
     }
     state.ghToken = '';
     state.ghUser = null;
-    localStorage.removeItem(GH_TOKEN_STORAGE_KEY);
+    sessionStorage.removeItem(GH_TOKEN_STORAGE_KEY);
     updateGhKeyUi();
     return false;
   }
@@ -342,165 +377,7 @@ async function performCodespaceAction(action, csName, onAfter) {
 // ─────────────────────────────────────────────────────────────
 // CLEAN MARKDOWN RENDERER FOR GITHUB README
 // ─────────────────────────────────────────────────────────────
-function resolveAssetUrl(src, rawBaseUrl, repoSlug, defaultBranch = 'main') {
-  if (!src) return '';
-  const trimmed = src.trim();
-  if (/^(https?:|data:|#)/i.test(trimmed)) {
-    const blobImg = trimmed.match(/^https?:\/\/github\.com\/([^/]+\/[^/]+)\/blob\/([^/]+)\/(.+)$/i);
-    if (blobImg && /\.(png|jpe?g|gif|svg|webp|bmp|ico)(\?.*)?$/i.test(blobImg[3])) {
-      return `https://raw.githubusercontent.com/${blobImg[1]}/${blobImg[2]}/${blobImg[3]}`;
-    }
-    return trimmed;
-  }
-  const cleanRel = trimmed.replace(/^\.\//, '').replace(/^\//, '');
-  if (rawBaseUrl) return `${rawBaseUrl}${cleanRel}`;
-  if (repoSlug) return `https://raw.githubusercontent.com/${repoSlug}/${defaultBranch}/${cleanRel}`;
-  return trimmed;
-}
-
-function resolveLinkUrl(href, repoSlug, defaultBranch = 'main') {
-  if (!href) return '#';
-  const trimmed = href.trim();
-  if (/^(https?:|mailto:|#)/i.test(trimmed)) return trimmed;
-  if (repoSlug) {
-    const cleanRel = trimmed.replace(/^\.\//, '').replace(/^\//, '');
-    return `https://github.com/${repoSlug}/blob/${defaultBranch}/${cleanRel}`;
-  }
-  return trimmed;
-}
-
-function renderMarkdown(mdText, rawBaseUrl = '', repoSlug = '', defaultBranch = 'main') {
-  if (!mdText) return '';
-  let text = mdText.replace(/\r\n/g, '\n');
-
-  const codeBlocks = [];
-  text = text.replace(/```([A-Za-z0-9_+-]*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    const idx = codeBlocks.length;
-    const cleanCode = code.replace(/\n$/, '');
-    const encoded = encodeURIComponent(cleanCode);
-    codeBlocks.push(
-      `<div class="md-code-block"><div class="md-code-bar"><span>${escapeHtml(lang || 'text')}</span><button class="copy-mini-btn" data-copy-enc="${encoded}">复制代码</button></div><pre><code>${escapeHtml(cleanCode)}</code></pre></div>`
-    );
-    return `\n\n@@CODEBLOCK_${idx}@@\n\n`;
-  });
-
-  const inlineCodes = [];
-  text = text.replace(/`([^`\n]+)`/g, (_, code) => {
-    const idx = inlineCodes.length;
-    inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
-    return `@@INLINECODE_${idx}@@`;
-  });
-
-  text = text
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
-    .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
-
-  text = text.replace(/<img\b([^>]*?)src=["']([^"']+)["']([^>]*?)>/gi, (_, before, src, after) => {
-    const abs = resolveAssetUrl(src, rawBaseUrl, repoSlug, defaultBranch);
-    return `<img${before}src="${escapeHtml(abs)}" loading="lazy"${after}>`;
-  });
-
-  const htmlBlocks = [];
-  text = text.replace(/<(div|p|table|details|picture|figure)\b[\s\S]*?<\/\1>/gi, (match) => {
-    const idx = htmlBlocks.length;
-    htmlBlocks.push(match);
-    return `\n\n@@HTMLBLOCK_${idx}@@\n\n`;
-  });
-
-  function formatInline(str) {
-    let s = str.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, alt, src) => {
-      const abs = resolveAssetUrl(src, rawBaseUrl, repoSlug, defaultBranch);
-      return `<img src="${escapeHtml(abs)}" alt="${escapeHtml(alt)}" loading="lazy" />`;
-    });
-    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, label, href) => {
-      const abs = resolveLinkUrl(href, repoSlug, defaultBranch);
-      return `<a href="${escapeHtml(abs)}" target="_blank" rel="noopener">${label}</a>`;
-    });
-    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-    s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
-    s = s.replace(/~~([^~]+)~~/g, '<del>$1</del>');
-    return s;
-  }
-
-  const lines = text.split('\n');
-  const out = [];
-  let i = 0;
-
-  while (i < lines.length) {
-    const trimmed = lines[i].trim();
-    if (!trimmed) { i++; continue; }
-
-    if (/^@@CODEBLOCK_(\d+)@@$/.test(trimmed)) {
-      out.push(codeBlocks[parseInt(trimmed.match(/\d+/)[0], 10)]);
-      i++; continue;
-    }
-    if (/^@@HTMLBLOCK_(\d+)@@$/.test(trimmed)) {
-      out.push(htmlBlocks[parseInt(trimmed.match(/\d+/)[0], 10)]);
-      i++; continue;
-    }
-    if (/^([-*_])\1{2,}$/.test(trimmed)) {
-      out.push('<hr />');
-      i++; continue;
-    }
-
-    const hMatch = trimmed.match(/^(#{1,6})\s+(.+?)\s*#*$/);
-    if (hMatch) {
-      out.push(`<h${hMatch[1].length}>${formatInline(hMatch[2])}</h${hMatch[1].length}>`);
-      i++; continue;
-    }
-
-    if (trimmed.includes('|') && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|[\s:|-]*$/.test(lines[i + 1])) {
-      const parseRow = (rowStr) => rowStr.replace(/^\||\|$/g, '').split('|').map(c => formatInline(c.trim()));
-      const headers = parseRow(trimmed);
-      i += 2;
-      const rows = [];
-      while (i < lines.length && lines[i].trim().includes('|') && !lines[i].trim().startsWith('@@')) {
-        rows.push(parseRow(lines[i].trim()));
-        i++;
-      }
-      out.push(`<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
-      continue;
-    }
-
-    if (trimmed.startsWith('>')) {
-      const bqLines = [];
-      while (i < lines.length && lines[i].trim().startsWith('>')) {
-        bqLines.push(lines[i].trim().replace(/^>\s?/, ''));
-        i++;
-      }
-      out.push(`<blockquote>${bqLines.map(l => formatInline(l)).join('<br />')}</blockquote>`);
-      continue;
-    }
-
-    if (/^([-*+]|\d+\.)\s+/.test(trimmed)) {
-      const tag = /^\d+\.\s+/.test(trimmed) ? 'ol' : 'ul';
-      const liItems = [];
-      while (i < lines.length && /^\s*([-*+]|\d+\.)\s+/.test(lines[i])) {
-        liItems.push(`<li>${formatInline(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, ''))}</li>`);
-        i++;
-      }
-      out.push(`<${tag}>${liItems.join('')}</${tag}>`);
-      continue;
-    }
-
-    const pLines = [];
-    while (
-      i < lines.length &&
-      lines[i].trim() &&
-      !/^(#{1,6}\s|>\s?|[-*+]\s|\d+\.\s|@@CODEBLOCK_|@@HTMLBLOCK_|([-*_])\1{2,}$)/.test(lines[i].trim()) &&
-      !(lines[i].includes('|') && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|[\s:|-]*$/.test(lines[i + 1]))
-    ) {
-      pLines.push(lines[i].trim());
-      i++;
-    }
-    if (pLines.length > 0) out.push(`<p>${formatInline(pLines.join(' '))}</p>`);
-  }
-
-  return out.join('\n').replace(/@@INLINECODE_(\d+)@@/g, (_, idx) => inlineCodes[parseInt(idx, 10)] || '');
-}
+// Markdown rendering & DOM allowlist sanitization live in ./markdown.js
 
 // ─────────────────────────────────────────────────────────────
 // TWEAKS & VIEW MODE
@@ -536,20 +413,101 @@ function updateStatusBadges() {
   triedCountBadgeEl.textContent = items.filter(i => i.status === 'tried' || i.status === 'stack').length;
 }
 
-function setPage(page) {
-  if (state.page === page) return;
-  closeWorkbench();
+function setPage(page, { skipHash = false } = {}) {
+  if (state.page === page && !skipHash) return;
+  closeWorkbench({ keepHash: skipHash });
   tweaksPanelEl.classList.add('hidden');
   state.page = page;
   appShellEl.dataset.page = page;
   todayViewEl.classList.toggle('hidden', page !== 'today');
+  weeklyViewEl?.classList.toggle('hidden', page !== 'weekly');
   recordsViewEl.classList.toggle('hidden', page !== 'records');
   document.querySelectorAll('.site-nav [data-page-link]').forEach(button => {
     if (button.dataset.pageLink === page) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
   });
   document.getElementById('mainStage').scrollTop = 0;
+  if (!skipHash) {
+    const targetHash = page === 'today' ? '#/today' : `#/${page}`;
+    if (location.hash !== targetHash) history.replaceState(null, '', targetHash);
+  }
   if (page === 'records') renderRecords();
+  if (page === 'weekly') renderWeekly();
+}
+
+async function renderWeekly() {
+  if (!weeklyContentEl) return;
+  if (!state.weeklyCache) {
+    try {
+      const res = await fetch('./data/weekly.json');
+      if (res.ok) state.weeklyCache = await res.json();
+    } catch {}
+  }
+  const weeks = state.weeklyCache?.weeks || [];
+  if (weeks.length === 0) {
+    weeklyContentEl.innerHTML = '<div class="desk-empty"><h2>暂无每周精选数据</h2></div>';
+    return;
+  }
+  weeklyContentEl.innerHTML = weeks.map(w => `
+    <section class="weekly-block">
+      <div class="weekly-block-head">
+        <h2>${escapeHtml(w.week)} 周精选 Top ${w.items.length}</h2>
+        <span>${escapeHtml(w.range || `${w.startDate || ''} ~ ${w.endDate || ''}`)}</span>
+      </div>
+      <div class="weekly-cards">
+        ${w.items.map((item, idx) => `
+          <article class="weekly-card" data-open-product="${escapeHtml(item.key)}">
+            <div class="weekly-rank">#0${idx + 1}</div>
+            <div class="weekly-card-main">
+              <div class="weekly-card-top">
+                <strong>${escapeHtml(item.name)}</strong>
+                ${item.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(item.frictionLevel)}</span>` : ''}
+                ${item.stars ? `<span class="stamp stamp-neutral">★ ${escapeHtml(item.stars)}</span>` : ''}
+                ${item.sourceCount > 1 ? `<span class="stamp stamp-signal">${item.sourceCount} 源同推</span>` : ''}
+              </div>
+              <p>${escapeHtml(item.tagline || item.introduction || '')}</p>
+            </div>
+            <span class="desk-alt-arrow" aria-hidden="true">→</span>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+
+function exportRecords(format) {
+  const entries = Object.entries(state.userState.items || {})
+    .filter(([, entry]) => entry.status || entry.note || entry.rating)
+    .sort(([, a], [, b]) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+  if (entries.length === 0) {
+    showToast('当前没有可导出的试用记录');
+    return;
+  }
+  let content = '';
+  let mime = 'text/plain;charset=utf-8';
+  let ext = 'txt';
+  if (format === 'json') {
+    content = JSON.stringify({ exportedAt: new Date().toISOString(), count: entries.length, items: Object.fromEntries(entries) }, null, 2);
+    mime = 'application/json;charset=utf-8';
+    ext = 'json';
+  } else {
+    content = `# 我的产品试用记录 (${new Date().toISOString().slice(0, 10)})\n\n` +
+      entries.map(([key, e]) => {
+        const statusStr = e.status ? `[${STATUS_LABELS[e.status] || e.status}]` : '';
+        const ratingStr = e.rating ? ` ${'★'.repeat(Number(e.rating))}` : '';
+        const urlStr = e.url ? ` (${e.url})` : '';
+        return `- **${e.name || key}** ${statusStr}${ratingStr}${urlStr}${e.note ? `\n  - 笔记：${e.note}` : ''}`;
+      }).join('\n');
+    mime = 'text/markdown;charset=utf-8';
+    ext = 'md';
+  }
+  const blob = new Blob([content], { type: mime });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `products-selection-records-${new Date().toISOString().slice(0, 10)}.${ext}`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  showToast(`已导出 ${entries.length} 条记录 (${ext.toUpperCase()})`);
 }
 
 function rememberTrial(product) {
@@ -634,21 +592,24 @@ function renderToday() {
 
 function renderRecords() {
   const entries = Object.entries(state.userState.items || {})
-    .filter(([, entry]) => entry.status || entry.note)
+    .filter(([, entry]) => entry.status || entry.note || entry.rating)
     .sort(([, a], [, b]) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
   recordsContentEl.innerHTML = entries.length ? `
     <ul class="desk-records">
       ${entries.map(([key, entry]) => `
         <li>
           <button class="desk-record" data-record-key="${escapeHtml(key)}">
-            <strong>${escapeHtml(entry.name || key)}</strong>
-            <span>${escapeHtml(entry.date || '')}${entry.status ? ` · ${entry.status === 'stack' ? '已收藏' : '已试过'}` : ''}</span>
+            <div>
+              <strong>${escapeHtml(entry.name || key)}</strong>
+              ${entry.note ? `<div class="record-note-preview">${escapeHtml(entry.note)}</div>` : ''}
+            </div>
+            <span>${escapeHtml(entry.date || '')}${entry.status ? ` · ${STATUS_LABELS[entry.status] || entry.status}` : ''}${entry.rating ? ` · ${'★'.repeat(Number(entry.rating))}` : ''}</span>
           </button>
         </li>`).join('')}
     </ul>` : `
     <div class="desk-empty">
       <h2>还没有试用记录</h2>
-      <p>标记已试或收藏后，产品会出现在这里。</p>
+      <p>标记想试、在试、已试、收藏或评分后，产品会出现在这里，并支持一键导出 Markdown / JSON。</p>
       <button class="desk-text-button" data-page-link="today">返回今日试用</button>
     </div>`;
 }
@@ -786,6 +747,86 @@ async function init() {
     await loadDay(state.days[0].date);
   }
   await updateToday(state.currentDayData);
+  await handleHashRoute();
+  window.addEventListener('hashchange', () => { handleHashRoute(); });
+}
+
+function parseStarsNumber(val) {
+  if (!val) return 0;
+  const s = String(val).trim().toLowerCase().replace(/,/g, '');
+  const m = s.match(/^([\d.]+)\s*k$/);
+  if (m) return Math.round(parseFloat(m[1]) * 1000);
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
+async function fetchProductDetail(key) {
+  if (!key) return null;
+  if (state.productDetailCache[key]) return state.productDetailCache[key];
+  try {
+    const res = await fetch(`./data/products/${encodeURIComponent(key)}.json`);
+    if (res.ok) {
+      const data = await res.json();
+      state.productDetailCache[key] = data;
+      return data;
+    }
+  } catch {}
+  return null;
+}
+
+async function openProductByKey(key) {
+  if (!key) return;
+  let product = state.displayedProducts.find(p => p.key === key) ||
+    state.currentDayData?.products.find(p => p.key === key) ||
+    state.allScopeProducts.find(p => p.key === key);
+  if (!product) {
+    product = await fetchProductDetail(key);
+  }
+  if (!product && !state.isLocalServer) {
+    if (!state.staticAllCache) {
+      try {
+        const res = await fetch('./data/explore.json');
+        const data = await res.json();
+        state.staticAllCache = data.items || [];
+      } catch {}
+    }
+    product = state.staticAllCache?.find(p => p.key === key);
+  }
+  if (product) {
+    openWorkbench(product.key, product);
+  } else {
+    showToast(`未找到产品：${key}`);
+  }
+}
+
+async function handleHashRoute() {
+  const hash = (location.hash || '').replace(/^#\/?/, '');
+  if (!hash || hash === 'today') {
+    setPage('today', { skipHash: true });
+    return;
+  }
+  if (hash === 'weekly') {
+    setPage('weekly', { skipHash: true });
+    return;
+  }
+  if (hash === 'records') {
+    setPage('records', { skipHash: true });
+    return;
+  }
+  if (hash === 'library') {
+    setPage('library', { skipHash: true });
+    return;
+  }
+  const issueMatch = hash.match(/^issue\/(\d{4}-\d{2}-\d{2})$/);
+  if (issueMatch) {
+    openIssue(issueMatch[1]);
+    return;
+  }
+  const prodMatch = hash.match(/^product\/([^/?#]+)$/);
+  if (prodMatch) {
+    const key = decodeURIComponent(prodMatch[1]);
+    await openProductByKey(key);
+  }
 }
 
 async function loadDay(date, autoOpenFirst = false) {
@@ -898,6 +939,18 @@ function applyFiltersAndRender() {
   if (state.selectedForm === 'github') finalItems = byType.filter(p => p.deliveryForm === 'github' || p.githubRepo);
   else if (state.selectedForm !== 'all') finalItems = byType.filter(p => p.deliveryForm === state.selectedForm);
 
+  if (state.selectedScenario && state.selectedScenario !== 'all') {
+    finalItems = finalItems.filter(p => Array.isArray(p.scenarios) && p.scenarios.includes(state.selectedScenario));
+  }
+
+  if (state.sortBy === 'stars') {
+    finalItems = [...finalItems].sort((a, b) => parseStarsNumber(b.stars) - parseStarsNumber(a.stars));
+  } else if (state.sortBy === 'latest') {
+    finalItems = [...finalItems].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+  } else if (state.sortBy === 'enriched') {
+    finalItems = [...finalItems].sort((a, b) => Number(Boolean(b.enriched)) - Number(Boolean(a.enriched)) || parseStarsNumber(b.stars) - parseStarsNumber(a.stars));
+  }
+
   state.displayedProducts = finalItems;
   scopeDailyBtn.classList.toggle('active', state.scope === 'daily');
   scopeAllBtn.classList.toggle('active', state.scope === 'all');
@@ -949,17 +1002,30 @@ function renderGalleryCards(products, showDateOnCard = false) {
     const domain = p.githubRepo ? p.githubRepo : extractDomain(bestUrl);
     const isFocused = idx === state.focusedIndex;
     const summaryText = p.introduction || p.description || '';
+    const previewImg = p.ogImage || (p.githubRepo ? `https://opengraph.githubassets.com/1/${p.githubRepo}` : '');
+    const healthInfo = p.health?.activityTier ? HEALTH_LABELS[p.health.activityTier] : null;
+    const ratingVal = userEntry.rating || p.userRating || null;
+    const trustLabel = p.enriched ? '已查验' : '仅简报';
 
     return `
       <article class="product-card ${state.activeProduct?.key === p.key ? 'active-card' : ''} ${isFocused ? 'kb-focused' : ''}" data-key="${escapeHtml(p.key)}" data-idx="${idx}" id="card-${escapeHtml(p.key)}">
         <div>
+          ${previewImg ? `
+            <div class="card-visual-thumb">
+              <img src="${escapeHtml(previewImg)}" alt="${escapeHtml(p.name)}" loading="lazy" />
+            </div>
+          ` : ''}
           <div class="card-index-row">
             <span class="card-index-num">#${formatIndex(idx)}</span>
             <div class="card-stamps">
               <span class="stamp stamp-type">${escapeHtml(p.categoryLabel || '垂直应用')}</span>
               <span class="stamp stamp-delivery">${escapeHtml(p.deliveryLabel || '在线网页')}</span>
+              ${p.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(p.frictionLevel)}</span>` : ''}
               ${p.pricingModel ? `<span class="stamp stamp-pricing">${escapeHtml(p.pricingModel)}</span>` : ''}
               ${p.stars ? `<span class="stamp stamp-neutral">★ ${escapeHtml(p.stars)}</span>` : ''}
+              ${healthInfo ? `<span class="stamp ${healthInfo.cls}">${healthInfo.label}</span>` : ''}
+              ${p.sourceCount > 1 ? `<span class="stamp stamp-signal">${p.sourceCount} 源同推</span>` : ''}
+              <span class="stamp ${p.enriched ? 'stamp-trust-verified' : 'stamp-trust-brief'}">${trustLabel}</span>
             </div>
           </div>
 
@@ -977,12 +1043,12 @@ function renderGalleryCards(products, showDateOnCard = false) {
             </div>
           ` : ''}
 
-          ${note ? `<div class="card-memo-line">备注：${escapeHtml(note)}</div>` : ''}
+          ${(note || ratingVal) ? `<div class="card-memo-line">${ratingVal ? `${'★'.repeat(Number(ratingVal))} · ` : ''}${note ? `备注：${escapeHtml(note)}` : ''}</div>` : ''}
         </div>
 
         <div class="card-footer">
           <div class="try-actions">
-            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${p.githubRepo ? '🚀 README / Codespace' : '查看体验指南 →'}</button>
+            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${p.demoUrl ? '▶ 在线 Demo / 体验' : (p.githubRepo ? '🚀 体验 / Codespace' : '查看体验指南 →')}</button>
             <a href="${escapeHtml(bestUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" data-stop-card>↗ 官网</a>
           </div>
           <div class="curation-actions">
@@ -1205,32 +1271,42 @@ async function createRepoCodespace(repo, machineName) {
 
 function renderCodespaceBanner() {
   const product = state.activeProduct;
-  if (!product?.githubRepo || product.deliveryForm !== 'github') {
+  if (!product) {
+    wbCodespaceBannerEl.classList.add('hidden');
+    wbCodespaceBannerEl.innerHTML = '';
+    return;
+  }
+  const hasDemo = Boolean(product.demoUrl);
+  const hasRepo = Boolean(product.githubRepo);
+  if (!hasDemo && !hasRepo) {
     wbCodespaceBannerEl.classList.add('hidden');
     wbCodespaceBannerEl.innerHTML = '';
     return;
   }
   const repo = product.githubRepo;
   const existing = state.repoCodespaces?.[0];
-  const localBtnHtml = state.localCapabilities?.isMac
-    ? `<button class="editorial-btn editorial-btn-sm" id="bannerLocalTermBtn">💻 本机 Terminal 克隆体验</button>`
+  const localBtnHtml = hasRepo && state.localCapabilities?.isMac
+    ? `<button class="editorial-btn editorial-btn-sm" id="bannerLocalTermBtn">💻 本机克隆体验</button>`
     : '';
 
   wbCodespaceBannerEl.classList.remove('hidden');
   wbCodespaceBannerEl.innerHTML = `
     <div class="cs-banner-info">
-      <div class="cs-banner-title">开源项目真机沙盒 · ${escapeHtml(repo)}</div>
+      <div class="cs-banner-title">${hasDemo ? '零门槛试玩入口' : `开源项目分层试玩 · ${escapeHtml(repo)}`}</div>
       <div class="cs-banner-sub">
-        ${existing
-          ? `已有 Codespace 实例 (${escapeHtml(existing.name)} · 状态: ${escapeHtml(existing.state)})`
-          : (state.ghToken ? '已配置 GitHub Key · 可在云端一键拉起真实容器并转发端口体验' : '配置 GitHub Key 即可在右侧一键拉起 Codespace 云端真机')
+        ${hasDemo
+          ? 'L0 在线 Demo 可直接打开体验，无需本地装环境'
+          : (existing
+              ? `已有 Codespace 实例 (${escapeHtml(existing.name)} · 状态: ${escapeHtml(existing.state)})`
+              : 'L1 免 Key 一键启动云端沙箱（codespaces.new / github.dev），或使用 GitHub Key 管理实例与端口')
         }
       </div>
     </div>
     <div class="cs-banner-actions">
-      <button class="editorial-btn editorial-btn-ink editorial-btn-sm" id="bannerGoCodespaceBtn">
-        ${existing ? `🚀 打开 Codespace (${escapeHtml(existing.state)})` : '🚀 用 Codespace 启动真机体验'}
-      </button>
+      ${hasDemo ? `<a href="${escapeHtml(product.demoUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink editorial-btn-sm">▶ 打开在线 Demo ↗</a>` : ''}
+      ${hasRepo ? `<a href="https://codespaces.new/${escapeHtml(repo)}?quickstart=1" target="_blank" rel="noopener" class="editorial-btn ${hasDemo ? '' : 'editorial-btn-ink'} editorial-btn-sm">⚡ 免 Key 启动 Codespace ↗</a>` : ''}
+      ${hasRepo ? `<a href="https://github.dev/${escapeHtml(repo)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm">↗ github.dev</a>` : ''}
+      ${hasRepo ? `<button class="editorial-btn editorial-btn-sm" id="bannerGoCodespaceBtn">${existing ? `管理实例 (${escapeHtml(existing.state)})` : '进阶：实例管理'}</button>` : ''}
       ${localBtnHtml}
     </div>
   `;
@@ -1537,6 +1613,39 @@ function loadWebPreviewIframe() {
     return;
   }
 
+  const knownUnembeddable = (!state.isLocalServer && (
+    state.activeProduct.canEmbed === false ||
+    info?.canEmbed === false ||
+    /github\.com\//i.test(targetUrl) ||
+    /producthunt\.com\//i.test(targetUrl)
+  ));
+
+  if (knownUnembeddable) {
+    wbPreviewNoticeEl.classList.add('hidden');
+    wbIframeEl.classList.add('hidden');
+    let fallback = document.getElementById('wbWrapperFallback');
+    if (!fallback) {
+      fallback = document.createElement('div');
+      fallback.id = 'wbWrapperFallback';
+      fallback.className = 'wrapper-fallback-box';
+      wbIframeWrapEl.appendChild(fallback);
+    }
+    fallback.classList.remove('hidden');
+    const previewImg = state.activeProduct.ogImage || info?.ogImage || (state.activeProduct.githubRepo ? `https://opengraph.githubassets.com/1/${state.activeProduct.githubRepo}` : '');
+    fallback.innerHTML = `
+      ${previewImg ? `<img src="${escapeHtml(previewImg)}" alt="${escapeHtml(state.activeProduct.name)}" class="fallback-og-img" loading="lazy" />` : ''}
+      <h4 style="font-size:15px;">该站点设置了防 iframe 嵌套保护</h4>
+      <p style="font-size:13px; color:var(--ink-muted); max-width:440px;">
+        为避免白屏，已直接展示预览信息。你可以点击下方按钮在新标签页直达体验${state.activeProduct.githubRepo ? '，或切换到「Codespace 真机」/「README」标签' : ''}。
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:6px;">
+        <a href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink">↗ 新窗口打开体验</a>
+        ${state.activeProduct.demoUrl ? `<a href="${escapeHtml(state.activeProduct.demoUrl)}" target="_blank" rel="noopener" class="editorial-btn">▶ 打开在线 Demo</a>` : ''}
+      </div>
+    `;
+    return;
+  }
+
   const oldFallback = document.getElementById('wbWrapperFallback');
   if (oldFallback) oldFallback.classList.add('hidden');
   wbIframeEl.classList.remove('hidden');
@@ -1571,8 +1680,19 @@ function renderWorkbenchSummary(product, inspectInfo) {
   const topics = meta?.topics || [];
   const introText = product.introduction || product.description || meta?.description || '';
   const guideSteps = Array.isArray(product.experienceGuide) ? product.experienceGuide : [];
+  const caveats = Array.isArray(product.caveats) ? product.caveats : [];
+  const alternatives = Array.isArray(product.alternatives) ? product.alternatives : [];
+  const health = product.health || null;
+  const healthInfo = health?.activityTier ? HEALTH_LABELS[health.activityTier] : null;
+  const dates = Array.isArray(product.dates) && product.dates.length > 1 ? product.dates : null;
 
   wbSummaryBoxEl.innerHTML = `
+    <div class="wb-trust-bar">
+      <span class="stamp ${product.enriched ? 'stamp-trust-verified' : 'stamp-trust-brief'}">${escapeHtml(product.trustLevel || (product.enriched ? '已查验官网' : '仅简报资料'))}</span>
+      ${product.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(product.frictionLevel)}${product.setupMinutes ? ` · 约 ${product.setupMinutes} 分钟` : ''}</span>` : ''}
+      ${healthInfo ? `<span class="stamp ${healthInfo.cls}">${healthInfo.label}${health.latestRelease ? ` (${escapeHtml(health.latestRelease)})` : ''}</span>` : ''}
+      ${product.sourceCount > 1 ? `<span class="stamp stamp-signal">${product.sourceCount} 份简报同时推荐</span>` : ''}
+    </div>
     ${guideSteps.length > 0 ? `
       <div class="experience-guide-box">
         <div class="experience-guide-title">上手体验指引</div>
@@ -1581,17 +1701,35 @@ function renderWorkbenchSummary(product, inspectInfo) {
         </ol>
       </div>
     ` : ''}
+    ${caveats.length > 0 ? `
+      <div class="caveats-box">
+        <div class="caveats-title">真实限制与避坑提示</div>
+        <ul class="caveats-list">
+          ${caveats.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
     <div class="wb-section-title">产品介绍</div>
     <div style="font-family:var(--font-reading); font-size:14.5px; font-weight:600; color:var(--ink);">
       ${escapeHtml(product.tagline || meta?.description || '')}
     </div>
+    ${product.targetAudience ? `<div class="wb-audience-line"><strong>适合人群：</strong>${escapeHtml(product.targetAudience)}</div>` : ''}
     ${introText ? `<div style="font-family:var(--font-reading); font-size:13px; color:var(--ink-body); line-height:1.7;">${escapeHtml(introText)}</div>` : ''}
-    ${(starsVal || licenseVal || langVal || product.pricingModel || topics.length > 0) ? `
+    ${alternatives.length > 0 ? `
+      <div class="wb-alternatives-row">
+        <span class="wb-alt-label">同类替代：</span>
+        ${alternatives.map(alt => `<button type="button" class="wb-alt-chip" data-search-alt="${escapeHtml(alt)}">${escapeHtml(alt)}</button>`).join('')}
+      </div>
+    ` : ''}
+    ${dates ? `<div class="wb-history-line">历史入选 ${dates.length} 次：${dates.slice(0, 6).map(d => `<button type="button" class="wb-date-chip" data-open-issue="${escapeHtml(d)}">${escapeHtml(d)}</button>`).join('')}</div>` : ''}
+    ${(starsVal || licenseVal || langVal || product.pricingModel || health?.openIssues != null || topics.length > 0) ? `
       <div class="repo-stats-bar">
         ${product.pricingModel ? `<span class="repo-stat-chip">${escapeHtml(product.pricingModel)}</span>` : ''}
         ${starsVal ? `<span class="repo-stat-chip">★ ${escapeHtml(String(starsVal))}</span>` : ''}
         ${langVal ? `<span class="repo-stat-chip">${escapeHtml(langVal)}</span>` : ''}
         ${licenseVal ? `<span class="repo-stat-chip">${escapeHtml(licenseVal)}</span>` : ''}
+        ${health?.openIssues != null ? `<span class="repo-stat-chip">Issues ${health.openIssues}</span>` : ''}
+        ${health?.pushedAt ? `<span class="repo-stat-chip">最近提交 ${escapeHtml(health.pushedAt)}</span>` : ''}
         ${topics.slice(0, 4).map(t => `<span class="repo-stat-chip">#${escapeHtml(t)}</span>`).join('')}
       </div>
     ` : ''}
@@ -1684,8 +1822,16 @@ async function openWorkbench(productKey, selectedProduct = null) {
   const idx = state.displayedProducts.findIndex(p => p.key === productKey);
   if (idx !== -1) state.focusedIndex = idx;
 
-  const product = selectedProduct || state.displayedProducts[idx] || state.currentDayData?.products.find(p => p.key === productKey);
+  let product = selectedProduct || state.displayedProducts[idx] || state.currentDayData?.products.find(p => p.key === productKey);
   if (!product) return;
+
+  // On-demand hydrate full product dossier from ./data/products/<key>.json (lean explore.json omits experienceGuide/dates/etc.)
+  if (!product.experienceGuide || !product.dates) {
+    const detail = await fetchProductDetail(product.key);
+    if (detail) {
+      product = { ...detail, ...product, experienceGuide: product.experienceGuide || detail.experienceGuide, introduction: product.introduction || detail.introduction, caveats: product.caveats || detail.caveats, alternatives: product.alternatives || detail.alternatives, targetAudience: product.targetAudience || detail.targetAudience, health: product.health || detail.health, dates: detail.dates || product.dates };
+    }
+  }
 
   if (!state.activeProduct) state.workbenchTrigger = document.activeElement;
   clearCsPoll();
@@ -1695,6 +1841,9 @@ async function openWorkbench(productKey, selectedProduct = null) {
   state.repoCodespaces = [];
   state.repoMachines = [];
   state.csError = '';
+
+  const prodHash = `#/product/${encodeURIComponent(product.key)}`;
+  if (location.hash !== prodHash) history.replaceState(null, '', prodHash);
 
   document.querySelectorAll('.product-card').forEach(el => el.classList.toggle('active-card', el.dataset.key === product.key));
   document.querySelectorAll('.intel-matrix tbody tr').forEach(el => el.classList.toggle('active-row', el.dataset.key === product.key));
@@ -1730,8 +1879,11 @@ async function openWorkbench(productKey, selectedProduct = null) {
   const userEntry = state.userState.items?.[product.key] || {};
   const status = userEntry.status || product.userStatus || null;
   const note = userEntry.note !== undefined ? userEntry.note : (product.userNote || '');
+  const rating = userEntry.rating || product.userRating || '';
   wbTriedBtn.classList.toggle('active-tried', status === 'tried');
   wbStackBtn.classList.toggle('active-stack', status === 'stack');
+  if (wbStatusSelectEl) wbStatusSelectEl.value = status || '';
+  if (wbRatingSelectEl) wbRatingSelectEl.value = rating ? String(rating) : '';
   wbNoteInputEl.value = note;
   setMemoOpen(false);
 
@@ -1789,7 +1941,7 @@ async function openWorkbench(productKey, selectedProduct = null) {
   }
 }
 
-function closeWorkbench() {
+function closeWorkbench({ keepHash = false } = {}) {
   if (workbenchEl.classList.contains('hidden')) return;
   clearCsPoll();
   workbenchEl.classList.add('hidden');
@@ -1798,6 +1950,9 @@ function closeWorkbench() {
   workspaceEl.classList.remove('sidebar-drawer-open');
   wbIframeEl.src = 'about:blank';
   state.activeProduct = null;
+  if (!keepHash && location.hash.startsWith('#/product/')) {
+    history.replaceState(null, '', `#/${state.page || 'today'}`);
+  }
   state.workbenchTrigger?.focus({ preventScroll: true });
   state.workbenchTrigger = null;
   document.querySelectorAll('.product-card').forEach(el => el.classList.remove('active-card'));
@@ -1812,7 +1967,7 @@ function setMemoOpen(open) {
 // ─────────────────────────────────────────────────────────────
 // USER STATE SAVE (TRIED / STACK / 1-LINE MEMO)
 // ─────────────────────────────────────────────────────────────
-async function saveProductState(productKey, newStatus, newNote) {
+async function saveProductState(productKey, newStatus, newNote, newRating, { exactStatus = false } = {}) {
   const product =
     (state.activeProduct?.key === productKey ? state.activeProduct : null) ||
     state.displayedProducts.find(p => p.key === productKey) ||
@@ -1820,14 +1975,16 @@ async function saveProductState(productKey, newStatus, newNote) {
 
   const prevEntry = state.userState.items?.[productKey] || {};
   const finalStatus = newStatus !== undefined
-    ? (prevEntry.status === newStatus && newNote === undefined ? null : newStatus)
+    ? (exactStatus ? (newStatus || null) : (prevEntry.status === newStatus && newNote === undefined && newRating === undefined ? null : newStatus))
     : prevEntry.status;
   const finalNote = newNote !== undefined ? newNote : (prevEntry.note || '');
+  const finalRating = newRating !== undefined ? (newRating ? Number(newRating) : null) : (prevEntry.rating || null);
 
   state.userState.items = state.userState.items || {};
   state.userState.items[productKey] = {
     status: finalStatus,
     note: finalNote,
+    rating: finalRating,
     name: product?.name || productKey,
     date: product?.date || state.currentDate,
     url: product?.directUrl || product?.url || '',
@@ -1844,6 +2001,7 @@ async function saveProductState(productKey, newStatus, newNote) {
           key: productKey,
           status: finalStatus,
           note: finalNote,
+          rating: finalRating,
           name: product?.name || productKey,
           date: product?.date || state.currentDate,
           url: product?.directUrl || product?.url || ''
@@ -1862,10 +2020,13 @@ async function saveProductState(productKey, newStatus, newNote) {
   if (state.activeProduct?.key === productKey) {
     wbTriedBtn.classList.toggle('active-tried', finalStatus === 'tried');
     wbStackBtn.classList.toggle('active-stack', finalStatus === 'stack');
+    if (wbStatusSelectEl) wbStatusSelectEl.value = finalStatus || '';
+    if (wbRatingSelectEl) wbRatingSelectEl.value = finalRating ? String(finalRating) : '';
   }
-  if (newStatus === 'tried') showToast(finalStatus === 'tried' ? '✓ 已标记为已试过' : '已取消标记');
+  if (newStatus !== undefined && exactStatus) showToast(finalStatus ? `状态已更新为「${STATUS_LABELS[finalStatus] || finalStatus}」` : '已清除状态');
+  else if (newStatus === 'tried') showToast(finalStatus === 'tried' ? '✓ 已标记为已试过' : '已取消标记');
   else if (newStatus === 'stack') showToast(finalStatus === 'stack' ? '★ 已加入收藏夹' : '已移出收藏夹');
-  else if (newNote !== undefined) showToast('备注已保存');
+  else if (newNote !== undefined || newRating !== undefined) showToast('体验记录已保存');
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -2095,10 +2256,19 @@ function bindEvents() {
     if (state.currentDate === state.todayDate) await updateToday(state.currentDayData);
   });
 
-  rawBriefBtn.addEventListener('click', () => {
+  rawBriefBtn.addEventListener('click', async () => {
     if (!state.currentDayData) return;
     rawDialogTitleEl.textContent = `${state.currentDayData.date} · 当日原始简报汇总`;
-    const briefs = state.currentDayData.rawBriefs || [];
+    let briefs = state.currentDayData.rawBriefs || [];
+    if (briefs.length === 0 && !state.isLocalServer) {
+      try {
+        const res = await fetch(`./data/raw/${state.currentDayData.date}.json`);
+        if (res.ok) {
+          const rawJson = await res.json();
+          briefs = rawJson.rawBriefs || [];
+        }
+      } catch {}
+    }
     rawBriefsContainerEl.innerHTML = briefs.length > 0
       ? briefs.map(b => `
           <div class="raw-col">
@@ -2108,6 +2278,36 @@ function bindEvents() {
         `).join('')
       : '<p style="color:var(--ink-muted);">当日暂无原始简报文本</p>';
     rawDialogEl.showModal();
+  });
+
+  sortSelectEl?.addEventListener('change', () => {
+    state.sortBy = sortSelectEl.value || 'default';
+    applyFiltersAndRender();
+  });
+
+  scenarioFilterBarEl?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-scenario]');
+    if (!btn) return;
+    state.selectedScenario = btn.dataset.scenario;
+    scenarioFilterBarEl.querySelectorAll('[data-scenario]').forEach(el =>
+      el.classList.toggle('active', el.dataset.scenario === state.selectedScenario)
+    );
+    applyFiltersAndRender();
+  });
+
+  exportRecordsMdBtn?.addEventListener('click', () => exportRecords('md'));
+  exportRecordsJsonBtn?.addEventListener('click', () => exportRecords('json'));
+
+  wbShareBtn?.addEventListener('click', () => {
+    if (!state.activeProduct) return;
+    const url = `${location.origin}${location.pathname}#/product/${encodeURIComponent(state.activeProduct.key)}`;
+    navigator.clipboard?.writeText(url);
+    showToast(`已复制分享链接：${state.activeProduct.name}`);
+  });
+
+  wbStatusSelectEl?.addEventListener('change', () => {
+    if (!state.activeProduct) return;
+    saveProductState(state.activeProduct.key, wbStatusSelectEl.value, undefined, undefined, { exactStatus: true });
   });
   closeRawDialogBtn.addEventListener('click', () => rawDialogEl.close());
   rawDialogEl.addEventListener('click', (e) => {
@@ -2141,6 +2341,22 @@ function bindEvents() {
     const pageLink = e.target.closest('[data-page-link]');
     if (pageLink) {
       setPage(pageLink.dataset.pageLink);
+      return;
+    }
+    const openProdLink = e.target.closest('[data-open-product]');
+    if (openProdLink) {
+      openProductByKey(openProdLink.dataset.openProduct);
+      return;
+    }
+    const altChip = e.target.closest('[data-search-alt]');
+    if (altChip) {
+      const q = altChip.dataset.searchAlt;
+      setPage('library');
+      globalSearchInput.value = q;
+      state.searchQuery = q;
+      clearSearchBtn.classList.remove('hidden');
+      state.scope = 'all';
+      fetchAllScopeProducts();
       return;
     }
     const issueLink = e.target.closest('[data-open-issue]');
@@ -2224,7 +2440,7 @@ function bindEvents() {
   wbMemoBarEl.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!state.activeProduct) return;
-    saveProductState(state.activeProduct.key, undefined, wbNoteInputEl.value.trim());
+    saveProductState(state.activeProduct.key, undefined, wbNoteInputEl.value.trim(), wbRatingSelectEl?.value || '');
     setMemoOpen(false);
     wbMemoToggleBtn.focus();
   });

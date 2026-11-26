@@ -1,44 +1,48 @@
 # Products Selection · 每日精选产品体验台
 
-> **简报来源与体验台解耦**：上游多 Agent 独立写入 `alonegg/daily-product-briefings`，`oMygpt/products-selection` 负责统一去重汇总、后台 Agent 穿透官网/README 查验（Qwen `qwen3.8-flash`）、生成结构化体验指引，并自动发布到 Cloudflare Pages 与 GitHub Pages。
+> **简报来源与体验台解耦**：上游多 Agent 独立写入 `alonegg/daily-product-briefings`，`oMygpt/products-selection` 负责统一去重汇总、后台 Agent 查验官网/GitHub README（Qwen `qwen3.8-flash`）、生成结构化体验指引与产品主表，并自动发布到 Cloudflare Pages 与 GitHub Pages。
 
 ## 架构说明
 
 1. **上游多 Agent 简报源（`alonegg/daily-product-briefings`）**：
-   - Muse、Agent A 及任意后续新增的筛选 Agent 可各自独立向该仓库的目录（如 `agent-a/`、根目录或新子目录）提交含 `YYYY-MM-DD` 日期的 `.md` 简报。
-   - 本机已生成专用读写权限 Deploy Key（`~/.ssh/daily_product_briefings_agent_ed25519`），已注册至 `alonegg/daily-product-briefings`（`multi-agent-briefings-rw`）并同步配置到本仓库 Secret `BRIEFINGS_DEPLOY_KEY`。
+   - Muse、Hark、Agent A 及任意后续新增的筛选 Agent 可各自独立向该仓库提交含 `YYYY-MM-DD` 日期的 `.md` 简报（通过仓库 Secret `BRIEFINGS_DEPLOY_KEY` 拉取）。
+   - **推荐治本格式**：上游 Agent 可在简报末尾附一个 `json` 代码块（`{ "products": [{ "name", "url", "repo", "tagline", "pricing", "source" }] }`），解析器优先读取该结构化块，同时兼容各类历史 Markdown 排版。
 2. **后台查验与结构化 Agent（`playground/enrich-agent.mjs`）**：
-   - 汇总同日所有简报条目（去重合并、不区分来源展示）。
-   - 对缺乏直达官网或仅含 Product Hunt / BetaList 链接的产品，通过搜索与 GitHub 反查绕过 Cloudflare 拦截，抓取真实官网正文与 GitHub `README.md`。
-   - 调用 Qwen 模型生成三维分类（产品类型 + 交付形态 + 费用模式）、产品介绍、上手体验步骤与默认端口，增量缓存至 `playground/enriched-products.json`。
+   - 汇总同日所有简报条目（去重合并、统计多源推荐次数）。
+   - 优先通过直达官网与 GitHub API 拉取正文、OG 预览图、`X-Frame-Options/CSP` 可嵌入状态、在线 Demo 链接及开源健康信号（最近推送、Release、Open Issues）。
+   - 调用 Qwen 模型生成分类、交付形态、规范化定价（与开源协议分离）、上手体验步骤、体验门槛、真实坑点与同类对比，增量缓存至 `playground/enriched-products.json`，并将失败条目写入重试队列。
 3. **产品体验台前端（`playground/public/`）**：
-   - **产品详情 / README**：完整 Markdown `README.md` 渲染、快速启动命令一键复制、上手体验指引。
-   - **Codespace 真机体验**：支持配置 GitHub Key（`codespace` + `repo` 权限），一键创建/启停/销毁云端容器并转发端口在线试玩。
-   - **网页在线试玩**：支持网页内嵌预览。
+   - **今日试用 / 每周精选 / 产品库 / 我的记录**：支持场景筛选、多维排序、URL 深度链接分享与 RSS 订阅（`feed.xml`）。
+   - **安全与速度**：README 渲染采用严格白名单净化 + CSP；GitHub Token 仅存 `sessionStorage`；零外部字体 CDN 阻塞，国内秒开。
+   - **分层试玩**：L0 在线 Demo / Playground → L1 免 PAT 一键 `codespaces.new` / `github.dev` → L2 一行 CLI 命令复制；同时保留进阶 PAT 托管的 Codespaces 控制。
 4. **全自动发布流水线（`.github/workflows/deploy-pages.yml`）**：
-   - 每日定时（北京时间 `08:00`、`16:00`、`22:00`）或每次 push 自动拉取最新简报 → 运行 `enrich-agent.mjs` → 编译静态数据 → 同步部署到 **Cloudflare Pages** 与 **GitHub Pages**。
+   - 每日定时（北京时间 `08:00`、`16:00`、`22:00`）或每次 push 自动拉取最新简报 → 运行 `enrich-agent.mjs` → 编译静态数据（带空期解析门禁）→ 运行 `node --test` → 同步部署到 **Cloudflare Pages**（优先使用最小权限 `CLOUDFLARE_API_TOKEN`）与 **GitHub Pages**。
 
 ## 在线访问
 
 - **主域名**：https://picks.chunlin.ch
 - **短链别名**：https://try.chunlin.ch
+- **RSS 订阅**：https://picks.chunlin.ch/feed.xml
 - **Cloudflare Pages**：https://products-selection.pages.dev
 - **GitHub Pages**：https://omygpt.github.io/products-selection/
 
 ---
 
-## 本地调试与手动运行
+## 本地调试与测试
 
 ```bash
 # 1. 拉取上游最新多 Agent 简报
 git -C .muse-repo pull --ff-only
 
-# 2. 运行后台查验 Agent（默认处理最近 2 天未查验的新品）
+# 2. 运行后台查验 Agent（默认处理最近 2 天未查验的新品 + 失败重试队列）
 node playground/enrich-agent.mjs --days 2
 
-# 3. 编译静态 JSON 数据集
+# 3. 编译静态 JSON 数据集、产品主表、每周精选与 RSS
 node playground/build-static.mjs
 
-# 4. 启动本地分屏体验台 (http://127.0.0.1:4321)
+# 4. 运行单元测试
+node --test playground/test/*.test.mjs
+
+# 5. 启动本地分屏体验台 (http://127.0.0.1:4321)
 node playground/server.mjs
 ```
