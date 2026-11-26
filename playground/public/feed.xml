@@ -6,160 +6,160 @@
     <atom:link href="https://picks.chunlin.ch/feed.xml" rel="self" type="application/rss+xml" />
     <description>每日精选开源项目与热门 AI 产品体验台，提供结构化上手指引、在线试玩与真实避坑建议。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 26 Nov 2026 14:33:23 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 14:43:23 GMT</lastBuildDate>
     <item>
-      <title>TokenTV — 5 美元闹钟变 Claude Code/Codex 像素宠物</title>
-      <link>https://picks.chunlin.ch/#/product/tokentv</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/tokentv</guid>
-      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 开源项目 · 免费开源 | https://github.com/click6067-ship-it/token-tv</description>
-    </item>
-    <item>
-      <title>RelayRunner — GitHub Actions 任务路由器：每个 job 自动派给排队里第一个空闲的 runner——自己的 Mac、自托管 runner、Blacksmith 等第三方或 GitHub 官方；改顺序不用改 workflow，还能给官方分钟数设上限防超支；开源，有 Mac 应用和 CLI</title>
+      <title>RelayRunner — GitHub Actions 智能路由：自动将任务分发至空闲的自有机器或第三方 Runner</title>
       <link>https://picks.chunlin.ch/#/product/relayrunner</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/relayrunner</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>开发与基础设施 · 客户端/插件 · 免费开源 | https://relayrunner.dev</description>
+      <description>开发与基础设施 · 开源项目 · 免费开源 · ★ 11 | https://relayrunner.dev/</description>
     </item>
     <item>
-      <title>MyClaw 3.0 — 组建一支常驻的 AI 团队：每个队友自选角色、工具和 50+ 模型，记忆全队共享，跑在常驻的云电脑上，合上笔记本也能继续干活；支持 OpenClaw、Claude Code、Codex 等引擎，Slack、Telegram、WhatsApp 里都能派活</title>
-      <link>https://picks.chunlin.ch/#/product/myclaw30</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/myclaw30</guid>
-      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · 商业付费 | https://myclaw.ai</description>
-    </item>
-    <item>
-      <title>Snag by Parallel — 把和 ChatGPT、Claude 聊过的想买的东西一键导入愿望单，自动匹配到具体商品、全网比价、按折扣排序，还能分享清单；黑五正当时，完全免费</title>
-      <link>https://picks.chunlin.ch/#/product/snagbyparallel</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/snagbyparallel</guid>
-      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · 免费可用 | https://www.snagbyparallel.com</description>
-    </item>
-    <item>
-      <title>Koed — 给每个编码项目一个会记事的助手 Kin</title>
+      <title>Koed — 为 AI 编码代理提供本地持久化记忆与上下文共享</title>
       <link>https://picks.chunlin.ch/#/product/koed</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/koed</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · 免费开源 | https://koed.ai/</description>
+      <description>Agent 与自动化 · 客户端/插件 · 免费开源 · ★ 21 | https://koed.ai/</description>
     </item>
     <item>
-      <title>Airbot — 先给你发消息的 AI 幕僚</title>
-      <link>https://picks.chunlin.ch/#/product/airbot</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/airbot</guid>
+      <title>TokenTV — 将廉价小屏钟变为 AI 代理像素宠物，实时反馈操作状态与额度。</title>
+      <link>https://picks.chunlin.ch/#/product/tokentv</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/tokentv</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 在线网页 · 免费可用 | https://airbots.ai</description>
+      <description>开发与基础设施 · 开源项目 · 免费开源 · ★ 146 | https://github.com/click6067-ship-it/token-tv</description>
     </item>
     <item>
-      <title>Carry — 把 ChatGPT/Claude/Gemini/Grok 对话自动备份为 Markdown</title>
-      <link>https://picks.chunlin.ch/#/product/carry</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/carry</guid>
-      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 客户端/插件 · 免费可用 | https://carry.md</description>
-    </item>
-    <item>
-      <title>GPU Demo Gallery — 1998–2006 年显卡厂商 demo 在浏览器里重现</title>
+      <title>GPU Demo Gallery — 在浏览器中重现1998至2006年经典显卡厂商Demo</title>
       <link>https://picks.chunlin.ch/#/product/gpudemogallery</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/gpudemogallery</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 在线网页 · 免费可用 | https://gpu-demo-gallery.pages.dev</description>
+      <description>垂直与行业应用 · 在线网页 · 免费开源 · ★ 4 | https://gpu-demo-gallery.pages.dev/</description>
     </item>
     <item>
-      <title>AAE（Agentic Algorithm Engineering） — 海德堡大学算法工程组给 Claude Code、Codex 的 skill：每次改代码前先立一个可证伪的假设并预测提速幅度，跑完基准测试再决定留还是回滚；每项通过的改动存成带假设说明的 Git patch，最后出一份 PDF 报告；在 KaHIP 图划分工具上实测提速 3.9 倍、VieCut 最小割求解器 8.9 倍</title>
+      <title>AAE（Agentic Algorithm Engineering） — 让 AI Agent 像算法工程师一样，通过假设与基准测试严谨优化代码性能。</title>
       <link>https://picks.chunlin.ch/#/product/aaeagenticalgorithmengineering</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/aaeagenticalgorithmengineering</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 | https://chszlab.github.io/AgenticAlgorithmEngineering/</description>
+      <description>Agent 与自动化 · 开源项目 · 免费开源 · ★ 139 | https://chszlab.github.io/AgenticAlgorithmEngineering/</description>
     </item>
     <item>
-      <title>Tapemoon — 上传一首自己的歌（或贴 Suno 链接），AI 读节拍、段落和歌词，生成一支整曲的 MV：分镜可先审后改，16:9 或 9:16，可选电影、动漫、水彩等风格，主角跨场景保持一致；浏览器里跑，免费可看带水印的副歌预览，付费 19 美元/月起</title>
+      <title>MyClaw 3.0 — 组建常驻云端 AI 团队，共享记忆并支持多引擎并行工作</title>
+      <link>https://picks.chunlin.ch/#/product/myclaw30</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/myclaw30</guid>
+      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Agent 与自动化 · 在线网页 · 商业付费 | https://myclaw.ai/</description>
+    </item>
+    <item>
+      <title>Snag by Parallel — 将AI对话中的购物意图转化为可执行的全网比价清单</title>
+      <link>https://picks.chunlin.ch/#/product/snagbyparallel</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/snagbyparallel</guid>
+      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
+      <description>垂直与行业应用 · 在线网页 · 免费可用 | https://www.snagbyparallel.com/</description>
+    </item>
+    <item>
+      <title>Airbot — 通过WhatsApp或iMessage管理的AI幕僚，自动汇总重点并预备回复草稿。</title>
+      <link>https://picks.chunlin.ch/#/product/airbot</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/airbot</guid>
+      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Agent 与自动化 · 在线网页 · 免费可用 | https://airbots.ai/</description>
+    </item>
+    <item>
+      <title>Carry — 自动将主流AI对话备份为本地Markdown并支持搜索续聊</title>
+      <link>https://picks.chunlin.ch/#/product/carry</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/carry</guid>
+      <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
+      <description>效率与桌面工具 · 客户端/插件 · 一次性买断 | https://carry.md/</description>
+    </item>
+    <item>
+      <title>Tapemoon — 整曲AI MV生成器，自动分镜与节拍同步</title>
       <link>https://picks.chunlin.ch/#/product/tapemoon</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/tapemoon</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 在线网页 · Freemium | https://tapemoon.com</description>
+      <description>垂直与行业应用 · 在线网页 · Freemium | https://tapemoon.com/</description>
     </item>
     <item>
-      <title>Hiring Right Now — 贴上 LinkedIn 链接，看哪些成长型创业公司会要你：给出匹配的公司、要联系的创始人和一封可直接发的邮件；匹配免费、无需注册，约 2 分钟；自称已有 26,000+ 用户，上月创始人回复 2,200+ 封（代发邮件付费，29 美元起）</title>
+      <title>Hiring Right Now — 基于LinkedIn匹配初创公司并生成创始人邮件</title>
       <link>https://picks.chunlin.ch/#/product/hiringrightnow</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/hiringrightnow</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 在线网页 · Freemium | https://backdoorai.app/match</description>
+      <description>垂直与行业应用 · 在线网页 · Freemium | https://backdoorai.app/match</description>
     </item>
     <item>
-      <title>Fompi — 浏览器里的个人安全伴侣：钓鱼页、假验证页、伪装下载出现时出声提醒，并逐条说明哪里可疑；Pro 版还能在你把卡号、证件号粘贴进 AI 对话前替换成占位符；所有检查都在本地跑，免费版无需注册</title>
+      <title>Fompi — 本地运行的浏览器安全伴侣，实时拦截钓鱼并脱敏敏感数据</title>
       <link>https://picks.chunlin.ch/#/product/fompi</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/fompi</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>开发与基础设施 · 在线网页 · Freemium | https://fompi.app</description>
+      <description>效率与桌面工具 · 客户端/插件 · Freemium | https://fompi.app/</description>
     </item>
     <item>
-      <title>Rchive — 桌面文件编目应用：把所有硬盘、备份盘、相机卡扫进一个目录，盘拔了也能搜到上面的文件和预览；能按拍摄日期、相机、地点等过滤，整理只改视图、不动原文件，复制任务可暂停续传并逐文件校验；免费试用 10 天，39.99 美元一次买断</title>
+      <title>Rchive — 跨硬盘离线文件索引与可视化整理工具</title>
       <link>https://picks.chunlin.ch/#/product/rchive</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/rchive</guid>
       <pubDate>Thu, 26 Nov 2026 00:00:00 GMT</pubDate>
-      <description>效率与桌面工具 · 客户端/插件 · 一次性买断 | https://rchive.computer</description>
+      <description>效率与桌面工具 · 客户端/插件 · 一次性买断 | https://www.rchive.computer/</description>
     </item>
     <item>
-      <title>Fleetify — 开源的 coding agent 指挥中心：Claude Code、Codex、OpenCode 等 10 个 agent 并排跑，一个窗口看全部会话状态、token 花销；每个任务独占 git worktree，可预览、直接开 PR。免费开源（Apache-2.0，Rust/Tauri），仓库 github.com/fleetifydev/fleetify</title>
-      <link>https://picks.chunlin.ch/#/product/fleetify</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/fleetify</guid>
-      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 开源项目 · 免费开源 | https://www.producthunt.com/products/fleetify</description>
-    </item>
-    <item>
-      <title>Brickie — 在自己的云/K8s 里跑可持久化沙箱</title>
-      <link>https://picks.chunlin.ch/#/product/brickie</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/brickie</guid>
-      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>开发与基础设施 · 开源项目 · 免费开源 | https://github.com/hatchet-dev/brickie</description>
-    </item>
-    <item>
-      <title>Ghost Downloader 3 — 「下载器集大成者」</title>
-      <link>https://picks.chunlin.ch/#/product/ghostdownloader3</link>
-      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/ghostdownloader3</guid>
-      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>开发与基础设施 · 开源项目 · 免费开源 · ★ 1,092 | https://github.com/XiaoYouChR/Ghost-Downloader-3</description>
-    </item>
-    <item>
-      <title>Clam AI — 把 Gmail 安全地交给 AI agent：用大白话写规则（“只读旅行邮件，起草回复、绝不发送”），规则编译成 Cedar 策略、每次调用都做确定性检查；每个 agent 只有一个“Shell”，看不到规则以外的邮件，不存邮件内容，全程审计日志。目前 Gmail 的限额 beta，14 天免费试用</title>
+      <title>Clam AI — 通过Cedar策略为AI代理构建安全的Gmail访问边界</title>
       <link>https://picks.chunlin.ch/#/product/clamai</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/clamai</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · Freemium | https://useclam.ai</description>
+      <description>Agent 与自动化 · 在线网页 · Freemium · ★ 6 | https://useclam.ai/</description>
     </item>
     <item>
-      <title>Mason — 轻量 Postgres 只读副本：把数据同步到 DuckDB 列式引擎，SQL 照旧、答案照旧，分析查询快得多（官方基准：1000 万行 group by 从 15.7 秒到 0.19 秒）；单个 Node 进程可自托管，按 agent 分账号做行列级权限，自带 MCP。开源 Apache-2.0</title>
+      <title>Fleetify — 统一管理多 AI 编码代理的桌面指挥中心</title>
+      <link>https://picks.chunlin.ch/#/product/fleetify</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/fleetify</guid>
+      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Agent 与自动化 · 客户端/插件 · 免费开源 · ★ 15 | https://www.producthunt.com/products/fleetify</description>
+    </item>
+    <item>
+      <title>Mason — 基于 DuckDB 的轻量级 Postgres 只读副本，无需改 SQL 即可极速分析</title>
       <link>https://picks.chunlin.ch/#/product/mason</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/mason</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · 免费开源 | https://masondata.ai</description>
+      <description>开发与基础设施 · 开源项目 · 免费开源 · ★ 74 | https://masondata.ai/</description>
     </item>
     <item>
-      <title>Granular.Build — 可视化 AI agent 工作台：一个“老板 agent”指挥多个 worker agent，每个跑在自己的真实终端和项目副本里，互不覆盖；接你已有的 Claude、Codex、Gemini 等订阅，文件和密钥都在本机。免费版可用，Pro 12.99 美元/月或 259 美元买断</title>
+      <title>Brickie — 在自有K8s集群中运行可快照恢复的持久化Agent沙箱</title>
+      <link>https://picks.chunlin.ch/#/product/brickie</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/brickie</guid>
+      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Agent 与自动化 · 开源项目 · 免费开源 · ★ 133 | https://github.com/hatchet-dev/brickie</description>
+    </item>
+    <item>
+      <title>Ghost Downloader 3 — 基于智能分块与浏览器级指纹绕过的全能型开源下载器</title>
+      <link>https://picks.chunlin.ch/#/product/ghostdownloader3</link>
+      <guid isPermaLink="true">https://picks.chunlin.ch/#/product/ghostdownloader3</guid>
+      <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
+      <description>效率与桌面工具 · 客户端/插件 · 免费开源 · ★ 18855 | https://github.com/XiaoYouChR/Ghost-Downloader-3</description>
+    </item>
+    <item>
+      <title>Granular.Build — 面向非程序员的可视化多智能体协作工作台</title>
       <link>https://picks.chunlin.ch/#/product/granularbuild</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/granularbuild</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · 一次性买断 | https://granular.build</description>
+      <description>Agent 与自动化 · 客户端/插件 · Freemium | https://granular.build/</description>
     </item>
     <item>
-      <title>distribution.dev — 面向开发者的广告网络</title>
+      <title>distribution.dev — 由daily.dev与DEV联合打造的开发者垂直广告网络</title>
       <link>https://picks.chunlin.ch/#/product/distributiondev</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/distributiondev</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 | https://distribution.dev</description>
+      <description>垂直与行业应用 · 在线网页 · 商业付费 | https://distribution.dev/</description>
     </item>
     <item>
-      <title>tday.com — 一句话让 coding agent 录产品演示：agent 在本机另起一份应用实录操作，tday 自动加旁白、字幕、缩放光标和品牌样式，几分钟出一条可发布的演示视频；代码不出本机，录完可逐行改旁白。免费版 5 条，Pro 39 美元/月</title>
+      <title>tday.com — 通过 Coding Agent 自动录制并渲染品牌化产品演示视频</title>
       <link>https://picks.chunlin.ch/#/product/tdaycom</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/tdaycom</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Agent 与自动化 · 在线网页 · Freemium | https://tday.com</description>
+      <description>效率与桌面工具 · 在线网页 · Freemium | https://tday.com/</description>
     </item>
     <item>
-      <title>Daedalus — 桌面 AI 应用工作室：先做调研再动手——扫 Product Hunt、Hacker News、Reddit 后给一份带出处的验证简报，再生成带数据库、账号、API 的真正全栈应用，自己跑起来、报错自己修；同一份构建可导出 PWA 或原生 iOS/Android 工程。自带密钥、无 token 加价，一次性付费 39/69 欧元（注意：叫 Daedalus 的产品有好几个，这是 ai-smarter.org 这一款）</title>
+      <title>Daedalus — 集市场调研、全栈代码生成与多端导出于一体的桌面AI应用工作室</title>
       <link>https://picks.chunlin.ch/#/product/daedalus</link>
       <guid isPermaLink="true">https://picks.chunlin.ch/#/product/daedalus</guid>
       <pubDate>Wed, 25 Nov 2026 00:00:00 GMT</pubDate>
-      <description>开发与基础设施 · 客户端/插件 · 一次性买断 | https://daedalus.ai-smarter.org</description>
+      <description>Agent 与自动化 · 客户端/插件 · 一次性买断 | https://daedalus.ai-smarter.org/</description>
     </item>
     <item>
       <title>News Blocklist — 屏蔽新闻站的 DNS 黑名单</title>
