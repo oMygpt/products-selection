@@ -7975,5 +7975,159 @@
     "demoUrl": null,
     "health": null,
     "quickCommands": []
+  },
+  "replicate": {
+    "key": "replicate",
+    "name": "Replicate",
+    "date": "2026-11-14",
+    "updatedAt": "2026-11-26T15:23:02.784Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要迁移 Webflow/Framer 站点的开发者",
+    "tagline": "一键将建站工具站点克隆为 Next.js 代码",
+    "introduction": "Replicate 是一款专注于前端工程化的自动化工具，旨在解决从 Webflow 或 Framer 等低代码平台迁移至自定义代码栈的痛点。它通过解析目标站点的 DOM 结构、资源引用及样式规则，自动生成符合现代开发规范的 Next.js 项目代码，并处理图片 CDN 映射与 CMS 数据结构的转换。最终交付物为可直接部署的代码仓库，支持一键提交至 GitHub，大幅降低重构成本。",
+    "caveats": [
+      "复杂交互逻辑（如自定义 JS 动画）可能无法完全还原，需人工介入调试",
+      "依赖对源站公开资源的抓取，若源站有严格反爬策略可能导致失败"
+    ],
+    "alternatives": [
+      "Web2Code",
+      "Framer to React Exporter"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网并注册账号，输入待迁移的 Webflow 或 Framer 站点 URL",
+      "步骤2：启动克隆任务，等待生成完成后检查本地预览效果，确认无误后连接 GitHub 账户进行代码推送"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/replicate-10",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "tensward": {
+    "key": "tensward",
+    "name": "Tensward",
+    "date": "2026-11-12",
+    "updatedAt": "2026-11-26T15:23:07.284Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 10,
+    "targetAudience": "需要优化本地 LLM 推理性能的开发者和运维人员",
+    "tagline": "在本地 GPU 上自动 Profiling 并优化 vLLM/llama.cpp 推理配置",
+    "introduction": "Tensward 是一个用于诊断和优化本地 LLM 推理服务（如 vLLM、llama.cpp）的开源工具。它通过在隔离环境中启动引擎副本，模拟真实负载（包括 Chat、Agent、RAG 等场景），分析 GPU 瓶颈并提供具体的参数调整建议。工具会自动验证修改后的性能提升与输出一致性，仅在确认更快且结果可靠时保留配置变更。",
+    "caveats": [
+      "测量期间必须独占 GPU 显存，若其他进程占用显存会导致无法启动测试",
+      "目前仅支持 NVIDIA 和 Apple Silicon 硬件，且每次只能尝试一个配置变更"
+    ],
+    "alternatives": [
+      "vLLM Benchmarks",
+      "NVIDIA Nsight Systems"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：通过 `pip install tensward` 或克隆 GitHub 仓库进行本地安装，确保环境中有可用的 vLLM 或 llama.cpp 实例及空闲 GPU",
+      "步骤2：运行 `tensward try` 命令，选择预设的工作负载（如 Agent 或 RAG），观察工具给出的瓶颈分析及单步参数优化建议"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 8000,
+    "directUrl": "https://github.com/Tensward/tensward",
+    "githubRepo": "Tensward/tensward",
+    "stars": "23",
+    "license": "Apache-2.0",
+    "ogImage": "https://opengraph.githubassets.com/1/Tensward/tensward",
+    "canEmbed": false,
+    "demoUrl": "https://colab.research.google.com/github/Tensward/tensward/blob/main/examples/notebooks/tensward-colab.ipynb",
+    "health": {
+      "pushedAt": "2026-11-17",
+      "daysSincePush": 9,
+      "openIssues": 0,
+      "forks": 1,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.4.3",
+        "publishedAt": "2026-11-16"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "gh repo clone Tensward/tensward"
+    ]
+  },
+  "perch": {
+    "key": "perch",
+    "name": "Perch",
+    "date": "2026-11-12",
+    "updatedAt": "2026-11-26T15:23:12.184Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 15,
+    "targetAudience": "需要为 AI Agent 或应用提供自托管邮件基础设施的开发者",
+    "tagline": "单文件 Go 二进制 IMAP/SMTP 服务器，专为 Agent 与隐私设计",
+    "introduction": "Perch 是一个基于 Go 语言开发的单文件邮件服务器，内置 SQLite 和全文搜索，无需 Postfix/Dovecot 等复杂组件。它通过出站 WebSocket 连接 mxRaven 处理公网边缘（MX/反垃圾），允许在 NAT 后运行且无需公网 IP。其核心特性是提供 POSIX 风格的 CLI 接口，支持 NDJSON 输出，便于 AI Agent 直接通过命令行进行邮件检索、阅读和发送。",
+    "caveats": [
+      "必须注册并绑定 mxRaven 工作区才能接收外部邮件，免费档限制每月 1000 入/1000 出",
+      "作为较新的开源项目（Star < 10），社区生态和长期稳定性尚待验证，文档依赖官网"
+    ],
+    "alternatives": [
+      "Mail-in-a-Box",
+      "Stalwart Mail Server"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 perch.mxraven.com 注册 mxRaven 账号获取 Workspace ID，并在本地终端执行 `go install github.com/synqronlabs/perch/cmd/perch@latest` 安装二进制文件",
+      "步骤2：运行 `perch init` 初始化配置，使用 `perch mail send --to ...` 测试发信功能，或通过 `npx skills add https://github.com/synqronlabs/perch --skill perch` 将邮件能力接入你的 AI Agent 环境"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://perch.mxraven.com/",
+    "githubRepo": "synqronlabs/perch",
+    "stars": "4",
+    "license": "MIT-0",
+    "ogImage": "https://opengraph.githubassets.com/1/synqronlabs/perch",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-23",
+      "daysSincePush": 3,
+      "openIssues": 2,
+      "forks": 0,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.6.0",
+        "publishedAt": "2026-11-11"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "npx skills add https://github.com/synqronlabs/perch --skill perch",
+      "go install github.com/synqronlabs/perch/cmd/perch@latest"
+    ]
   }
 }
