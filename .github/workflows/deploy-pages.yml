@@ -27,9 +27,6 @@ concurrency:
 
 jobs:
   enrich-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -119,6 +116,15 @@ jobs:
         with:
           path: ${{ runner.temp }}/products-selection-site
 
+  # Separate job: deploying in the same job as the upload intermittently fails with
+  # 'No artifacts named "github-pages" were found' (artifact listing is eventually consistent).
+  deploy-github-pages:
+    needs: enrich-and-deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
