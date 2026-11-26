@@ -1,9 +1,9 @@
 {
   "watchedearth": {
     "attempts": 1,
-    "transient": false,
-    "lastError": "Bad control character in string literal in JSON at position 547 (line 15 column 19)",
-    "updatedAt": "2026-11-26T15:36:33.268Z",
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:30.813Z",
     "product": {
       "key": "watchedearth",
       "name": "watched.earth",
@@ -19,9 +19,9 @@
   },
   "astra读写权重被证伪qwen38本地复现": {
     "attempts": 1,
-    "transient": false,
-    "lastError": "Bad escaped character in JSON at position 699 (line 23 column 41)",
-    "updatedAt": "2026-11-26T15:36:50.939Z",
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:30.792Z",
     "product": {
       "key": "astra读写权重被证伪qwen38本地复现",
       "name": "「Astra 读写权重」被证伪 / Qwen 3.8 本地复现",
@@ -37,9 +37,9 @@
   },
   "citellm": {
     "attempts": 1,
-    "transient": false,
-    "lastError": "Expected ':' after property name in JSON at position 592 (line 15 column 20)",
-    "updatedAt": "2026-11-26T15:37:55.619Z",
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:30.789Z",
     "product": {
       "key": "citellm",
       "name": "CiteLLM",
@@ -50,6 +50,150 @@
       "tagline": "让 AI 答案逐句链回 PDF 原文高亮",
       "description": "让 AI 答案逐句链回 PDF 原文高亮\n\n- 三件套：Check（在 ChatGPT/Claude 插件或独立 Web app 里核对声明，每条答案/抽取值链回 PDF 精确段落高亮）、Ask（跨文档集搜索得带段落级引用的答案）、Extract（按自定义 schema 从文档抽字段，每个值带来源）。；- 设计：人在回路——高亮只说明「答案从哪来」而非「答案对」；可导出高亮 PDF 或带签核的证据报告。安全：不拿你的文档训练、默认处理后即删、可 Docker 自托管。用例覆盖金融（契约合规/信贷协议）、法律、保险、地产、审计。；直击陈老师「论文/财报 PDF 核验、让 AI 不瞎编」的痛点——给 AI 答案附可点击的原文证据，比单纯摘要可靠；ChatGPT/Claude 插件 + 可自托管，私有性友好；早期 SaaS，未核实定价。",
       "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "agentgridio1024": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:30.791Z",
+    "product": {
+      "key": "agentgridio1024",
+      "name": "AgentGrid.io（10-24）",
+      "date": "2026-10-26",
+      "url": "https://www.producthunt.com/products/agentgrid-io",
+      "directUrl": "https://www.producthunt.com/products/agentgrid-io",
+      "githubRepo": null,
+      "tagline": "人 + AI agent 的共享工作区，「Google Drive 给人、Git 给 agent」",
+      "description": "人 + AI agent 的共享工作区，「Google Drive 给人、Git 给 agent」\n\n它把“聊天记录里翻 agent 成果”换成了“同一份活文档”——Claude 写报告、ChatGPT 改、Grok Bot 配图、同事再手动改，都落在同一个地方。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "molibylexmount": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.325Z",
+    "product": {
+      "key": "molibylexmount",
+      "name": "Moli by Lexmount",
+      "date": "2026-10-26",
+      "url": "https://www.producthunt.com/products/lexmount-browser",
+      "directUrl": "https://www.producthunt.com/products/lexmount-browser",
+      "githubRepo": null,
+      "tagline": "为 agent 和自动化框架从头写的无头浏览器引擎：冷启动号称比 Chrome 快约 5 倍、内存约 1/7，支持 Playwright、CDP、扩展、代理和会话回放。100 浏览器小时 + 25 并发 $12/月，PH 用户送 2 个月 Pro。",
+      "description": "agent 上网的成本大头往往是浏览器本身——自研引擎省时间省内存，直接换算成 agent 任务的成本；有在线 Playground 可先验凭证再写代码。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "llamawindows1023": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.337Z",
+    "product": {
+      "key": "llamawindows1023",
+      "name": "Llama Windows（10-23）",
+      "date": "2026-10-26",
+      "url": "https://www.producthunt.com/products/llama-windows",
+      "directUrl": "https://www.producthunt.com/products/llama-windows",
+      "githubRepo": null,
+      "tagline": "一个本地 AI 服务器，供给你所有 Windows 应用",
+      "description": "一个本地 AI 服务器，供给你所有 Windows 应用\n\n它解决的是 Windows 本地模型的重复劳动——每个应用不再各下一份 20GB 模型；无需终端、无需管理员权限、无云端推理。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "badgey": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.348Z",
+    "product": {
+      "key": "badgey",
+      "name": "Badgey",
+      "date": "2026-10-26",
+      "url": "https://www.producthunt.com/products/badgey",
+      "directUrl": "https://www.producthunt.com/products/badgey",
+      "githubRepo": null,
+      "tagline": "把 iPhone 变成一张朝向对面的人的名牌：挂绳倒挂时牌面自动转正、走路还会轻轻摆动，塞进胸前口袋则缩成一条露出姓名。免费起步，多张名牌、背面二维码需一次性买 Pro。",
+      "description": "它把“手机当名牌”这个别扭点真做成了机制——倒挂检测只用前置摄像头跑几秒本地小模型，帧不保存；小而完整的独立开发者作品。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "fontsight": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.401Z",
+    "product": {
+      "key": "fontsight",
+      "name": "Fontsight",
+      "date": "2026-10-26",
+      "url": "https://fontsight.xyz/",
+      "directUrl": "https://fontsight.xyz/",
+      "githubRepo": null,
+      "tagline": "Chrome 字体识别扩展：指到任何文字，就告诉你实际渲染的是哪个字体（而不是 CSS 列表里的第一个）、字重字号、作者和可复制的 CSS，还能把页面文字换成别的字体试效果。免费、无需注册。",
+      "description": "它戳破了 CSS 的假象——字体栈里排第一的未必是真正画出来的那个，借字、伪粗体、近似字号都会被点名；内置 7900+ 字体目录，点到即有出处。",
+      "categoryType": "vertical",
+      "deliveryForm": "web"
+    }
+  },
+  "pawl": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.865Z",
+    "product": {
+      "key": "pawl",
+      "name": "pawl",
+      "date": "2026-10-26",
+      "url": "https://www.producthunt.com/products/pawl",
+      "directUrl": "https://www.producthunt.com/products/pawl",
+      "githubRepo": null,
+      "tagline": "Mac 菜单栏专注计时器，拉一下猫爪就开始计时，支持专注/休息循环、8 只猫爪和主题，结束前会提前提醒。macOS 14+，$9.99 一次买断、无订阅。",
+      "description": "把“开始专注”这个最难的一步做成一个拉爪子的手势，门槛低到不好意思拖延；买断制在计时器类里也算克制。",
+      "categoryType": "productivity",
+      "deliveryForm": "desktop"
+    }
+  },
+  "multipeer": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:31.997Z",
+    "product": {
+      "key": "multipeer",
+      "name": "Multipeer",
+      "date": "2026-10-26",
+      "url": "https://multipeer.sh",
+      "directUrl": "https://multipeer.sh",
+      "githubRepo": null,
+      "tagline": "✅ 据 multipeer.sh 真实",
+      "description": "✅ 据 multipeer.sh 真实；人及其 agent 同画布协作",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "100inbrowser": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-26T22:22:32.302Z",
+    "product": {
+      "key": "100inbrowser",
+      "name": "100% in-browser",
+      "date": "2026-10-26",
+      "url": "https://kouh.me",
+      "directUrl": "https://kouh.me",
+      "githubRepo": null,
+      "tagline": "✅ 据标题/站点（kouh.me）真实可达",
+      "description": "✅ 据标题/站点（kouh.me）真实可达；隐私向 AI 文本检测",
+      "categoryType": "productivity",
       "deliveryForm": "web"
     }
   }
