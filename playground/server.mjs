@@ -19,7 +19,8 @@ import {
   parseDetailedBriefMarkdown,
   parseAnyBriefMarkdown,
   cleanProductName,
-  isNonProductEntry
+  isNonProductEntry,
+  repoMatchesProduct
 } from './lib/parser.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -554,11 +555,13 @@ function extractMetaTag(html, attrName, attrVal) {
   return decodeHtmlEntities(html.match(re1)?.[1] || html.match(re2)?.[1] || '') || null;
 }
 
-function findGithubRepoInHtml(html) {
+function findGithubRepoInHtml(html, context = null) {
   const matches = [...html.matchAll(/https?:\/\/github\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/gi)];
   for (const m of matches) {
     const candidate = cleanRepoSlug(m[1]);
-    if (candidate) return candidate;
+    if (!candidate) continue;
+    // Without context keep legacy behaviour; with context only accept the product's own repo
+    if (!context || repoMatchesProduct(candidate, context)) return candidate;
   }
   return null;
 }
@@ -667,7 +670,7 @@ async function resolveProductDetails(targetUrl, githubRepo, productName = '', fo
         readableBlocks = extractReadableFromHtml(page.html);
 
         if (!discoveredRepo) {
-          const foundRepo = findGithubRepoInHtml(page.html);
+          const foundRepo = findGithubRepoInHtml(page.html, { productName, siteUrl: targetUrl });
           if (foundRepo) {
             discoveredRepo = foundRepo;
             githubDetails = await fetchGitHubDetails(discoveredRepo, userToken);

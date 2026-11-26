@@ -139,6 +139,40 @@ export function isNonProductEntry(item = {}) {
   return NON_PRODUCT_NAME_RE.test(String(item.name || '').trim());
 }
 
+const GENERIC_HOST_LABELS = new Set(['www', 'app', 'get', 'try', 'use', 'go', 'my', 'web', 'beta', 'docs', 'com', 'io', 'ai', 'dev', 'app', 'so', 'sh', 'co', 'net', 'org', 'github', 'vercel', 'netlify', 'pages']);
+const normToken = (s = '') => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/**
+ * A GitHub link found on a product page only counts as *the product's* repo when its
+ * owner or name resembles the product name or the site's domain. Landing pages often
+ * link to competitors / dependencies (e.g. a transcription API comparing itself to WhisperX).
+ */
+export function repoMatchesProduct(repo, { productName = '', siteUrl = '' } = {}) {
+  const [owner = '', name = ''] = String(repo || '').split('/');
+  const ownerN = normToken(owner);
+  const nameN = normToken(name);
+  if (!ownerN || !nameN) return false;
+  const tokens = new Set();
+  const full = normToken(productName);
+  if (full.length >= 3) tokens.add(full);
+  for (const word of String(productName).split(/[\s._\-/:：()（）]+/)) {
+    const w = normToken(word);
+    if (w.length >= 4) tokens.add(w);
+  }
+  try {
+    const host = new URL(siteUrl).hostname.toLowerCase();
+    for (const label of host.split('.')) {
+      if (label.length >= 3 && !GENERIC_HOST_LABELS.has(label)) tokens.add(normToken(label));
+    }
+  } catch { /* no site */ }
+  for (const t of tokens) {
+    if (nameN === t || ownerN === t) return true;
+    if (t.length >= 4 && (nameN.includes(t) || ownerN.includes(t))) return true;
+    if (nameN.length >= 4 && t.includes(nameN)) return true;
+  }
+  return false;
+}
+
 export function cleanRepoSlug(slug) {
   if (!slug) return null;
   const cleaned = String(slug).trim().replace(/\.git$/, '').replace(/[),.;:]+$/, '');

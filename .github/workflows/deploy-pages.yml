@@ -11,6 +11,10 @@ on:
         description: "回溯查验最近多少天的简报"
         type: string
         default: "2"
+      backfill:
+        description: "本次额外回填多少个历史产品（旧 schema 升级优先）"
+        type: string
+        default: "60"
 
 permissions:
   contents: write
@@ -67,8 +71,9 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[skip enrich]') }}
         run: |
           DAYS="${{ github.event.inputs.days || '2' }}"
+          BACKFILL="${{ github.event.inputs.backfill || '60' }}"
           if [ -d ".muse-repo" ] && [ -n "$QWEN_API_KEY" ]; then
-            node playground/enrich-agent.mjs --days "$DAYS" --concurrency 4
+            node playground/enrich-agent.mjs --days "$DAYS" --backfill "$BACKFILL" --concurrency 4
           else
             echo "Skipping enrich-agent (missing .muse-repo or QWEN_API_KEY)"
           fi
@@ -85,7 +90,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add playground/enriched-products.json playground/public/data playground/public/feed.xml
+          [ -f playground/.enrich-failed.json ] || echo '{}' > playground/.enrich-failed.json
+          git add playground/enriched-products.json playground/.enrich-failed.json playground/public/data playground/public/feed.xml
           if ! git diff --cached --quiet; then
             git commit -m "chore: daily enriched product update [skip enrich]"
             git push
