@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getDateFilesMap, getDayData, getDayDataFromBriefs, PUBLIC_DIR } from './server.mjs';
+import { computeTrialCost, isDemoUrl } from './public/trial-cost.js';
 
 const DATA_DIR = path.join(PUBLIC_DIR, 'data');
 const DAY_DIR = path.join(DATA_DIR, 'day');
@@ -35,6 +36,14 @@ function getIsoWeekKey(dateStr) {
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+}
+
+// Drop scraped "demo" links that are really docs/landing pages, then attach the trial cost.
+function withTrialCost(p) {
+  const product = { ...p };
+  if (product.demoUrl && !isDemoUrl(product.demoUrl)) product.demoUrl = null;
+  product.trialCost = computeTrialCost(product);
+  return product;
 }
 
 function stripUserFields(p) {
@@ -89,7 +98,7 @@ for (let idx = 0; idx < dates.length; idx++) {
     lowRecentDays.push(`${d} (${dayData.products.length} items from ${dayData.briefCount} briefs)`);
   }
 
-  const cleanProducts = dayData.products.map(stripUserFields);
+  const cleanProducts = dayData.products.map(stripUserFields).map(withTrialCost);
 
   // Persist raw briefs on-demand file separately (reduces day/*.json payload)
   fs.writeFileSync(
@@ -179,6 +188,7 @@ for (const p of masterMap.values()) {
   const safeKey = p.key.replace(/[^a-z0-9\u4e00-\u9fa5_-]/gi, '');
   if (!safeKey) continue;
   writtenProductFiles.add(`${safeKey}.json`);
+  Object.assign(p, withTrialCost(p));
   fs.writeFileSync(
     path.join(PRODUCTS_DIR, `${safeKey}.json`),
     JSON.stringify(p),
@@ -212,6 +222,7 @@ for (const p of masterMap.values()) {
     canEmbed: typeof p.canEmbed === 'boolean' ? p.canEmbed : null,
     health: p.health ? { activityTier: p.health.activityTier, pushedAt: p.health.pushedAt } : null,
     scenarios: p.scenarios || [],
+    trialCost: p.trialCost,
     enriched: Boolean(p.enriched)
   });
 }
@@ -236,6 +247,44 @@ fs.writeFileSync(
   }),
   'utf-8'
 );
+
+// quick.json: "现在就能玩" — products you can try right now in the browser, no install
+const QUICK_LEVELS = new Set(['instant', 'web', 'signup']);
+function quickTryUrl(p) {
+  if (p.trialCost?.demoUrl) return p.trialCost.demoUrl;
+  const url = p.directUrl || p.url || '';
+  return /github\.com|producthunt\.com|betalist\.com|news\.ycombinator\.com/i.test(url) ? '' : url;
+}
+const quickPicks = leanIndex
+  .filter(p => {
+    const c = p.trialCost;
+    if (!c || !QUICK_LEVELS.has(c.level) || !quickTryUrl(p)) return false;
+    // verified quick web products, or genuine online demos
+    return c.level === 'instant' || (c.verified && c.minutes != null && c.minutes <= 5);
+  })
+  .sort((a, b) =>
+    a.trialCost.rank - b.trialCost.rank ||
+    Number(b.trialCost.verified) - Number(a.trialCost.verified) ||
+    String(b.date || '').localeCompare(String(a.date || ''))
+  )
+  .slice(0, 24)
+  .map(p => ({
+    key: p.key,
+    date: p.date,
+    name: p.name,
+    tagline: p.tagline,
+    categoryLabel: p.categoryLabel,
+    pricingModel: p.pricingModel,
+    ogImage: p.ogImage,
+    tryUrl: quickTryUrl(p),
+    trialCost: p.trialCost
+  }));
+fs.writeFileSync(
+  path.join(DATA_DIR, 'quick.json'),
+  JSON.stringify({ generatedAt: new Date().toISOString(), items: quickPicks }),
+  'utf-8'
+);
+console.log(`Quick-try picks: ${quickPicks.length}`);
 
 // Write weekly.json (top 5 curated picks per recent 8 weeks)
 const weeklyPicks = [];

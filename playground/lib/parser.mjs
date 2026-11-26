@@ -1,3 +1,4 @@
+import { isDemoUrl } from '../public/trial-cost.js';
 // Modular briefing parser, metadata normalizer & command extractor
 
 export const GITHUB_RESERVED_OWNERS = new Set([
@@ -112,11 +113,21 @@ export function normalizeProductKey(name) {
 export const NEWS_SECTION_RE = /落选|核心信号|今日信号|今日趋势|今日首推|未通过|剔除|Hacker News 首页|HN 首页|首页重点|新闻|宏观|弱信号|安全(?:事件|动态|公告|集群)|行业动态/;
 
 const HN_PREFIX_RE = /^(?:show|launch|ask|tell)\s+hn\s*[:：]\s*/i;
-const NON_PRODUCT_NAME_RE = /付费位|广告位|^sponsored$|^boosted\b/i;
+const NON_PRODUCT_NAME_RE = /付费位|广告位|^sponsored$|^boosted\b|^与.{1,16}(?:相关|有关)$|^(?:今日|本期|核心)?(?:信号|趋势|小结|总结|结论)$|陈老师/i;
 
 // Normalizes HN-style titles: "Show HN: Lmux – Lightweight terminal" -> { name: "Lmux", tagline: "Lightweight terminal" }
+const LONE_SURROGATE_RE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
+// Leading emoji / status marks ("🟢 Migma AI", "✅ Foo") and verification labels ("HN 补充核实：OtoDock")
+const LEADING_MARKS_RE = /^[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D\s]+/u;
+const LEADING_LABEL_RE = /^(?:(?:HN|PH|GitHub|BetaList)\s*)?(?:补充|追加|二次)?(?:核实|核证|更正|勘误|补充)[：:]\s*/i;
+
 export function cleanProductName(rawName = '') {
-  let name = String(rawName || '').replace(/\*\*/g, '').trim();
+  let name = String(rawName || '')
+    .replace(LONE_SURROGATE_RE, '')
+    .replace(/\*\*/g, '')
+    .replace(LEADING_MARKS_RE, '')
+    .replace(LEADING_LABEL_RE, '')
+    .trim();
   const hadHnPrefix = HN_PREFIX_RE.test(name);
   name = name.replace(HN_PREFIX_RE, '').trim();
   let tagline = '';
@@ -225,22 +236,16 @@ export function normalizePricing(rawPricing, { fullText = '', githubRepo = null,
 }
 
 export function extractDemoUrl(text = '', directUrl = '') {
+  // Static-hosting domains (*.github.io, *.vercel.app, *.pages.dev) are usually docs or
+  // landing pages, not demos — only explicit sandboxes / HF Spaces / /demo paths count.
   const candidates = [];
   if (directUrl) candidates.push(directUrl);
   const urls = String(text || '').match(/https?:\/\/[^\s`<>"'）)】，,。；;]+/gi) || [];
   candidates.push(...urls);
-
   for (const raw of candidates) {
     const clean = raw.replace(/[),.;:]+$/, '');
-    try {
-      const u = new URL(clean);
-      const host = u.hostname.toLowerCase();
-      if (host === 'huggingface.co' && u.pathname.startsWith('/spaces/')) return u.href;
-      if (/(?:stackblitz\.com|codesandbox\.io|replit\.com|colab\.research\.google\.com|codepen\.io|jsfiddle\.net)/i.test(host)) return u.href;
-      if (host.endsWith('.github.io') || host.endsWith('.vercel.app') || host.endsWith('.pages.dev')) return u.href;
-      if (/\/(?:demo|playground|try|sandbox|live)(?:\/|\.html?$|$)/i.test(u.pathname) && !host.includes('github.com')) return u.href;
-    } catch {
-      // ignore invalid URL
+    if (isDemoUrl(clean)) {
+      try { return new URL(clean).href; } catch { /* ignore */ }
     }
   }
   return null;
