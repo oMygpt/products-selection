@@ -9,6 +9,7 @@
   <meta property="og:title" content="Products Selection · 每日精选产品体验台" />
   <meta property="og:description" content="30 秒判断值不值得试，3 分钟真正试上，试完留下记录。" />
   <meta property="og:type" content="website" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Products Selection RSS" href="./feed.xml" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -217,6 +218,7 @@
               </div>
               <select id="sortSelect" class="sort-select" aria-label="排序方式">
                 <option value="default">推荐排序</option>
+                <option value="easiest">最容易上手</option>
                 <option value="stars">Star 最高</option>
                 <option value="latest">最新收录</option>
                 <option value="enriched">已查验优先</option>
@@ -235,13 +237,21 @@
             <button class="filter-chip" data-form="api">模型 / API / 论文 <span id="countFormApi">0</span></button>
           </div>
 
+          <!-- Trial-cost Quick Filters (combinable) -->
+          <div class="scenario-filter-bar quick-filter-bar" id="quickFilterBar" aria-label="按试用成本筛选">
+            <span class="scenario-label">试用成本：</span>
+            <button class="filter-chip quick-chip" data-quick="fast" aria-pressed="false"><span aria-hidden="true">⚡</span> 5 分钟内 <span class="chip-count" data-quick-count="fast"></span></button>
+            <button class="filter-chip quick-chip" data-quick="noSignup" aria-pressed="false">免注册直玩 <span class="chip-count" data-quick-count="noSignup"></span></button>
+            <button class="filter-chip quick-chip" data-quick="free" aria-pressed="false">免费 <span class="chip-count" data-quick-count="free"></span></button>
+            <span class="quick-filter-note">「估」= 未经查验、按产品形态估算</span>
+          </div>
+
           <!-- Scenario Quick Filter Bar -->
           <div class="scenario-filter-bar" id="scenarioFilterBar" aria-label="按场景筛选">
             <span class="scenario-label">场景：</span>
             <button class="filter-chip active" data-scenario="all">全部场景</button>
             <button class="filter-chip" data-scenario="claude-code">让 Claude Code 更好用</button>
             <button class="filter-chip" data-scenario="teaching">教学与研究可用</button>
-            <button class="filter-chip" data-scenario="instant-web">浏览器零配置直玩</button>
             <button class="filter-chip" data-scenario="local-privacy">本地隐私优先</button>
             <button class="filter-chip" data-scenario="solo-builder">独立开发提效</button>
           </div>

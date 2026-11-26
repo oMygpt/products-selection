@@ -78,3 +78,10 @@ test('day merge: no short-prefix swallowing, but same repo / same site merges', 
   assert.equal(fleet.length, 1, 'same GitHub repo merges into one product');
   assert.equal(fleet[0].sourceCount, 2);
 });
+
+test('cleanProductName removes split emoji, status marks and verification labels', () => {
+  assert.equal(cleanProductName('\udfe2 Migma AI').name, 'Migma AI'); // half of 🟢 left by a non-unicode regex
+  assert.equal(cleanProductName('🟢 Migma AI').name, 'Migma AI');
+  assert.equal(cleanProductName('🔧 HN 补充核实：OtoDock').name, 'OtoDock');
+  assert.doesNotThrow(() => encodeURIComponent(cleanProductName('\ud83d broken').name));
+});

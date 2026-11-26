@@ -1,4 +1,5 @@
-import { selectTrials } from './trial-desk.js';
+import { drawTrials, getTrialCandidates } from './trial-desk.js';
+import { getTrialCost, describeTrialCost, QUICK_FILTERS } from './trial-cost.js';
 import { renderMarkdown, escapeHtml } from './markdown.js';
 
 const GH_TOKEN_STORAGE_KEY = 'dpb_gh_token';
@@ -35,6 +36,10 @@ const state = {
   todayData: null,
   archiveFallback: null,
   trialChoice: null,
+  trialCandidates: [],
+  trialSample: [],
+  quickPicks: [],
+  quickFilters: new Set(),
   currentDate: null,
   currentDayData: null,
   staticAllCache: null,
@@ -169,6 +174,14 @@ const rawDialogEl = document.getElementById('rawDialog');
 const rawDialogTitleEl = document.getElementById('rawDialogTitle');
 const rawBriefsContainerEl = document.getElementById('rawBriefsContainer');
 const closeRawDialogBtn = document.getElementById('closeRawDialogBtn');
+
+// encodeURIComponent throws on lone surrogates (e.g. an emoji split by an upstream regex)
+function safeEncode(value = '') {
+  const str = String(value);
+  return encodeURIComponent(typeof str.toWellFormed === 'function'
+    ? str.toWellFormed()
+    : str.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, ''));
+}
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -461,7 +474,7 @@ async function renderWeekly() {
             <div class="weekly-card-main">
               <div class="weekly-card-top">
                 <strong>${escapeHtml(item.name)}</strong>
-                ${item.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(item.frictionLevel)}</span>` : ''}
+                ${costChip(getTrialCost(item), { compact: true })}
                 ${item.stars ? `<span class="stamp stamp-neutral">★ ${escapeHtml(item.stars)}</span>` : ''}
                 ${item.sourceCount > 1 ? `<span class="stamp stamp-signal">${item.sourceCount} 源同推</span>` : ''}
               </div>
@@ -513,16 +526,61 @@ function exportRecords(format) {
 function rememberTrial(product) {
   state.trialChoice = { date: product.date, key: product.key, name: product.name };
   localStorage.setItem(TRIAL_STORAGE_KEY, JSON.stringify(state.trialChoice));
+  todayContentEl.querySelector('[data-resume-trial]')?.remove();
+}
+
+// "免注册直玩 · 1 分钟 · 免费" with a coloured dot per level; estimates are marked as such.
+function costChip(cost, { compact = false } = {}) {
+  if (!cost) return '';
+  const text = compact ? describeTrialCost({ ...cost, free: null }) : describeTrialCost(cost);
+  const proof = cost.verified
+    ? '<em class="cost-proof">已查验</em>'
+    : '<em class="cost-proof cost-proof-est" title="未经 Agent 查验，按产品形态估算">估</em>';
+  return `<span class="cost-chip cost-${escapeHtml(cost.level)}"><span class="cost-dot" aria-hidden="true"></span>${escapeHtml(text)}${proof}</span>`;
+}
+
+function monogram(name = '') {
+  const ch = Array.from(String(name).trim())[0] || '·';
+  return escapeHtml(ch.toUpperCase());
+}
+
+function renderQuickRail() {
+  const shown = new Set(state.trialSample.map(entry => entry.product.key));
+  const picks = state.quickPicks.filter(p => !shown.has(p.key)).slice(0, 4);
+  if (!picks.length) return '';
+  return `
+    <section class="quick-rail" aria-labelledby="quickRailTitle">
+      <div class="desk-alternatives-heading">
+        <h2 id="quickRailTitle">现在就能玩 <span class="quick-sub">不装软件，点开就试</span></h2>
+        <button class="desk-text-button" data-quick-library>在产品库里筛选更多 <span aria-hidden="true">→</span></button>
+      </div>
+      <ul class="quick-grid">
+        ${picks.map(p => `
+          <li>
+            <a class="quick-card" href="${escapeHtml(p.tryUrl)}" target="_blank" rel="noopener" data-quick-try="${escapeHtml(p.key)}">
+              <span class="quick-thumb" data-initial="${monogram(p.name)}">
+                ${p.ogImage ? `<img src="${escapeHtml(p.ogImage)}" alt="" loading="lazy">` : ''}
+              </span>
+              <span class="quick-body">
+                <strong>${escapeHtml(p.name)} <span aria-hidden="true">↗</span></strong>
+                <span class="quick-deck">${escapeHtml(p.tagline || p.categoryLabel || '')}</span>
+                <span class="quick-meta">${costChip(p.trialCost, { compact: true })}<time datetime="${escapeHtml(p.date || '')}">${escapeHtml((p.date || '').slice(5))}</time></span>
+              </span>
+            </a>
+          </li>`).join('')}
+      </ul>
+    </section>`;
 }
 
 function renderToday() {
   const data = state.archiveFallback || state.todayData;
   const showingArchive = Boolean(state.archiveFallback);
-  const selectedKey = data && state.trialChoice?.date === data.date ? state.trialChoice.key : null;
-  const { featured, alternatives } = selectTrials(data?.products || [], selectedKey, state.userState.items);
+  const [featured, ...alternatives] = state.trialSample;
   todayTitleEl.textContent = showingArchive ? '往期精选' : '今日试用';
   todayDateEl.dateTime = data?.date || state.todayDate;
-  todayDateEl.textContent = todayDateEl.dateTime;
+  todayDateEl.textContent = data?.products?.length
+    ? `${todayDateEl.dateTime} · 本期 ${data.products.length} 款`
+    : todayDateEl.dateTime;
   if (todayStatusEl) {
     todayStatusEl.textContent = state.todayData ? '今日暂无可试用产品' : '今日简报待更新';
     todayStatusEl.classList.toggle('hidden', !showingArchive);
@@ -544,27 +602,29 @@ function renderToday() {
       <div class="desk-empty">
         <h2>${message}</h2>
         <div class="desk-actions">${resume}${fallback}</div>
-      </div>`;
+      </div>
+      ${renderQuickRail()}`;
     return;
   }
 
-  const { product, task, mode, url } = featured;
+  const { product, task, mode, url, cost } = featured;
+  const canResumeOther = state.trialChoice?.date !== data.date || state.trialChoice?.key !== product.key;
   const trialKey = escapeHtml(product.key);
   const primary = url
     ? `<a class="desk-primary" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-start-trial="${trialKey}">${mode.action} <span aria-hidden="true">↗</span></a>`
     : `<button class="desk-primary" data-open-trial="${trialKey}">${mode.action} <span aria-hidden="true">→</span></button>`;
   todayContentEl.innerHTML = `
-    <article class="desk-feature">
+    <article class="desk-feature" data-feature-key="${trialKey}">
       <div class="desk-product">
-        <div class="desk-product-mode">${mode.label}${product.pricingModel ? ` <span>·</span> ${escapeHtml(product.pricingModel)}` : ''}</div>
+        <div class="desk-product-mode">${mode.label}${product.categoryLabel ? ` <span>·</span> ${escapeHtml(product.categoryLabel)}` : ''}${(product.sourceCount || 1) > 1 ? ` <span>·</span> ${product.sourceCount} 份简报同推` : ''}</div>
         <h2>${escapeHtml(product.name)}</h2>
         <p class="desk-product-deck">${escapeHtml(product.tagline || product.categoryLabel || '')}</p>
+        <p class="desk-requirement">${costChip(cost)}</p>
         <div class="desk-actions">
           ${primary}
           ${url ? `<button class="desk-text-button" data-open-trial="${trialKey}">试用指引</button>` : ''}
-          ${showingArchive && state.trialChoice?.date !== data.date ? resume : ''}
+          ${canResumeOther ? resume : ''}
         </div>
-        <p class="desk-requirement">${mode.requirement}</p>
       </div>
       <div class="desk-task">
         <h3>上手试什么</h3>
@@ -573,7 +633,10 @@ function renderToday() {
     </article>
     <div class="desk-alternatives-heading">
       ${alternatives.length ? '<h2>其他选择</h2>' : '<span></span>'}
-      ${libraryLink(data.date, `查看本期全部 ${data.products.length} 条 <span aria-hidden="true">→</span>`)}
+      <div class="desk-alternatives-actions">
+        ${state.trialCandidates.length > 1 ? '<button class="desk-text-button" data-redraw-trials title="快捷键 R">换一组 <span aria-hidden="true">↻</span></button>' : ''}
+        ${libraryLink(data.date, `查看本期全部 ${data.products.length} 款 <span aria-hidden="true">→</span>`)}
+      </div>
     </div>
     ${alternatives.length ? `
       <ul class="desk-alternatives">
@@ -583,10 +646,12 @@ function renderToday() {
               <span class="desk-alt-mode">${entry.mode.label}</span>
               <strong>${escapeHtml(entry.product.name)}</strong>
               <span class="desk-alt-deck">${escapeHtml(entry.product.tagline || '')}</span>
+              <span class="desk-alt-cost">${costChip(entry.cost, { compact: true })}</span>
             </span>
             <span class="desk-alt-arrow" aria-hidden="true">→</span>
           </button></li>`).join('')}
       </ul>` : ''}
+    ${renderQuickRail()}
   `;
 }
 
@@ -624,14 +689,17 @@ async function readDay(date) {
 
 async function updateToday(data) {
   state.todayData = data?.date === state.todayDate ? data : null;
+  let candidates = getTrialCandidates(state.todayData?.products || []);
   let fallback = null;
-  if (!selectTrials(state.todayData?.products || []).featured) {
+  if (!candidates.length) {
     for (const issue of state.days) {
       if (issue.date >= state.todayDate) continue;
       try {
         const previous = issue.date === data?.date ? data : await readDay(issue.date);
-        if (selectTrials(previous.products).featured) {
+        const previousCandidates = getTrialCandidates(previous.products);
+        if (previousCandidates.length) {
           fallback = previous;
+          candidates = previousCandidates;
           break;
         }
       } catch {
@@ -640,7 +708,32 @@ async function updateToday(data) {
     }
   }
   state.archiveFallback = fallback;
+  state.trialCandidates = candidates;
+  state.trialSample = drawTrials(candidates, state.userState.items);
   renderToday();
+}
+
+async function loadQuickPicks() {
+  try {
+    const res = await fetch('./data/quick.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    state.quickPicks = Array.isArray(data.items) ? data.items : [];
+    if (state.page === 'today' || !state.page) renderToday();
+  } catch {
+    // Optional section: the desk works without it.
+  }
+}
+
+function redrawTrials() {
+  if (state.trialCandidates.length < 2) return;
+  closeWorkbench();
+  const previousKeys = state.trialSample.map(entry => entry.product.key);
+  state.trialSample = drawTrials(state.trialCandidates, state.userState.items, previousKeys);
+  renderToday();
+  const feature = todayContentEl.querySelector('.desk-feature');
+  feature?.classList.add('is-fresh');
+  todayContentEl.querySelector('[data-redraw-trials]')?.focus({ preventScroll: true });
 }
 
 async function openSavedProduct(key, entry) {
@@ -711,7 +804,10 @@ async function init() {
   }
 
   let initPayload = null;
+  // Only the local dev server has /api; don't probe (and log a 404) on the static site
+  const mayHaveLocalApi = ['localhost', '127.0.0.1', '::1', '[::1]'].includes(location.hostname);
   try {
+    if (!mayHaveLocalApi) throw new Error('static site');
     const res = await fetch('/api/days');
     if (res.ok && res.headers.get('content-type')?.includes('application/json')) {
       initPayload = await res.json();
@@ -747,6 +843,7 @@ async function init() {
     await loadDay(state.days[0].date);
   }
   await updateToday(state.currentDayData);
+  loadQuickPicks();
   await handleHashRoute();
   window.addEventListener('hashchange', () => { handleHashRoute(); });
 }
@@ -764,7 +861,7 @@ async function fetchProductDetail(key) {
   if (!key) return null;
   if (state.productDetailCache[key]) return state.productDetailCache[key];
   try {
-    const res = await fetch(`./data/products/${encodeURIComponent(key)}.json`);
+    const res = await fetch(`./data/products/${safeEncode(key)}.json`);
     if (res.ok) {
       const data = await res.json();
       state.productDetailCache[key] = data;
@@ -877,19 +974,26 @@ async function loadDay(date, autoOpenFirst = false) {
 
 async function fetchAllScopeProducts() {
   stageSubtitleEl.textContent = '正在检索全库历史产品...';
-  if (state.isLocalServer) {
-    const params = new URLSearchParams({ type: 'all', form: 'all', status: 'all', q: state.searchQuery, limit: '300' });
-    const res = await fetch(`/api/explore?${params.toString()}`);
-    const data = await res.json();
-    state.allScopeProducts = data.items || [];
-  } else {
-    if (!state.staticAllCache) {
+  if (!state.staticAllCache) {
+    try {
+      // The built index is de-duplicated across issues and carries trial costs; prefer it everywhere
       const res = await fetch('./data/explore.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       state.staticAllCache = data.items || [];
+    } catch {
+      if (state.isLocalServer) {
+        const params = new URLSearchParams({ type: 'all', form: 'all', status: 'all', q: state.searchQuery, limit: '2000' });
+        const res = await fetch(`/api/explore?${params.toString()}`);
+        const data = await res.json();
+        state.allScopeProducts = data.items || [];
+        applyFiltersAndRender();
+        return;
+      }
+      state.staticAllCache = [];
     }
-    state.allScopeProducts = state.staticAllCache;
   }
+  state.allScopeProducts = state.staticAllCache;
   applyFiltersAndRender();
 }
 
@@ -921,6 +1025,14 @@ function updateTypeCounts(pool) {
   return basePool;
 }
 
+function syncQuickFilterUi() {
+  document.querySelectorAll('[data-quick]').forEach(btn => {
+    const on = state.quickFilters.has(btn.dataset.quick);
+    btn.classList.toggle('active', on);
+    btn.setAttribute('aria-pressed', String(on));
+  });
+}
+
 function applyFiltersAndRender() {
   const pool = getSourcePool();
   const basePool = updateTypeCounts(pool);
@@ -943,7 +1055,33 @@ function applyFiltersAndRender() {
     finalItems = finalItems.filter(p => Array.isArray(p.scenarios) && p.scenarios.includes(state.selectedScenario));
   }
 
-  if (state.sortBy === 'stars') {
+  // Trial-cost quick filters: counts reflect the current type/form/scenario selection
+  const passesQuick = (p, keys) => {
+    const cost = getTrialCost(p);
+    return keys.every(k => QUICK_FILTERS[k].test(cost));
+  };
+  const activeQuick = [...state.quickFilters];
+  for (const key of Object.keys(QUICK_FILTERS)) {
+    const countEl = document.querySelector(`[data-quick-count="${key}"]`);
+    if (countEl) {
+      const others = activeQuick.filter(k => k !== key);
+      countEl.textContent = finalItems.filter(p => passesQuick(p, [...others, key])).length;
+    }
+  }
+  if (activeQuick.length) finalItems = finalItems.filter(p => passesQuick(p, activeQuick));
+
+  const easiestFirst = (a, b) => {
+    const ca = getTrialCost(a);
+    const cb = getTrialCost(b);
+    return ca.rank - cb.rank ||
+      Number(cb.verified) - Number(ca.verified) ||
+      (ca.minutes ?? 99) - (cb.minutes ?? 99) ||
+      String(b.date || '').localeCompare(String(a.date || ''));
+  };
+
+  if (state.sortBy === 'easiest' || (state.sortBy === 'default' && activeQuick.length)) {
+    finalItems = [...finalItems].sort(easiestFirst);
+  } else if (state.sortBy === 'stars') {
     finalItems = [...finalItems].sort((a, b) => parseStarsNumber(b.stars) - parseStarsNumber(a.stars));
   } else if (state.sortBy === 'latest') {
     finalItems = [...finalItems].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
@@ -998,7 +1136,7 @@ function renderGalleryCards(products, showDateOnCard = false) {
     const userEntry = state.userState.items?.[p.key] || {};
     const status = userEntry.status || p.userStatus || null;
     const note = userEntry.note !== undefined ? userEntry.note : (p.userNote || '');
-    const bestUrl = p.directUrl || p.url || `https://www.google.com/search?q=${encodeURIComponent(p.name)}`;
+    const bestUrl = p.directUrl || p.url || `https://www.google.com/search?q=${safeEncode(p.name)}`;
     const domain = p.githubRepo ? p.githubRepo : extractDomain(bestUrl);
     const isFocused = idx === state.focusedIndex;
     const summaryText = p.introduction || p.description || '';
@@ -1006,6 +1144,7 @@ function renderGalleryCards(products, showDateOnCard = false) {
     const healthInfo = p.health?.activityTier ? HEALTH_LABELS[p.health.activityTier] : null;
     const ratingVal = userEntry.rating || p.userRating || null;
     const trustLabel = p.enriched ? '已查验' : '仅简报';
+    const cost = getTrialCost(p);
 
     return `
       <article class="product-card ${state.activeProduct?.key === p.key ? 'active-card' : ''} ${isFocused ? 'kb-focused' : ''}" data-key="${escapeHtml(p.key)}" data-idx="${idx}" id="card-${escapeHtml(p.key)}">
@@ -1020,12 +1159,11 @@ function renderGalleryCards(products, showDateOnCard = false) {
             <div class="card-stamps">
               <span class="stamp stamp-type">${escapeHtml(p.categoryLabel || '垂直应用')}</span>
               <span class="stamp stamp-delivery">${escapeHtml(p.deliveryLabel || '在线网页')}</span>
-              ${p.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(p.frictionLevel)}</span>` : ''}
+              ${costChip(cost, { compact: true })}
               ${p.pricingModel ? `<span class="stamp stamp-pricing">${escapeHtml(p.pricingModel)}</span>` : ''}
               ${p.stars ? `<span class="stamp stamp-neutral">★ ${escapeHtml(p.stars)}</span>` : ''}
               ${healthInfo ? `<span class="stamp ${healthInfo.cls}">${healthInfo.label}</span>` : ''}
               ${p.sourceCount > 1 ? `<span class="stamp stamp-signal">${p.sourceCount} 源同推</span>` : ''}
-              <span class="stamp ${p.enriched ? 'stamp-trust-verified' : 'stamp-trust-brief'}">${trustLabel}</span>
             </div>
           </div>
 
@@ -1048,7 +1186,7 @@ function renderGalleryCards(products, showDateOnCard = false) {
 
         <div class="card-footer">
           <div class="try-actions">
-            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${p.demoUrl ? '▶ 在线 Demo / 体验' : (p.githubRepo ? '🚀 体验 / Codespace' : '查看体验指南 →')}</button>
+            <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${cost.demoUrl ? '▶ 在线 Demo / 体验' : (p.githubRepo ? '🚀 体验 / Codespace' : '查看体验指南 →')}</button>
             <a href="${escapeHtml(bestUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" data-stop-card>↗ 官网</a>
           </div>
           <div class="curation-actions">
@@ -1070,7 +1208,7 @@ function renderMatrixRows(products, showDate = false) {
   matrixBodyEl.innerHTML = products.map((p, idx) => {
     const userEntry = state.userState.items?.[p.key] || {};
     const status = userEntry.status || p.userStatus || null;
-    const bestUrl = p.directUrl || p.url || `https://www.google.com/search?q=${encodeURIComponent(p.name)}`;
+    const bestUrl = p.directUrl || p.url || `https://www.google.com/search?q=${safeEncode(p.name)}`;
     const isFocused = idx === state.focusedIndex;
 
     return `
@@ -1276,7 +1414,8 @@ function renderCodespaceBanner() {
     wbCodespaceBannerEl.innerHTML = '';
     return;
   }
-  const hasDemo = Boolean(product.demoUrl);
+  const demoUrl = getTrialCost(product).demoUrl;
+  const hasDemo = Boolean(demoUrl);
   const hasRepo = Boolean(product.githubRepo);
   if (!hasDemo && !hasRepo) {
     wbCodespaceBannerEl.classList.add('hidden');
@@ -1303,7 +1442,7 @@ function renderCodespaceBanner() {
       </div>
     </div>
     <div class="cs-banner-actions">
-      ${hasDemo ? `<a href="${escapeHtml(product.demoUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink editorial-btn-sm">▶ 打开在线 Demo ↗</a>` : ''}
+      ${hasDemo ? `<a href="${escapeHtml(demoUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink editorial-btn-sm">▶ 打开在线 Demo ↗</a>` : ''}
       ${hasRepo ? `<a href="https://codespaces.new/${escapeHtml(repo)}?quickstart=1" target="_blank" rel="noopener" class="editorial-btn ${hasDemo ? '' : 'editorial-btn-ink'} editorial-btn-sm">⚡ 免 Key 启动 Codespace ↗</a>` : ''}
       ${hasRepo ? `<a href="https://github.dev/${escapeHtml(repo)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm">↗ github.dev</a>` : ''}
       ${hasRepo ? `<button class="editorial-btn editorial-btn-sm" id="bannerGoCodespaceBtn">${existing ? `管理实例 (${escapeHtml(existing.state)})` : '进阶：实例管理'}</button>` : ''}
@@ -1601,7 +1740,7 @@ function loadWebPreviewIframe() {
       wbIframeWrapEl.appendChild(fallback);
     }
     fallback.classList.remove('hidden');
-    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(state.activeProduct.name + ' official website')}`;
+    const searchUrl = `https://www.google.com/search?q=${safeEncode(state.activeProduct.name + ' official website')}`;
     fallback.innerHTML = `
       <h4 style="font-size:15px;">该条目目前仅记录了 Product Hunt 介绍页</h4>
       <p style="font-size:13px; color:var(--ink-muted); max-width:420px;">Product Hunt 页面受 Cloudflare 保护，无法直接在页面内嵌显示。</p>
@@ -1640,7 +1779,7 @@ function loadWebPreviewIframe() {
       </p>
       <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:6px;">
         <a href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink">↗ 新窗口打开体验</a>
-        ${state.activeProduct.demoUrl ? `<a href="${escapeHtml(state.activeProduct.demoUrl)}" target="_blank" rel="noopener" class="editorial-btn">▶ 打开在线 Demo</a>` : ''}
+        ${getTrialCost(state.activeProduct).demoUrl ? `<a href="${escapeHtml(getTrialCost(state.activeProduct).demoUrl)}" target="_blank" rel="noopener" class="editorial-btn">▶ 打开在线 Demo</a>` : ''}
       </div>
     `;
     return;
@@ -1675,7 +1814,8 @@ function loadWebPreviewIframe() {
 function renderWorkbenchSummary(product, inspectInfo) {
   const meta = inspectInfo?.github?.meta;
   const starsVal = meta?.stargazers_count != null ? meta.stargazers_count.toLocaleString() : product.stars;
-  const licenseVal = meta?.license || product.license;
+  const rawLicense = meta?.license || product.license;
+  const licenseVal = rawLicense && !/^(NOASSERTION|NONE|Other)$/i.test(rawLicense) ? rawLicense : null;
   const langVal = meta?.language;
   const topics = meta?.topics || [];
   const introText = product.introduction || product.description || meta?.description || '';
@@ -1684,12 +1824,13 @@ function renderWorkbenchSummary(product, inspectInfo) {
   const alternatives = Array.isArray(product.alternatives) ? product.alternatives : [];
   const health = product.health || null;
   const healthInfo = health?.activityTier ? HEALTH_LABELS[health.activityTier] : null;
-  const dates = Array.isArray(product.dates) && product.dates.length > 1 ? product.dates : null;
+  const appearanceDates = product.appearances || product.dates;
+  const dates = Array.isArray(appearanceDates) && appearanceDates.length > 1 ? [...appearanceDates].sort().reverse() : null;
 
   wbSummaryBoxEl.innerHTML = `
     <div class="wb-trust-bar">
       <span class="stamp ${product.enriched ? 'stamp-trust-verified' : 'stamp-trust-brief'}">${escapeHtml(product.trustLevel || (product.enriched ? '已查验官网' : '仅简报资料'))}</span>
-      ${product.frictionLevel ? `<span class="stamp stamp-friction">${escapeHtml(product.frictionLevel)}${product.setupMinutes ? ` · 约 ${product.setupMinutes} 分钟` : ''}</span>` : ''}
+      ${costChip(getTrialCost(product))}
       ${healthInfo ? `<span class="stamp ${healthInfo.cls}">${healthInfo.label}${health.latestRelease ? ` (${escapeHtml(health.latestRelease)})` : ''}</span>` : ''}
       ${product.sourceCount > 1 ? `<span class="stamp stamp-signal">${product.sourceCount} 份简报同时推荐</span>` : ''}
     </div>
@@ -1842,7 +1983,7 @@ async function openWorkbench(productKey, selectedProduct = null) {
   state.repoMachines = [];
   state.csError = '';
 
-  const prodHash = `#/product/${encodeURIComponent(product.key)}`;
+  const prodHash = `#/product/${safeEncode(product.key)}`;
   if (location.hash !== prodHash) history.replaceState(null, '', prodHash);
 
   document.querySelectorAll('.product-card').forEach(el => el.classList.toggle('active-card', el.dataset.key === product.key));
@@ -1863,7 +2004,7 @@ async function openWorkbench(productKey, selectedProduct = null) {
   `;
   wbTitleEl.textContent = product.name;
 
-  const bestUrl = product.directUrl || product.url || `https://www.google.com/search?q=${encodeURIComponent(product.name)}`;
+  const bestUrl = product.directUrl || product.url || `https://www.google.com/search?q=${safeEncode(product.name)}`;
   wbOpenExternalBtn.href = bestUrl;
 
   if (product.githubRepo) {
@@ -2285,6 +2426,16 @@ function bindEvents() {
     applyFiltersAndRender();
   });
 
+  document.getElementById('quickFilterBar')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-quick]');
+    if (!btn) return;
+    const key = btn.dataset.quick;
+    if (state.quickFilters.has(key)) state.quickFilters.delete(key);
+    else state.quickFilters.add(key);
+    syncQuickFilterUi();
+    applyFiltersAndRender();
+  });
+
   scenarioFilterBarEl?.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-scenario]');
     if (!btn) return;
@@ -2300,7 +2451,7 @@ function bindEvents() {
 
   wbShareBtn?.addEventListener('click', () => {
     if (!state.activeProduct) return;
-    const url = `${location.origin}${location.pathname}#/product/${encodeURIComponent(state.activeProduct.key)}`;
+    const url = `${location.origin}${location.pathname}#/product/${safeEncode(state.activeProduct.key)}`;
     navigator.clipboard?.writeText(url);
     showToast(`已复制分享链接：${state.activeProduct.name}`);
   });
@@ -2367,16 +2518,40 @@ function bindEvents() {
     const trialControl = e.target.closest('[data-choose-trial], [data-open-trial], [data-start-trial]');
     if (trialControl) {
       const { chooseTrial, openTrial, startTrial } = trialControl.dataset;
-      const data = state.archiveFallback || state.todayData;
-      const product = data?.products.find(item => item.key === (chooseTrial || openTrial || startTrial));
-      if (!product) return;
+      const key = chooseTrial || openTrial || startTrial;
+      const index = state.trialSample.findIndex(entry => entry.product.key === key);
+      if (index === -1) return;
+      const { product } = state.trialSample[index];
       rememberTrial(product);
       if (chooseTrial) {
+        // Promote the alternative to the featured slot; the old featured takes its place
+        const [current] = state.trialSample;
+        state.trialSample[0] = state.trialSample[index];
+        state.trialSample[index] = current;
         renderToday();
+        todayContentEl.querySelector('.desk-feature')?.classList.add('is-fresh');
         todayContentEl.querySelector('.desk-primary')?.focus();
       }
       if (openTrial) openWorkbench(product.key, product);
       return;
+    }
+    if (e.target.closest('[data-redraw-trials]')) {
+      redrawTrials();
+      return;
+    }
+    if (e.target.closest('[data-quick-library]')) {
+      state.quickFilters = new Set(['noSignup']);
+      syncQuickFilterUi();
+      setPage('library');
+      if (state.scope !== 'all') scopeAllBtn.click();
+      else applyFiltersAndRender();
+      return;
+    }
+    const quickTry = e.target.closest('[data-quick-try]');
+    if (quickTry) {
+      const pick = state.quickPicks.find(p => p.key === quickTry.dataset.quickTry);
+      if (pick) rememberTrial(pick);
+      return; // let the link open normally
     }
     if (e.target.closest('[data-resume-trial]')) {
       openSavedProduct(state.trialChoice?.key, state.trialChoice);
@@ -2454,11 +2629,20 @@ function bindEvents() {
 
   wbCloseBtn.addEventListener('click', closeWorkbench);
 
+  // Broken preview images fall back to the monogram (CSP forbids inline onerror handlers)
+  document.addEventListener('error', (e) => {
+    if (e.target instanceof HTMLImageElement && e.target.closest('.quick-thumb, .card-visual-thumb')) {
+      e.target.closest('.card-visual-thumb')?.classList.add('is-broken');
+      e.target.remove();
+    }
+  }, true);
+
   document.addEventListener('keydown', (e) => {
     const tag = document.activeElement?.tagName?.toLowerCase();
     if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
     if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
     if (e.key === 'Enter' && (tag === 'button' || tag === 'a')) return;
+    if (state.page === 'today' && (e.key === 'r' || e.key === 'R')) { e.preventDefault(); redrawTrials(); return; }
     if (state.page !== 'library' && e.key !== 'Escape' && e.key !== '/') return;
 
     if (e.key === 'j' || e.key === 'J') { e.preventDefault(); moveKeyboardFocus(1); }
