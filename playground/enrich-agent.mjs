@@ -359,6 +359,16 @@ ${intel.readmeSnippet || '（无 README）'}`;
   };
 }
 
+const CIRCUIT_BREAKER_THRESHOLD = 8;
+
+/** Network failures, timeouts, rate limits and 5xx are the endpoint's fault, not the product's. */
+export function isTransientError(error) {
+  const msg = String(error?.message || error || '');
+  return error?.name === 'TimeoutError' || error?.name === 'AbortError' ||
+    /fetch failed|ECONNRESET|ECONNREFUSED|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|socket hang up|network|timed? ?out|aborted/i.test(msg) ||
+    /HTTP (?:429|5\d\d)\b/.test(msg);
+}
+
 // Entries written before the trial-cost schema have no `frictionLevel` key at all.
 export function isStaleEnrichment(entry) {
   return Boolean(entry) && !Object.hasOwn(entry, 'frictionLevel');
@@ -482,9 +492,11 @@ async function main() {
   let cursor = 0;
   let completed = 0;
   let failed = 0;
+  let consecutiveTransient = 0;
+  let circuitOpen = false;
 
   async function worker(workerId) {
-    while (cursor < tasks.length) {
+    while (cursor < tasks.length && !circuitOpen) {
       const idx = cursor++;
       const product = tasks[idx];
       try {
@@ -508,12 +520,20 @@ async function main() {
         };
         delete failedMap[product.key];
         completed++;
+        consecutiveTransient = 0;
         console.log(`[${completed + failed}/${tasks.length}] (w${workerId}) OK: ${product.name} -> ${synthesized.categoryLabel} | ${synthesized.deliveryLabel} | ${intel.githubRepo || intel.directUrl}`);
         if (completed % 5 === 0) saveJsonFile(ENRICHED_FILE, store);
       } catch (e) {
         failed++;
+        const transient = isTransientError(e);
+        if (transient && ++consecutiveTransient >= CIRCUIT_BREAKER_THRESHOLD && !circuitOpen) {
+          circuitOpen = true;
+          console.warn(`Circuit open: ${consecutiveTransient} consecutive network/5xx/429 errors — the model endpoint looks down, stopping this run.`);
+        }
         failedMap[product.key] = {
-          attempts: (failedMap[product.key]?.attempts || 0) + 1,
+          // Outages must not burn the 3-attempt budget, or good products get skipped forever
+          attempts: (failedMap[product.key]?.attempts || 0) + (transient ? 0 : 1),
+          transient,
           lastError: e.message,
           updatedAt: new Date().toISOString(),
           product: {
@@ -540,7 +560,8 @@ async function main() {
 
   saveJsonFile(ENRICHED_FILE, store);
   saveJsonFile(FAILED_QUEUE_FILE, failedMap);
-  console.log(`Enrich Agent finished. Success: ${completed}, Failed: ${failed}. Saved to ${ENRICHED_FILE}`);
+  const skipped = tasks.length - completed - failed;
+  console.log(`Enrich Agent finished. Success: ${completed}, Failed: ${failed}${skipped > 0 ? `, Skipped (circuit open): ${skipped}` : ''}. Saved to ${ENRICHED_FILE}`);
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

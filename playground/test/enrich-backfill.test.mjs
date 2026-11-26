@@ -60,3 +60,13 @@ test('acceptSearchHit: exact-name GitHub search must be cross-checked', async ()
   assert.ok(acceptSearchHit(hit('fleetify', '', 40), { normTarget: 'fleetify' }));
   assert.equal(acceptSearchHit(hit('fleetify', '', 3), { normTarget: 'fleetify' }), false);
 });
+
+test('isTransientError: outages and rate limits do not count as product failures', async () => {
+  const { isTransientError } = await import('../enrich-agent.mjs');
+  assert.ok(isTransientError(new TypeError('fetch failed')));
+  assert.ok(isTransientError(new Error('Qwen API HTTP 503: upstream unavailable')));
+  assert.ok(isTransientError(new Error('Qwen API HTTP 429: rate limited')));
+  assert.ok(isTransientError(Object.assign(new Error('The operation was aborted due to timeout'), { name: 'TimeoutError' })));
+  assert.equal(isTransientError(new Error('Bad control character in string literal in JSON at position 597')), false);
+  assert.equal(isTransientError(new Error('Qwen API HTTP 400: invalid request')), false);
+});
