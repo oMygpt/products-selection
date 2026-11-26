@@ -57,9 +57,11 @@ let dates = Array.from(dateMap.keys()).sort((a, b) => b.localeCompare(a));
 const usingMuseRepo = dates.length > 0;
 
 if (!usingMuseRepo) {
-  const existingDays = fs.existsSync(DAY_DIR)
-    ? fs.readdirSync(DAY_DIR).filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).map(f => f.replace('.json', ''))
-    : [];
+  // raw/ is the versioned snapshot; day/ may not exist (derived files are not committed)
+  const listDates = dir => (fs.existsSync(dir)
+    ? fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).map(f => f.replace('.json', ''))
+    : []);
+  const existingDays = [...new Set([...listDates(RAW_DIR), ...listDates(DAY_DIR)])];
   dates = existingDays.sort((a, b) => b.localeCompare(a));
   console.log(`Upstream .muse-repo not found; rebuilding ${dates.length} days from committed rawBriefs...`);
 }

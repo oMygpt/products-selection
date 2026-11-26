@@ -4,3 +4,10 @@ node_modules/
 今日产品简报-*.md
 playground/.inspect-cache.json
 playground/user-state.json
+
+# Derived site data is rebuilt by CI (playground/build-static.mjs) on every deploy.
+# Only the append-only upstream snapshot (raw/) is versioned: it is the regression
+# fixture and lets the build run without the upstream repo.
+playground/public/data/*
+!playground/public/data/raw/
+playground/public/feed.xml
