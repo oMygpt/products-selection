@@ -79,19 +79,16 @@ jobs:
           fi
 
       - name: Build static dataset
-        run: |
-          if [ -d ".muse-repo" ]; then
-            node playground/build-static.mjs
-          else
-            echo "Using committed static dataset in playground/public/data"
-          fi
+        # Rebuilds every derived file (day/, products/, explore, weekly, quick, feed.xml).
+        # Without .muse-repo it falls back to the committed raw/ snapshot.
+        run: node playground/build-static.mjs
 
       - name: Commit updated enriched data & static JSON
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           [ -f playground/.enrich-failed.json ] || echo '{}' > playground/.enrich-failed.json
-          git add playground/enriched-products.json playground/.enrich-failed.json playground/public/data playground/public/feed.xml
+          git add playground/enriched-products.json playground/.enrich-failed.json playground/public/data/raw
           if ! git diff --cached --quiet; then
             git commit -m "chore: daily enriched product update [skip enrich]"
             git push
