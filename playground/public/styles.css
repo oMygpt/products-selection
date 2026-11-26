@@ -2644,3 +2644,52 @@ body {
   .desk-feature.is-fresh { animation: none; }
   .quick-card, .quick-thumb img { transition: none; }
 }
+
+/* ── Partners: disclosed, visually secondary ── */
+.partner-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.partner-coupon code {
+  font: 600 12px var(--font-mono);
+  color: var(--sage);
+  border: 1px dashed var(--sage);
+  border-radius: 4px;
+  padding: 0 6px;
+  background: var(--sage-soft);
+}
+.sponsor-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 30px;
+  padding: 12px 16px;
+  border: 1px dashed var(--rule);
+  border-radius: 8px;
+  background: var(--bg-card);
+}
+.sponsor-label {
+  font: 600 10.5px var(--font-mono);
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+.sponsor-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  flex: 1;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.sponsor-link span { color: var(--ink-body); }
+.sponsor-link:hover strong { color: var(--accent); }
+.weekly-subscribe { margin: -8px 0 18px; color: var(--ink-muted); font-size: 13px; }
+.weekly-subscribe a,
+.weekly-digest-link { color: var(--ink-body); }

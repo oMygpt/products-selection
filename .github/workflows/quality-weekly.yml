@@ -1,0 +1,56 @@
+name: Weekly Data Quality Report
+
+on:
+  schedule:
+    - cron: "0 1 * * 1" # 每周一北京时间 09:00
+  workflow_dispatch:
+    inputs:
+      sample:
+        description: "LLM 抽检的条目数"
+        type: string
+        default: "25"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: "data-quality-report"
+  cancel-in-progress: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Shanghai
+      # LLM 抽检：配置了 COPILOT_GITHUB_TOKEN（只含 Copilot Requests 权限的 fine-grained PAT）就用 Copilot CLI，
+      # 否则退回 Qwen；两者都没有则只跑规则检查。
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+      QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Copilot CLI
+        if: ${{ env.COPILOT_GITHUB_TOKEN != '' }}
+        run: npm install -g @github/copilot
+
+      - name: Build dataset from committed snapshot
+        run: node playground/build-static.mjs
+
+      - name: Generate report
+        run: node playground/quality-report.mjs --sample "${{ github.event.inputs.sample || '25' }}" --out "$RUNNER_TEMP/report.md"
+
+      - name: Publish as issue (replaces last week's)
+        run: |
+          gh label create data-quality --color FBCA04 --description "每周自动数据质检" 2>/dev/null || true
+          WEEK=$(head -n 1 "$RUNNER_TEMP/report.md" | sed 's/^# 数据质检 · //')
+          for n in $(gh issue list --label data-quality --state open --json number -q '.[].number'); do
+            gh issue close "$n" --comment "已由新一期质检报告（$WEEK）取代。"
+          done
+          gh issue create --title "数据质检 · $WEEK" --label data-quality --body-file "$RUNNER_TEMP/report.md"

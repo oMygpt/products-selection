@@ -2,12 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { getDateFilesMap, getDayData, getDayDataFromBriefs, PUBLIC_DIR } from './server.mjs';
 import { computeTrialCost, isDemoUrl } from './public/trial-cost.js';
+import { loadPartners, activeAffiliate, activeSponsored } from './lib/partners.mjs';
+import { renderDigestHtml, renderDigestMarkdown, renderWeeklyFeed } from './lib/digest.mjs';
 
 const DATA_DIR = path.join(PUBLIC_DIR, 'data');
 const DAY_DIR = path.join(DATA_DIR, 'day');
 const RAW_DIR = path.join(DATA_DIR, 'raw');
 const PRODUCTS_DIR = path.join(DATA_DIR, 'products');
 const SITE_ORIGIN = process.env.SITE_ORIGIN || 'https://picks.chunlin.ch';
+const DIGEST_DIR = path.join(PUBLIC_DIR, 'digest');
+const TODAY = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const PARTNERS = loadPartners(path.join(path.dirname(PUBLIC_DIR), 'partners.json'));
 
 fs.mkdirSync(DAY_DIR, { recursive: true });
 fs.mkdirSync(RAW_DIR, { recursive: true });
@@ -43,6 +48,10 @@ function withTrialCost(p) {
   const product = { ...p };
   if (product.demoUrl && !isDemoUrl(product.demoUrl)) product.demoUrl = null;
   product.trialCost = computeTrialCost(product);
+  // Display-only partner info (disclosed link / coupon); never feeds ranking or trial cost
+  const partner = activeAffiliate(PARTNERS, product.key, TODAY);
+  if (partner) product.partner = partner;
+  else delete product.partner;
   return product;
 }
 
@@ -225,6 +234,7 @@ for (const p of masterMap.values()) {
     health: p.health ? { activityTier: p.health.activityTier, pushedAt: p.health.pushedAt } : null,
     scenarios: p.scenarios || [],
     trialCost: p.trialCost,
+    partner: p.partner || undefined,
     enriched: Boolean(p.enriched)
   });
 }
@@ -279,6 +289,7 @@ const quickPicks = leanIndex
     pricingModel: p.pricingModel,
     ogImage: p.ogImage,
     tryUrl: quickTryUrl(p),
+    partner: p.partner || undefined,
     trialCost: p.trialCost
   }));
 fs.writeFileSync(
@@ -326,10 +337,31 @@ for (const [week, list] of Array.from(weeklyBuckets.entries()).sort((a, b) => b[
       stars: p.stars || null,
       ogImage: p.ogImage || null,
       enriched: Boolean(p.enriched),
-      sourceCount: p.sourceCount || 1
+      sourceCount: p.sourceCount || 1,
+      trialCost: p.trialCost || computeTrialCost(p),
+      partner: p.partner || undefined
     }))
   });
 }
+
+// Weekly digests: email-ready HTML + Markdown per week, and a weekly RSS feed
+fs.rmSync(DIGEST_DIR, { recursive: true, force: true });
+fs.mkdirSync(DIGEST_DIR, { recursive: true });
+const digestWeeks = weeklyPicks.map(w => {
+  const [from, to] = String(w.range).split(' ~ ');
+  const quickInWeek = quickPicks.filter(q => q.date >= from && q.date <= (to || from)).slice(0, 3);
+  const digest = { week: w.week, range: w.range, picks: w.items, quick: quickInWeek, origin: SITE_ORIGIN };
+  fs.writeFileSync(path.join(DIGEST_DIR, `${w.week}.html`), renderDigestHtml(digest), 'utf-8');
+  fs.writeFileSync(path.join(DIGEST_DIR, `${w.week}.md`), renderDigestMarkdown(digest), 'utf-8');
+  return digest;
+});
+fs.writeFileSync(path.join(DIGEST_DIR, 'index.json'), JSON.stringify(digestWeeks.map(w => ({ week: w.week, range: w.range, html: `digest/${w.week}.html`, md: `digest/${w.week}.md` }))), 'utf-8');
+fs.writeFileSync(path.join(PUBLIC_DIR, 'feed-weekly.xml'), renderWeeklyFeed({ weeks: digestWeeks, origin: SITE_ORIGIN }), 'utf-8');
+
+// Sponsored slot (separately labelled on the home page; not part of the draw or rankings)
+const sponsoredNow = activeSponsored(PARTNERS, TODAY, new Map(leanIndex.map(p => [p.key, p])));
+fs.writeFileSync(path.join(DATA_DIR, 'sponsored.json'), JSON.stringify({ items: sponsoredNow }), 'utf-8');
+console.log(`Digests: ${digestWeeks.length} weeks · sponsored slots active: ${sponsoredNow.length} · affiliates active: ${leanIndex.filter(p => p.partner).length}`);
 
 fs.writeFileSync(
   path.join(DATA_DIR, 'weekly.json'),

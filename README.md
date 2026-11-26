@@ -21,6 +21,34 @@
 4. **全自动发布流水线（`.github/workflows/deploy-pages.yml`）**：
    - 每日定时（北京时间 `08:00`、`16:00`、`22:00`）或每次 push 自动拉取最新简报 → 运行 `enrich-agent.mjs` → 编译静态数据（带空期解析门禁）→ 运行 `node --test` → 同步部署到 **Cloudflare Pages**（优先使用最小权限 `CLOUDFLARE_API_TOKEN`）与 **GitHub Pages**。
 
+## 每周数据质检
+
+`.github/workflows/quality-weekly.yml` 每周一 09:00（北京时间）运行 `playground/quality-report.mjs`，把结果发成一个带 `data-quality` 标签的 Issue（自动关闭上一期）：
+
+- **规则检查**（免费，总会运行）：查验覆盖率、可疑名称、无链接条目、空泛的上手步骤、疑似重复、重试队列、最近 7 天产品偏少的刊期。
+- **LLM 抽检**（抽最近 25 个已查验条目）：配置了仓库 secret `COPILOT_GITHUB_TOKEN` 就用 **Copilot CLI**，每周约 1 次 Copilot 请求；否则退回 Qwen。这个 token 需要是只开了 *Copilot Requests* 权限的 fine-grained PAT。
+- 想让 Copilot 动手修，可以把质检 Issue 指派给 Copilot。Copilot 云端 Agent 会开一个 PR 供审核，同样消耗 Copilot 额度。
+
+## 合作与变现
+
+`playground/partners.json`（手工维护）：
+
+```json
+{
+  "affiliates": {
+    "<productKey>": { "url": "https://…?ref=picks", "coupon": "PICKS20", "couponNote": "首月 8 折", "until": "2026-12-31" }
+  },
+  "sponsored": [
+    { "key": "<productKey>", "from": "2026-12-01", "to": "2026-12-07", "pitch": "一句话卖点", "url": "https://…" }
+  ]
+}
+```
+
+- **返佣链接和优惠码**只替换出站链接，并加上「含返佣链接 · 不影响推荐与排序」或「读者专属」的披露；出站链接带 `rel="sponsored"`。
+- **赞助位**在首页单独显示，标注「赞助 · 不参与推荐与排序」，同一时间最多 1 个。
+- 合作信息**不会**改变排序、随机抽取、「现在就能玩」和试用成本，这一点有单元测试保证。
+- **周报**：每次构建都会生成 `digest/<周>.html`（可直接用于邮件，样式全部内联）、`digest/<周>.md`（适合公众号和 newsletter 工具），以及周报 RSS `feed-weekly.xml`。站内「每周精选」页有对应入口。
+
 ## 数据版本管理
 
 - **提交进 git**：`playground/enriched-products.json`（查验缓存）、`playground/.enrich-failed.json`（重试队列）、`playground/public/data/raw/`（上游简报只增快照，也是解析回归测试的样本）。

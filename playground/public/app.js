@@ -39,6 +39,7 @@ const state = {
   trialCandidates: [],
   trialSample: [],
   quickPicks: [],
+  sponsored: [],
   quickFilters: new Set(),
   currentDate: null,
   currentDayData: null,
@@ -461,11 +462,13 @@ async function renderWeekly() {
     weeklyContentEl.innerHTML = '<div class="desk-empty"><h2>暂无每周精选数据</h2></div>';
     return;
   }
-  weeklyContentEl.innerHTML = weeks.map(w => `
+  weeklyContentEl.innerHTML = `<p class="weekly-subscribe">每周一份，标注试用成本 · <a href="./feed-weekly.xml" target="_blank" rel="noopener">订阅周精选 RSS</a></p>` + weeks.map(w => `
     <section class="weekly-block">
       <div class="weekly-block-head">
         <h2>${escapeHtml(w.week)} 周精选 Top ${w.items.length}</h2>
-        <span>${escapeHtml(w.range || `${w.startDate || ''} ~ ${w.endDate || ''}`)}</span>
+        <span>${escapeHtml(w.range || `${w.startDate || ''} ~ ${w.endDate || ''}`)}
+          · <a class="weekly-digest-link" href="./digest/${encodeURIComponent(w.week)}.html" target="_blank" rel="noopener">邮件版</a>
+          · <a class="weekly-digest-link" href="./digest/${encodeURIComponent(w.week)}.md" target="_blank" rel="noopener">Markdown</a></span>
       </div>
       <div class="weekly-cards">
         ${w.items.map((item, idx) => `
@@ -544,6 +547,32 @@ function monogram(name = '') {
   return escapeHtml(ch.toUpperCase());
 }
 
+// Disclosed partner info: coupon for readers and/or an affiliate link. Never affects ranking.
+function partnerNote(product) {
+  const partner = product?.partner;
+  if (!partner) return '';
+  return `<p class="partner-note">
+    ${partner.coupon ? `<span class="partner-coupon">读者专属 <code>${escapeHtml(partner.coupon)}</code>${partner.couponNote ? ` · ${escapeHtml(partner.couponNote)}` : ''}</span>` : ''}
+    ${partner.url ? '<span class="partner-disclosure">含返佣链接 · 不影响推荐与排序</span>' : ''}
+  </p>`;
+}
+
+const outboundRel = product => (product?.partner?.url ? 'noopener sponsored' : 'noopener');
+
+function renderSponsoredSlot() {
+  const [slot] = state.sponsored;
+  if (!slot) return '';
+  return `
+    <aside class="sponsor-slot" aria-label="赞助">
+      <span class="sponsor-label">赞助 · 不参与推荐与排序</span>
+      <a class="sponsor-link" href="${escapeHtml(slot.url)}" target="_blank" rel="noopener sponsored">
+        <strong>${escapeHtml(slot.name)} <span aria-hidden="true">↗</span></strong>
+        <span>${escapeHtml(slot.pitch || '')}</span>
+      </a>
+      ${slot.trialCost ? costChip(slot.trialCost, { compact: true }) : ''}
+    </aside>`;
+}
+
 function renderQuickRail() {
   const shown = new Set(state.trialSample.map(entry => entry.product.key));
   const picks = state.quickPicks.filter(p => !shown.has(p.key)).slice(0, 4);
@@ -557,7 +586,7 @@ function renderQuickRail() {
       <ul class="quick-grid">
         ${picks.map(p => `
           <li>
-            <a class="quick-card" href="${escapeHtml(p.tryUrl)}" target="_blank" rel="noopener" data-quick-try="${escapeHtml(p.key)}">
+            <a class="quick-card" href="${escapeHtml(p.partner?.url || p.tryUrl)}" target="_blank" rel="${outboundRel(p)}" data-quick-try="${escapeHtml(p.key)}">
               <span class="quick-thumb" data-initial="${monogram(p.name)}">
                 ${p.ogImage ? `<img src="${escapeHtml(p.ogImage)}" alt="" loading="lazy">` : ''}
               </span>
@@ -603,6 +632,7 @@ function renderToday() {
         <h2>${message}</h2>
         <div class="desk-actions">${resume}${fallback}</div>
       </div>
+      ${renderSponsoredSlot()}
       ${renderQuickRail()}`;
     return;
   }
@@ -611,7 +641,7 @@ function renderToday() {
   const canResumeOther = state.trialChoice?.date !== data.date || state.trialChoice?.key !== product.key;
   const trialKey = escapeHtml(product.key);
   const primary = url
-    ? `<a class="desk-primary" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-start-trial="${trialKey}">${mode.action} <span aria-hidden="true">↗</span></a>`
+    ? `<a class="desk-primary" href="${escapeHtml(product.partner?.url || url)}" target="_blank" rel="${outboundRel(product)}" data-start-trial="${trialKey}">${mode.action} <span aria-hidden="true">↗</span></a>`
     : `<button class="desk-primary" data-open-trial="${trialKey}">${mode.action} <span aria-hidden="true">→</span></button>`;
   todayContentEl.innerHTML = `
     <article class="desk-feature" data-feature-key="${trialKey}">
@@ -620,6 +650,7 @@ function renderToday() {
         <h2>${escapeHtml(product.name)}</h2>
         <p class="desk-product-deck">${escapeHtml(product.tagline || product.categoryLabel || '')}</p>
         <p class="desk-requirement">${costChip(cost)}</p>
+        ${partnerNote(product)}
         <div class="desk-actions">
           ${primary}
           ${url ? `<button class="desk-text-button" data-open-trial="${trialKey}">试用指引</button>` : ''}
@@ -651,6 +682,7 @@ function renderToday() {
             <span class="desk-alt-arrow" aria-hidden="true">→</span>
           </button></li>`).join('')}
       </ul>` : ''}
+    ${renderSponsoredSlot()}
     ${renderQuickRail()}
   `;
 }
@@ -714,6 +746,13 @@ async function updateToday(data) {
 }
 
 async function loadQuickPicks() {
+  fetch('./data/sponsored.json')
+    .then(res => (res.ok ? res.json() : null))
+    .then(data => {
+      state.sponsored = Array.isArray(data?.items) ? data.items : [];
+      if (state.sponsored.length && (state.page === 'today' || !state.page)) renderToday();
+    })
+    .catch(() => {});
   try {
     const res = await fetch('./data/quick.json');
     if (!res.ok) return;
@@ -1187,7 +1226,7 @@ function renderGalleryCards(products, showDateOnCard = false) {
         <div class="card-footer">
           <div class="try-actions">
             <button class="editorial-btn editorial-btn-ink editorial-btn-sm open-wb-btn" data-key="${escapeHtml(p.key)}">${cost.demoUrl ? '▶ 在线 Demo / 体验' : (p.githubRepo ? '🚀 体验 / Codespace' : '查看体验指南 →')}</button>
-            <a href="${escapeHtml(bestUrl)}" target="_blank" rel="noopener" class="editorial-btn editorial-btn-sm" data-stop-card>↗ 官网</a>
+            <a href="${escapeHtml(p.partner?.url || bestUrl)}" target="_blank" rel="${outboundRel(p)}" class="editorial-btn editorial-btn-sm" data-stop-card>↗ 官网</a>
           </div>
           <div class="curation-actions">
             <button class="curate-btn ${status === 'tried' ? 'active-tried' : ''}" data-curate="tried" data-key="${escapeHtml(p.key)}">✓ 已试</button>

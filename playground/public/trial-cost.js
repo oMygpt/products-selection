@@ -29,7 +29,7 @@ const EMULATED_RE = /浏览器(?:里|中|内)?(?:跑|运行|模拟|仿真)|在�
 const REGISTRY_HOST_RE = /(^|\.)(github\.com|npmjs\.com|pypi\.org|crates\.io|pkg\.go\.dev|rubygems\.org|nuget\.org|hub\.docker\.com|marketplace\.visualstudio\.com)$/i;
 const DEMO_HOST_RE = /(^|\.)(stackblitz\.com|codesandbox\.io|replit\.com|colab\.research\.google\.com|codepen\.io|jsfiddle\.net)$/i;
 const DEMO_PATH_RE = /\/(?:demo|playground|play|try|sandbox|live)(?:\/|\.html?$|$)/i;
-const FREE_PRICING = new Set(['免费开源', '免费可用', 'Freemium']);
+const FREE_PRICING = new Set(['免费开源', '免费可用']);
 const PAID_PRICING = new Set(['商业付费', '一次性买断']);
 
 /** A URL that, by itself, is an in-browser demo: HF Space, online sandbox, or an explicit /demo path. */
@@ -80,7 +80,10 @@ export function computeTrialCost(product = {}) {
   const minutes = verified && Number.isFinite(product.setupMinutes) && level !== 'hardware'
     ? product.setupMinutes
     : ESTIMATED_MINUTES[level];
-  const free = FREE_PRICING.has(product.pricingModel) ? true : PAID_PRICING.has(product.pricingModel) ? false : null;
+  // true = fully free · 'freemium' = has a free tier · false = paid · null = unknown
+  const free = FREE_PRICING.has(product.pricingModel) ? true
+    : product.pricingModel === 'Freemium' ? 'freemium'
+      : PAID_PRICING.has(product.pricingModel) ? false : null;
 
   return {
     level,
@@ -98,7 +101,7 @@ export const QUICK_FILTERS = {
   // Only verified timings (or genuine online demos) count — estimates would make the filter meaningless
   fast: { label: '5 分钟内', test: c => c.minutes != null && c.minutes <= 5 && c.level !== 'hardware' && (c.verified || c.level === 'instant') },
   noSignup: { label: '免注册', test: c => c.level === 'instant' },
-  free: { label: '免费', test: c => c.free === true }
+  free: { label: '免费', test: c => c.free === true || c.free === 'freemium' }
 };
 
 /** "免注册直玩 · 约 1 分钟 · 免费" — "约" only when estimated. */
@@ -106,6 +109,7 @@ export function describeTrialCost(cost) {
   const parts = [cost.label];
   if (cost.minutes != null) parts.push(`${cost.verified ? '' : '约 '}${cost.minutes} 分钟`);
   if (cost.free === true) parts.push('免费');
+  else if (cost.free === 'freemium') parts.push('有免费档');
   else if (cost.free === false) parts.push('付费');
   return parts.join(' · ');
 }
