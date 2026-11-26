@@ -17,7 +17,9 @@ import {
   extractQuickCommands,
   parseListBriefMarkdown,
   parseDetailedBriefMarkdown,
-  parseAnyBriefMarkdown
+  parseAnyBriefMarkdown,
+  cleanProductName,
+  isNonProductEntry
 } from './lib/parser.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -146,6 +148,24 @@ function getAllDates() {
   return Array.from(map.keys()).sort((a, b) => b.localeCompare(a));
 }
 
+const SHARED_HOSTS = /(^|\.)(github\.com|producthunt\.com|betalist\.com|huggingface\.co|news\.ycombinator\.com|x\.com|twitter\.com|apps\.apple\.com|chromewebstore\.google\.com|npmjs\.com|pypi\.org)$/i;
+function sameSite(a, b) {
+  try {
+    const ua = new URL(a);
+    const ub = new URL(b);
+    const ha = ua.hostname.replace(/^www\./, '');
+    const hb = ub.hostname.replace(/^www\./, '');
+    if (ha !== hb) return false;
+    // Directory / marketplace hosts list many products: require identical path
+    if (SHARED_HOSTS.test(ha) || /\.github\.io$|\.vercel\.app$|\.pages\.dev$|\.netlify\.app$/i.test(ha)) {
+      return ua.pathname.replace(/\/$/, '') === ub.pathname.replace(/\/$/, '');
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function getDayDataFromBriefs(date, briefs) {
   const allSignals = [];
   const rawBriefs = [];
@@ -164,14 +184,29 @@ function getDayDataFromBriefs(date, briefs) {
       allSignals.push(...parsed.signals);
     }
 
-    for (const item of parsed.items) {
+    for (const rawItem of parsed.items) {
+      const cleaned = cleanProductName(rawItem.name);
+      const item = { ...rawItem, name: cleaned.name || rawItem.name };
+      if (cleaned.tagline && !item.tagline) item.tagline = cleaned.tagline;
+      item.key = normalizeProductKey(item.name) || rawItem.key;
+      if (!item.key || isNonProductEntry(item)) continue;
+
       let matchedKey = mergedMap.has(item.key) ? item.key : null;
       if (!matchedKey) {
-        for (const existingKey of mergedMap.keys()) {
-          if (
-            (existingKey.length >= 4 && item.key.startsWith(existingKey)) ||
-            (item.key.length >= 4 && existingKey.startsWith(item.key))
-          ) {
+        for (const [existingKey, existing] of mergedMap) {
+          // Same GitHub repo or same official site => same product
+          if (item.githubRepo && existing.githubRepo && item.githubRepo.toLowerCase() === existing.githubRepo.toLowerCase()) {
+            matchedKey = existingKey;
+            break;
+          }
+          if (item.directUrl && existing.directUrl && sameSite(item.directUrl, existing.directUrl)) {
+            matchedKey = existingKey;
+            break;
+          }
+          // Name-prefix merge only for long-enough keys ("openclaw" must not swallow "open")
+          const shorter = existingKey.length <= item.key.length ? existingKey : item.key;
+          const longer = shorter === existingKey ? item.key : existingKey;
+          if (shorter.length >= 6 && longer.startsWith(shorter)) {
             matchedKey = existingKey;
             break;
           }

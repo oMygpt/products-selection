@@ -108,6 +108,37 @@ export function normalizeProductKey(name) {
     .replace(/[^a-z0-9\u4e00-\u9fa5]/g, '');
 }
 
+// Sections that list news / signals rather than tryable products (HN front page, macro, security advisories...)
+export const NEWS_SECTION_RE = /落选|核心信号|今日信号|今日趋势|今日首推|未通过|剔除|Hacker News 首页|HN 首页|首页重点|新闻|宏观|弱信号|安全(?:事件|动态|公告|集群)|行业动态/;
+
+const HN_PREFIX_RE = /^(?:show|launch|ask|tell)\s+hn\s*[:：]\s*/i;
+const NON_PRODUCT_NAME_RE = /付费位|广告位|^sponsored$|^boosted\b/i;
+
+// Normalizes HN-style titles: "Show HN: Lmux – Lightweight terminal" -> { name: "Lmux", tagline: "Lightweight terminal" }
+export function cleanProductName(rawName = '') {
+  let name = String(rawName || '').replace(/\*\*/g, '').trim();
+  const hadHnPrefix = HN_PREFIX_RE.test(name);
+  name = name.replace(HN_PREFIX_RE, '').trim();
+  let tagline = '';
+  if (hadHnPrefix || name.length > 24) {
+    const m = name.match(/^(.{2,40}?)\s+[–—-]\s+(.+)$/) || name.match(/^([^:：]{2,30})(?::\s+|：\s*)(.+)$/);
+    const trailing = name.match(/^(.{12,}?)\s*[（(]([^()（）]{2,24})[）)]$/);
+    if (m) {
+      name = m[1].trim();
+      tagline = m[2].trim();
+    } else if (trailing && !/^(?:YC|beta|alpha|open source|开源|免费)/i.test(trailing[2])) {
+      // "Realtime sync engine without any new infra (tandem)" -> "tandem"
+      name = trailing[2].trim();
+      tagline = trailing[1].trim();
+    }
+  }
+  return { name, tagline };
+}
+
+export function isNonProductEntry(item = {}) {
+  return NON_PRODUCT_NAME_RE.test(String(item.name || '').trim());
+}
+
 export function cleanRepoSlug(slug) {
   if (!slug) return null;
   const cleaned = String(slug).trim().replace(/\.git$/, '').replace(/[),.;:]+$/, '');
@@ -595,7 +626,7 @@ export function parseListBriefMarkdown(content, date) {
     if (line.startsWith('|') && !line.includes('---|') && !/^\|\s*[-:]+/.test(line)) {
       const cells = line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
       if (cells.length >= 4 && !/^(#|序号|编号|产品|排名)$/i.test(cells[0]) && cells[1] !== '产品') {
-        const hasIndexCol = /^\d+$/.test(cells[0]);
+        const hasIndexCol = /^(?:\d+|[—–-]+)$/.test(cells[0]);
         const nameCell = (hasIndexCol ? cells[1] : cells[0]) || '';
         const nameLinkMatch = nameCell.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
         const name = (nameLinkMatch ? nameLinkMatch[1] : nameCell).replace(/\*\*/g, '').trim();
@@ -618,7 +649,13 @@ export function parseListBriefMarkdown(content, date) {
         let sourceHint = '';
         let whatCell = '';
         let heatCell = '';
-        if (midCells.length >= 3) {
+        const looksNumeric = (c = '') => /^[\d\s/,.kK+★⭐~–-]+$/.test(c.replace(/\*\*/g, '').trim());
+        if (midCells.length >= 3 && looksNumeric(midCells[1]) && !looksNumeric(midCells[0])) {
+          // Column order "一句话 | 评论/赞 | 备注"
+          whatCell = midCells[0];
+          heatCell = midCells[1];
+          sourceHint = midCells.slice(2).join(' · ');
+        } else if (midCells.length >= 3) {
           sourceHint = midCells[0];
           whatCell = midCells[1];
           heatCell = midCells[2];
@@ -696,7 +733,7 @@ export function parseDetailedBriefMarkdown(content, date) {
     }
     if (line.startsWith('### ')) {
       const rawSub = line.replace(/^###\s+/, '');
-      const isExcludedSection = /落选|核心信号|今日信号|今日趋势|今日首推|未通过|剔除|附录|观察/.test(currentSection);
+      const isExcludedSection = NEWS_SECTION_RE.test(currentSection) || /附录|观察/.test(currentSection);
       // Matches:
       //  - ### 1. ✅ Hy4 preview — tagline
       //  - ### 1. **Name**（meta）—— tagline
@@ -796,10 +833,10 @@ export function parseDetailedBriefMarkdown(content, date) {
     }
 
     // Markdown tables (in any non-excluded section when cells contain bold product name)
-    const isExcluded = /落选|核心信号|今日信号|今日趋势|今日首推|未通过|剔除/.test(currentSection);
+    const isExcluded = NEWS_SECTION_RE.test(currentSection);
     if (!isExcluded && line.startsWith('|') && !line.includes('---|') && !/^\|\s*[-:]+/.test(line)) {
       const cells = line.split('|').map(c => c.trim()).filter(Boolean);
-      const hasIdx = /^\d+$/.test(cells[0]);
+      const hasIdx = /^(?:\d+|[—–-]+)$/.test(cells[0]);
       const nameCell = hasIdx ? cells[1] : cells[0];
       if (cells.length >= 3 && nameCell && nameCell.startsWith('**')) {
         const name = nameCell.replace(/\*\*/g, '').trim();

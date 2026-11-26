@@ -174,9 +174,11 @@ fs.writeFileSync(
 
 // Write per-product detail JSONs + lean explore.json index
 const leanIndex = [];
+const writtenProductFiles = new Set();
 for (const p of masterMap.values()) {
   const safeKey = p.key.replace(/[^a-z0-9\u4e00-\u9fa5_-]/gi, '');
   if (!safeKey) continue;
+  writtenProductFiles.add(`${safeKey}.json`);
   fs.writeFileSync(
     path.join(PRODUCTS_DIR, `${safeKey}.json`),
     JSON.stringify(p),
@@ -215,6 +217,16 @@ for (const p of masterMap.values()) {
 }
 
 leanIndex.sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.enriched ? 1 : 0) - (a.enriched ? 1 : 0));
+
+// Remove dossiers of products that no longer exist (renamed / filtered as non-products)
+let removedOrphans = 0;
+for (const f of fs.readdirSync(PRODUCTS_DIR)) {
+  if (f.endsWith('.json') && !writtenProductFiles.has(f)) {
+    fs.unlinkSync(path.join(PRODUCTS_DIR, f));
+    removedOrphans++;
+  }
+}
+if (removedOrphans) console.log(`Removed ${removedOrphans} orphaned product dossiers.`);
 
 fs.writeFileSync(
   path.join(DATA_DIR, 'explore.json'),
