@@ -28,7 +28,7 @@ const HARDWARE_RE = /(?:(?<![无不免])需(?:要|自备|购买|准备|连接)?|
 const EMULATED_RE = /浏览器(?:里|中|内)?(?:跑|运行|模拟|仿真)|在线模拟|模拟器|emulat|simulat/i;
 const REGISTRY_HOST_RE = /(^|\.)(github\.com|npmjs\.com|pypi\.org|crates\.io|pkg\.go\.dev|rubygems\.org|nuget\.org|hub\.docker\.com|marketplace\.visualstudio\.com)$/i;
 const DEMO_HOST_RE = /(^|\.)(stackblitz\.com|codesandbox\.io|replit\.com|colab\.research\.google\.com|codepen\.io|jsfiddle\.net)$/i;
-const DEMO_PATH_RE = /\/(?:demo|playground|try|sandbox|live)(?:\/|\.html?$|$)/i;
+const DEMO_PATH_RE = /\/(?:demo|playground|play|try|sandbox|live)(?:\/|\.html?$|$)/i;
 const FREE_PRICING = new Set(['免费开源', '免费可用', 'Freemium']);
 const PAID_PRICING = new Set(['商业付费', '一次性买断']);
 

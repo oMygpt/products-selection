@@ -6,7 +6,7 @@
 
 1. **上游多 Agent 简报源（`alonegg/daily-product-briefings`）**：
    - Muse、Hark、Agent A 及任意后续新增的筛选 Agent 可各自独立向该仓库提交含 `YYYY-MM-DD` 日期的 `.md` 简报（通过仓库 Secret `BRIEFINGS_DEPLOY_KEY` 拉取）。
-   - **推荐治本格式**：上游 Agent 可在简报末尾附一个 `json` 代码块（`{ "products": [{ "name", "url", "repo", "tagline", "pricing", "source" }] }`），解析器优先读取该结构化块，同时兼容各类历史 Markdown 排版。
+   - **结构化产品块（治本格式）**：上游简报末尾追加一个 `json` 代码块（字段约定见上游仓库 [`FORMAT.md`](https://github.com/alonegg/daily-product-briefings/blob/main/FORMAT.md)：`name`、`url`/`repo`、`tagline`、`pricing`、`trial`、`minutes`、`demoUrl`、`hardware`、`guide`、`source`）。只要有这个块，解析器就只读它；`trial` / `minutes` / `demoUrl` 直接进入试用成本。没有这个块时，仍兼容各类历史 Markdown 排版。
 2. **后台查验与结构化 Agent（`playground/enrich-agent.mjs`）**：
    - 汇总同日所有简报条目（去重合并、统计多源推荐次数）。
    - 优先通过直达官网与 GitHub API 拉取正文、OG 预览图、`X-Frame-Options/CSP` 可嵌入状态、在线 Demo 链接及开源健康信号（最近推送、Release、Open Issues）。
