@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-src 'self' https:; object-src 'none'; base-uri 'self';" />
   <title>PRODUCTS SELECTION · 每日精选产品体验台</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <meta name="description" content="每日精选开源项目与热门 AI 产品体验台：30 秒判断值不值得试，3 分钟真正试上，试完留下记录。" />
+  <meta property="og:title" content="Products Selection · 每日精选产品体验台" />
+  <meta property="og:description" content="30 秒判断值不值得试，3 分钟真正试上，试完留下记录。" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" type="application/rss+xml" title="Products Selection RSS" href="./feed.xml" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -21,8 +23,10 @@
           </button>
           <nav class="site-nav" aria-label="主导航">
             <button data-page-link="today" aria-current="page">今日</button>
+            <button data-page-link="weekly">每周精选</button>
             <button data-page-link="library">产品库</button>
             <button data-page-link="records">我的记录</button>
+            <a class="site-nav-rss" href="./feed.xml" target="_blank" rel="noopener" title="订阅 RSS">RSS</a>
           </nav>
         </div>
       </div>
@@ -126,8 +130,8 @@
         <div class="tweak-field">
           <label>Typography · 正文字体</label>
           <div class="tweak-pills" id="fontSwitchGroup">
-            <button class="tweak-pill active" data-set-font="sans">现代无衬线 / Plus Jakarta</button>
-            <button class="tweak-pill" data-set-font="serif">温润人文 / 霞鹜文楷</button>
+            <button class="tweak-pill active" data-set-font="sans">现代无衬线（系统零延迟）</button>
+            <button class="tweak-pill" data-set-font="serif">温润人文衬线</button>
           </div>
         </div>
         <div class="tweak-field">
@@ -179,10 +183,30 @@
             <p class="desk-empty" role="status">正在读取最新一期…</p>
           </div>
         </section>
+
+        <section class="daily-desk hidden" id="weeklyView" aria-labelledby="weeklyTitle">
+          <div class="desk-heading">
+            <h1 id="weeklyTitle">每周精选</h1>
+            <div class="desk-edition">
+              <span>每周 Top 5 · 按查验完整度、多源推荐与热度排序</span>
+            </div>
+          </div>
+          <div id="weeklyContent">
+            <p class="desk-empty" role="status">正在加载每周精选…</p>
+          </div>
+        </section>
+
         <section class="daily-desk hidden" id="recordsView" aria-labelledby="recordsTitle">
-          <div class="desk-heading"><h1 id="recordsTitle">我的记录</h1></div>
+          <div class="desk-heading">
+            <h1 id="recordsTitle">我的记录</h1>
+            <div class="records-export-actions">
+              <button class="editorial-btn editorial-btn-sm" id="exportRecordsMdBtn">导出 Markdown</button>
+              <button class="editorial-btn editorial-btn-sm" id="exportRecordsJsonBtn">导出 JSON</button>
+            </div>
+          </div>
           <div id="recordsContent"></div>
         </section>
+
         <div class="issue-lead-header library-only" id="stageBanner">
           <div class="lead-left">
             <div class="lead-top-row">
@@ -191,6 +215,12 @@
                 <button class="scope-btn active" id="scopeDailyBtn" data-scope="daily">当日汇总</button>
                 <button class="scope-btn" id="scopeAllBtn" data-scope="all">全库浏览</button>
               </div>
+              <select id="sortSelect" class="sort-select" aria-label="排序方式">
+                <option value="default">推荐排序</option>
+                <option value="stars">Star 最高</option>
+                <option value="latest">最新收录</option>
+                <option value="enriched">已查验优先</option>
+              </select>
             </div>
             <h1 class="lead-headline" id="stageTitle" lang="zh">加载中...</h1>
             <p class="lead-deck" id="stageSubtitle" lang="zh"></p>
@@ -203,6 +233,17 @@
             <button class="filter-chip" data-form="web">在线网页 / Web <span id="countFormWeb">0</span></button>
             <button class="filter-chip" data-form="desktop">桌面 / 客户端 / 插件 <span id="countFormDesktop">0</span></button>
             <button class="filter-chip" data-form="api">模型 / API / 论文 <span id="countFormApi">0</span></button>
+          </div>
+
+          <!-- Scenario Quick Filter Bar -->
+          <div class="scenario-filter-bar" id="scenarioFilterBar" aria-label="按场景筛选">
+            <span class="scenario-label">场景：</span>
+            <button class="filter-chip active" data-scenario="all">全部场景</button>
+            <button class="filter-chip" data-scenario="claude-code">让 Claude Code 更好用</button>
+            <button class="filter-chip" data-scenario="teaching">教学与研究可用</button>
+            <button class="filter-chip" data-scenario="instant-web">浏览器零配置直玩</button>
+            <button class="filter-chip" data-scenario="local-privacy">本地隐私优先</button>
+            <button class="filter-chip" data-scenario="solo-builder">独立开发提效</button>
           </div>
         </div>
 
@@ -238,15 +279,18 @@
               <div class="wb-meta-stamps" id="wbMetaStamps"></div>
               <h3 class="wb-product-name" id="wbTitle">Product Name</h3>
             </div>
-            <button class="wb-close-btn" id="wbCloseBtn" title="关闭右侧体验台 (Esc)">×</button>
+            <div class="wb-header-right">
+              <button class="editorial-btn editorial-btn-sm" id="wbShareBtn" title="复制该产品的独立分享链接">复制链接</button>
+              <button class="wb-close-btn" id="wbCloseBtn" title="关闭右侧体验台 (Esc)">×</button>
+            </div>
           </div>
 
           <!-- Action & Mode Bar -->
           <div class="wb-toolbar">
             <div class="wb-mode-switch" role="tablist">
-              <button class="wb-tab active" data-wbtab="readme" role="tab">📖 产品详情 / README</button>
-              <button class="wb-tab" data-wbtab="codespace" role="tab">🚀 Codespace 真机体验</button>
-              <button class="wb-tab" data-wbtab="web" role="tab">🌐 网页在线试玩</button>
+              <button class="wb-tab active" data-wbtab="readme" role="tab">产品详情 / README</button>
+              <button class="wb-tab" data-wbtab="codespace" role="tab">Codespace 真机</button>
+              <button class="wb-tab" data-wbtab="web" role="tab">网页在线试玩</button>
             </div>
 
             <div class="wb-links-group">
@@ -256,24 +300,40 @@
             </div>
 
             <div class="wb-status-group">
+              <select id="wbStatusSelect" class="wb-status-select" aria-label="试用状态">
+                <option value="">未标记</option>
+                <option value="want">想试</option>
+                <option value="trying">在试</option>
+                <option value="tried">✓ 已试过</option>
+                <option value="stack">★ 已收藏</option>
+                <option value="dropped">弃用</option>
+              </select>
               <button class="curate-btn" id="wbTriedBtn" data-status="tried" title="快捷键 T">✓ 已试</button>
               <button class="curate-btn" id="wbStackBtn" data-status="stack" title="快捷键 S">★ 收藏</button>
-              <button class="wb-memo-toggle" id="wbMemoToggleBtn" aria-expanded="false" aria-controls="wbMemoBar">备注</button>
+              <button class="wb-memo-toggle" id="wbMemoToggleBtn" aria-expanded="false" aria-controls="wbMemoBar">备注 / 评分</button>
             </div>
           </div>
 
           <form class="wb-memo-bar hidden" id="wbMemoBar">
-            <input type="text" id="wbNoteInput" class="wb-memo-input" aria-label="备注" placeholder="可选备注" />
+            <select id="wbRatingSelect" class="wb-status-select" aria-label="体验评分">
+              <option value="">未评分</option>
+              <option value="5">★★★★★ 5 分</option>
+              <option value="4">★★★★ 4 分</option>
+              <option value="3">★★★ 3 分</option>
+              <option value="2">★★ 2 分</option>
+              <option value="1">★ 1 分</option>
+            </select>
+            <input type="text" id="wbNoteInput" class="wb-memo-input" aria-label="备注" placeholder="一句话体验笔记（如：实测好用 / 踩坑点）" />
             <button type="submit" class="editorial-btn editorial-btn-sm">保存</button>
           </form>
         </div>
 
         <!-- Mode 1: Product Dossier, Experience Guide & README -->
         <div class="wb-pane" id="wbTabReadme">
-          <!-- Unified Product Intro, Experience Guide & Repo Stats -->
+          <!-- Unified Product Intro, Experience Guide, Caveats, Alternatives & Repo Stats -->
           <section class="wb-doc-section" id="wbSummaryBox"></section>
 
-          <!-- Codespace Quick Launch Banner (shown for GitHub open-source products) -->
+          <!-- Tiered Try / Codespace Quick Launch Banner -->
           <section class="wb-codespace-banner hidden" id="wbCodespaceBanner"></section>
 
           <div id="wbInspectLoading" class="wb-loading hidden">正在读取 GitHub README 与官网信息...</div>
@@ -334,23 +394,22 @@
     </div>
     <div class="gh-dialog-body">
       <section class="wb-doc-section">
-        <div class="wb-section-title">1. 配置 GitHub Personal Access Token</div>
+        <div class="wb-section-title">1. 配置最小权限 GitHub Token（仅当前标签页有效）</div>
         <p class="gh-desc">
-          输入你的 GitHub Token（仅保存在当前浏览器 <code>localStorage</code>，直接与 <code>api.github.com</code> 通信），即可开启：
+          安全提示：Token 仅保存在当前标签页的 <code>sessionStorage</code>（关闭标签页即自动清除），仅直接与 <code>api.github.com</code> 通信。建议优先使用带过期时间的 <strong>Fine-grained Token</strong>（仅授权 Codespaces 权限），无需授予 <code>repo</code> 写权限；若只是一次性试玩，也可直接点击免 Key 的 <code>codespaces.new</code> 链接。
         </p>
-        <ul class="gh-benefit-list">
-          <li>在网页内直接为任意开源项目 <strong>创建、启动、连接端口预览和销毁 GitHub Codespaces 云端容器</strong></li>
-          <li>突破匿名 GitHub API 60 次/小时限制，实时拉取任意仓库的完整 <code>README.md</code> 与元数据</li>
-        </ul>
 
         <div class="gh-token-actions-top">
-          <a href="https://github.com/settings/tokens/new?description=Products-Selection-Codespaces&scopes=codespace,repo,read:user" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink">
-            ↗ 一键前往 GitHub 生成带 codespace + repo 权限的 Token
+          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" class="editorial-btn editorial-btn-ink">
+            ↗ 创建 Fine-grained Token（推荐，可设过期时间）
+          </a>
+          <a href="https://github.com/settings/tokens/new?description=Products-Selection-Codespaces&scopes=codespace,read:user" target="_blank" rel="noopener" class="editorial-btn">
+            ↗ Classic Token（仅 codespace + read:user）
           </a>
         </div>
 
         <div class="gh-token-form">
-          <input type="password" id="ghTokenInput" class="gh-token-input" placeholder="粘贴 ghp_... 或 github_pat_... (需勾选 codespace 与 repo 权限)" autocomplete="off" />
+          <input type="password" id="ghTokenInput" class="gh-token-input" placeholder="粘贴 github_pat_... 或 ghp_...（仅存 sessionStorage）" autocomplete="off" />
           <button class="editorial-btn editorial-btn-ink" id="saveGhTokenBtn">验证并保存 Key</button>
           <button class="editorial-btn" id="clearGhTokenBtn">清除</button>
         </div>
@@ -364,7 +423,7 @@
           <button class="editorial-btn editorial-btn-sm" id="refreshAllCsBtn">↻ 刷新列表</button>
         </div>
         <div id="userCodespacesList" class="cs-list">
-          <p style="font-size:12.5px; color:var(--ink-muted);">配置 GitHub Key 后，将自动列出你名下的所有云端 Codespace 容器，方便随时启动、打开或停止（节省免费额度）。</p>
+          <p class="muted-note">配置 GitHub Key 后，将自动列出你名下的所有云端 Codespace 容器，方便随时启动、打开或停止（节省免费额度）。</p>
         </div>
       </section>
     </div>
