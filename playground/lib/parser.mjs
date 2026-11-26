@@ -477,6 +477,15 @@ export function extractQuickCommands(readmeText, safeRepo = '') {
 }
 
 // Permanent fix: parse optional structured JSON block appended by upstream agents
+// Accept both the canonical enum and short English aliases in structured briefs
+const BRIEF_FRICTION = {
+  免注册直玩: '免注册直玩', none: '免注册直玩', instant: '免注册直玩',
+  需注册登录: '需注册登录', signup: '需注册登录',
+  '需自备 Key': '需自备 Key', 需自备Key: '需自备 Key', key: '需自备 Key', 'api-key': '需自备 Key',
+  需本地安装: '需本地安装', install: '需本地安装',
+  '需桌面/插件': '需桌面/插件', desktop: '需桌面/插件', extension: '需桌面/插件'
+};
+
 export function parseStructuredJsonBlocks(content, date) {
   const items = [];
   const blocks = [...String(content || '').matchAll(/```json\s*\r?\n([\s\S]*?)```/gi)];
@@ -509,7 +518,17 @@ export function parseStructuredJsonBlocks(content, date) {
           rawMeta: raw.source || ''
         };
         Object.assign(item, classifyProductType(item));
-        if (raw.demoUrl) item.demoUrl = String(raw.demoUrl).trim();
+        if (raw.demoUrl && isDemoUrl(String(raw.demoUrl).trim())) item.demoUrl = String(raw.demoUrl).trim();
+        // Trial-cost hints from the agent that opened the page (see FORMAT.md upstream)
+        const friction = BRIEF_FRICTION[String(raw.trial || raw.friction || '').trim()];
+        if (friction) item.frictionLevel = friction;
+        const minutes = Number(raw.minutes);
+        if (Number.isFinite(minutes) && minutes > 0 && minutes <= 60) item.setupMinutes = Math.round(minutes);
+        if (raw.hardware) item.tagline = item.tagline ? `${item.tagline}（需自备硬件：${raw.hardware}）` : `需自备硬件：${raw.hardware}`;
+        if (Array.isArray(raw.guide)) {
+          const guide = raw.guide.map(step => String(step || '').trim()).filter(Boolean).slice(0, 4);
+          if (guide.length >= 2) item.experienceGuide = guide;
+        }
         items.push(item);
       }
     } catch {

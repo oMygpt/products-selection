@@ -82,3 +82,31 @@ test('regression: all committed raw/day briefs parse with zero empty days and re
     }
   }
 });
+
+test('structured JSON block carries trial-cost hints from the upstream agent', async () => {
+  const { computeTrialCost } = await import('../public/trial-cost.js');
+  const md = [
+    '# 每日新产品简报 · 2026-11-27',
+    '1. **[Whatever](https://whatever.dev)** —— prose that the regex parser would otherwise read',
+    '```json',
+    JSON.stringify({ products: [
+      { name: 'Backspin', url: 'https://backspin.fm', tagline: '浏览器里学 DJ', pricing: '免费可用', trial: '免注册直玩', minutes: 2,
+        demoUrl: 'https://backspin.fm/play', guide: ['打开网页点 Show me', '跟着第一课完成一次混音'] },
+      { name: 'Smorza', url: 'https://github.com/rokoov/smorza', trial: 'desktop', minutes: 3, pricing: '免费开源' },
+      { name: 'Babytalk', url: 'https://github.com/x/babytalk', trial: 'install', hardware: 'ESP32 开发板' },
+      { name: 'Fake Demo', url: 'https://fake.dev', demoUrl: 'https://fake.github.io/docs/' }
+    ] }),
+    '```'
+  ].join('\n');
+  const { items } = parseAnyBriefMarkdown(md, '2026-11-27');
+  assert.deepEqual(items.map(i => i.name), ['Backspin', 'Smorza', 'Babytalk', 'Fake Demo']);
+  const [backspin, smorza, babytalk, fake] = items;
+  assert.equal(backspin.frictionLevel, '免注册直玩');
+  assert.equal(backspin.setupMinutes, 2);
+  assert.equal(backspin.demoUrl, 'https://backspin.fm/play');
+  assert.equal(backspin.experienceGuide.length, 2);
+  assert.equal(computeTrialCost({ ...backspin }).level, 'instant');
+  assert.equal(smorza.frictionLevel, '需桌面/插件');
+  assert.equal(computeTrialCost({ ...babytalk }).level, 'hardware');
+  assert.ok(!fake.demoUrl, 'docs pages are not accepted as demos');
+});
