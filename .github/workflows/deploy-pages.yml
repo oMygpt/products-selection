@@ -40,6 +40,9 @@ jobs:
     steps:
       - name: Checkout products-selection
         uses: actions/checkout@v4
+        with:
+          # Queued runs build the latest main, not the (possibly stale) trigger commit
+          ref: main
 
       - name: Setup Node 22
         uses: actions/setup-node@v4
@@ -85,13 +88,33 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           [ -f playground/.enrich-failed.json ] || echo '{}' > playground/.enrich-failed.json
-          git add playground/enriched-products.json playground/.enrich-failed.json playground/public/data/raw
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: daily enriched product update [skip enrich]"
-            git push
-          else
+          STATE="playground/enriched-products.json playground/.enrich-failed.json playground/public/data/raw"
+          MSG="chore: daily enriched product update [skip enrich]"
+          git add $STATE
+          if git diff --cached --quiet; then
             echo "No data changes to commit."
+            exit 0
           fi
+          git commit -q -m "$MSG"
+          # main may have moved during the run (merges, an earlier run's data commit):
+          # re-apply this run's state on top of the latest main instead of losing it.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::Push rejected (attempt $attempt); merging this run's state into latest main"
+            cp playground/enriched-products.json "$RUNNER_TEMP/ours-enriched.json"
+            cp playground/.enrich-failed.json "$RUNNER_TEMP/ours-failed.json"
+            rm -rf "$RUNNER_TEMP/ours-raw" && cp -r playground/public/data/raw "$RUNNER_TEMP/ours-raw"
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            node playground/merge-state.mjs "$RUNNER_TEMP/ours-enriched.json" "$RUNNER_TEMP/ours-failed.json"
+            cp -r "$RUNNER_TEMP/ours-raw/." playground/public/data/raw/
+            git add $STATE
+            git diff --cached --quiet && exit 0
+            git commit -q -m "$MSG"
+            sleep $((attempt * 5))
+          done
+          echo "::error::Could not push enrichment state after 3 attempts"
+          exit 1
 
       - name: Prepare versioned Pages artifact
         run: node playground/prepare-pages.mjs "$RUNNER_TEMP/products-selection-site"
