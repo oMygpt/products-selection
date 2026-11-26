@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   getAllDates,
   getDayData,
@@ -16,7 +17,7 @@ import {
   DELIVERY_LABELS,
   ENRICHED_FILE
 } from './server.mjs';
-import { extractDemoUrl, SCENARIO_RULES } from './lib/parser.mjs';
+import { extractDemoUrl, SCENARIO_RULES, repoMatchesProduct } from './lib/parser.mjs';
 
 const QWEN_ENDPOINT = process.env.QWEN_BASE_URL || 'https://token-plan.maas.qianwenaiapi.com/compatible-mode/v1/chat/completions';
 const QWEN_MODEL = process.env.QWEN_MODEL || 'qwen3.8-flash';
@@ -38,7 +39,7 @@ function loadQwenApiKey() {
 
 function parseCliArgs() {
   const args = process.argv.slice(2);
-  const opts = { days: 2, date: '', limit: 0, force: false, concurrency: 4, retryFailed: true };
+  const opts = { days: 2, date: '', limit: 0, force: false, concurrency: 4, retryFailed: true, backfill: 0, dryRun: false };
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
     if (a === '--days' && args[i + 1]) opts.days = parseInt(args[++i], 10) || 2;
@@ -47,6 +48,8 @@ function parseCliArgs() {
     else if (a === '--concurrency' && args[i + 1]) opts.concurrency = Math.max(1, parseInt(args[++i], 10) || 4);
     else if (a === '--force') opts.force = true;
     else if (a === '--no-retry') opts.retryFailed = false;
+    else if (a === '--dry-run') opts.dryRun = true;
+    else if (a === '--backfill' && args[i + 1]) opts.backfill = Math.max(0, parseInt(args[++i], 10) || 0);
   }
   return opts;
 }
@@ -77,7 +80,25 @@ function isDirectoryUrl(urlStr = '') {
   }
 }
 
-async function searchGithubRepoByName(productName) {
+// Exact-name search is only trustworthy when we can cross-check it: the repo's homepage
+// must point at the product's own site, or (no site known) the name must be distinctive.
+export function acceptSearchHit(item, { normTarget, siteUrl = '' }) {
+  const repoNorm = (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (repoNorm !== normTarget) return false;
+  const stars = item.stargazers_count || 0;
+  let siteHost = '';
+  try { siteHost = new URL(siteUrl).hostname.replace(/^www\./, ''); } catch { /* none */ }
+  if (siteHost) {
+    try {
+      const home = new URL(item.homepage || '').hostname.replace(/^www\./, '');
+      if (home && (home === siteHost || home.endsWith(`.${siteHost}`) || siteHost.endsWith(`.${home}`))) return true;
+    } catch { /* no homepage */ }
+    return false;
+  }
+  return normTarget.length >= 6 && stars >= 10;
+}
+
+async function searchGithubRepoByName(productName, siteUrl = '') {
   const normTarget = productName.toLowerCase().replace(/[^a-z0-9]/g, '');
   if (normTarget.length < 3) return null;
   try {
@@ -92,8 +113,7 @@ async function searchGithubRepoByName(productName) {
     if (!res.ok) return null;
     const data = await res.json();
     for (const item of data.items || []) {
-      const repoNorm = (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (repoNorm === normTarget && (item.stargazers_count || 0) >= 2) {
+      if (acceptSearchHit(item, { normTarget, siteUrl })) {
         return cleanRepoSlug(item.full_name);
       }
     }
@@ -155,7 +175,7 @@ async function investigateProduct(product) {
 
   // 1. Prefer GitHub API lookup when repo is missing
   if (!githubRepo && (!directUrl || /开源|open\s*source|cli|mcp/i.test(`${product.tagline} ${product.description}`))) {
-    const foundRepo = await searchGithubRepoByName(product.name);
+    const foundRepo = await searchGithubRepoByName(product.name, directUrl || '');
     if (foundRepo) githubRepo = foundRepo;
   }
 
@@ -182,7 +202,7 @@ async function investigateProduct(product) {
         const blocks = extractReadableFromHtml(page.html);
         siteText = blocks.map(b => b.text).join('\n').slice(0, 2600);
         if (!githubRepo) {
-          const discovered = findGithubRepoInHtml(page.html);
+          const discovered = findGithubRepoInHtml(page.html, { productName: product.name, siteUrl: directUrl });
           if (discovered) githubRepo = discovered;
         }
       }
@@ -339,10 +359,63 @@ ${intel.readmeSnippet || '（无 README）'}`;
   };
 }
 
+// Entries written before the trial-cost schema have no `frictionLevel` key at all.
+export function isStaleEnrichment(entry) {
+  return Boolean(entry) && !Object.hasOwn(entry, 'frictionLevel');
+}
+
+function keepRepoIfPlausible(repo, existing, p) {
+  if (!repo) return null;
+  const inheritedFromEnrichment = existing?.githubRepo && repo.toLowerCase() === existing.githubRepo.toLowerCase();
+  if (!inheritedFromEnrichment) return repo; // came straight from the brief: trust it
+  return repoMatchesProduct(repo, { productName: p.name, siteUrl: p.directUrl || existing.directUrl }) ? repo : null;
+}
+
+function hasTrialEntry(p) {
+  return Boolean(p.githubRepo || p.directUrl || (p.url && !isDirectoryUrl(p.url)));
+}
+
+/**
+ * Priority: (1) already-verified products on the old schema (cheap, high value),
+ * (2) un-enriched products that have a link, newest first, (3) link-less products
+ * (need a name search), newest first. Products that failed 3 times are skipped.
+ */
+export function selectBackfillBatch({ dates, getDay, store, failedMap = {}, seenKeys = new Set(), limit = 0 }) {
+  const stale = [];
+  const linked = [];
+  const unlinked = [];
+  for (const d of dates) {
+    let day;
+    try { day = getDay(d); } catch { continue; }
+    for (const p of day?.products || []) {
+      if (!p.key || seenKeys.has(p.key)) continue;
+      seenKeys.add(p.key);
+      if ((failedMap[p.key]?.attempts || 0) >= 3) continue;
+      const existing = store[p.key];
+      if (existing && !isStaleEnrichment(existing)) continue;
+      if (existing) {
+        stale.push({
+          ...p,
+          directUrl: p.directUrl || existing.directUrl,
+          // Don't inherit a repo that an older run mis-matched from the landing page
+          // (day data is already overlaid with the old enrichment, so check the merged value)
+          githubRepo: keepRepoIfPlausible(p.githubRepo || existing.githubRepo, existing, p),
+          __stale: true
+        });
+      } else if (hasTrialEntry(p)) {
+        linked.push(p);
+      } else {
+        unlinked.push(p);
+      }
+    }
+  }
+  return [...stale, ...linked, ...unlinked].slice(0, limit);
+}
+
 async function main() {
   const opts = parseCliArgs();
   const apiKey = loadQwenApiKey();
-  if (!apiKey) {
+  if (!apiKey && !opts.dryRun) {
     console.error('ERROR: QWEN_API_KEY not found in env.');
     process.exit(1);
   }
@@ -377,8 +450,29 @@ async function main() {
     }
   }
 
+  // Backfill: walk the whole archive and enrich a bounded batch per run, so history
+  // converges to the current schema without one huge (slow, costly) run.
+  if (opts.backfill > 0 && !opts.date) {
+    const backfill = selectBackfillBatch({
+      dates: allDates.filter(d => !targetDates.includes(d)),
+      getDay: getDayData,
+      store,
+      failedMap: loadJsonFile(FAILED_QUEUE_FILE, {}),
+      seenKeys,
+      limit: opts.backfill
+    });
+    console.log(`Backfill: ${backfill.length} archived products queued (${backfill.filter(p => p.__stale).length} schema upgrades).`);
+    queue.push(...backfill);
+  }
+
   const tasks = opts.limit > 0 ? queue.slice(0, opts.limit) : queue;
   console.log(`Found ${queue.length} pending products; processing ${tasks.length} with concurrency=${opts.concurrency}...`);
+
+  if (opts.dryRun) {
+    for (const t of tasks) console.log(`  - ${t.date} ${t.__stale ? '[upgrade] ' : ''}${t.name} :: ${t.githubRepo || t.directUrl || t.url || '(no link)'}`);
+    console.log('Dry run: no network calls made.');
+    return;
+  }
 
   if (tasks.length === 0) {
     console.log('All target products are already enriched.');
@@ -399,7 +493,7 @@ async function main() {
         store[product.key] = {
           key: product.key,
           name: product.name,
-          date: product.date,
+          date: store[product.key]?.date || product.date,
           updatedAt: new Date().toISOString(),
           ...synthesized,
           directUrl: intel.directUrl,
@@ -449,7 +543,10 @@ async function main() {
   console.log(`Enrich Agent finished. Success: ${completed}, Failed: ${failed}. Saved to ${ENRICHED_FILE}`);
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}
