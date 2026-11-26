@@ -60,6 +60,9 @@ jobs:
             echo "BRIEFINGS_DEPLOY_KEY not set, skipping upstream clone"
           fi
 
+      - name: Run unit tests (parser / sanitizer / trial desk)
+        run: node --test playground/test/*.test.mjs
+
       - name: Enrich new products via Qwen Agent
         if: ${{ !contains(github.event.head_commit.message, '[skip enrich]') }}
         run: |
@@ -89,9 +92,6 @@ jobs:
           else
             echo "No data changes to commit."
           fi
-
-      - name: Run unit tests
-        run: node --test playground/test/*.test.mjs
 
       - name: Prepare versioned Pages artifact
         run: node playground/prepare-pages.mjs "$RUNNER_TEMP/products-selection-site"
