@@ -11,3 +11,5 @@ playground/user-state.json
 playground/public/data/*
 !playground/public/data/raw/
 playground/public/feed.xml
+playground/public/digest/
+playground/public/feed-weekly.xml

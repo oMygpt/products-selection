@@ -1,0 +1,5 @@
+{
+  "_doc": "商业合作配置，只附加披露过的链接/优惠码和单独标注的赞助位，绝不影响排序、抽取和试用成本。字段说明见 playground/lib/partners.mjs 与 README「合作与变现」。",
+  "affiliates": {},
+  "sponsored": []
+}
