@@ -1,9 +1,9 @@
 {
   "astra读写权重被证伪qwen38本地复现": {
-    "attempts": 2,
+    "attempts": 3,
     "transient": false,
-    "lastError": "Bad escaped character in JSON at position 728 (line 23 column 47)",
-    "updatedAt": "2026-11-26T22:24:14.082Z",
+    "lastError": "Bad escaped character in JSON at position 663 (line 23 column 41)",
+    "updatedAt": "2026-11-26T23:05:19.453Z",
     "product": {
       "key": "astra读写权重被证伪qwen38本地复现",
       "name": "「Astra 读写权重」被证伪 / Qwen 3.8 本地复现",
