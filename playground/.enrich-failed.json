@@ -16,5 +16,203 @@
       "categoryType": "models",
       "deliveryForm": "api"
     }
+  },
+  "zeroslop": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:25.318Z",
+    "product": {
+      "key": "zeroslop",
+      "name": "Zero Slop",
+      "date": "2026-10-02",
+      "url": "https://github.com/manavmishra/ZeroSlop",
+      "directUrl": "https://github.com/manavmishra/ZeroSlop",
+      "githubRepo": "manavmishra/ZeroSlop",
+      "tagline": "开源 Agent Skill：给写作中的\"AI 腔\"打 0~100 分、逐句指出并改写，本地\"事实门控\"拒绝任何增删数字/人名的改写。",
+      "description": "290 个加权模式 + 本地离线打分器（零依赖、不上传文本）；作者实名，声称 18 篇草稿基准上把平均分 77.3 降到 16.4 且事实全保留。",
+      "categoryType": "agent",
+      "deliveryForm": "github"
+    }
+  },
+  "janus": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:25.387Z",
+    "product": {
+      "key": "janus",
+      "name": "Janus",
+      "date": "2026-10-02",
+      "url": "https://github.com/Vibra-Ingenn/Janus",
+      "directUrl": "https://github.com/Vibra-Ingenn/Janus",
+      "githubRepo": "Vibra-Ingenn/Janus",
+      "tagline": "GitHub 已核",
+      "description": "- `Vibra-Ingenn/Janus`：Go 写的 AI 模型路由 + Vulkan 模型运行器，跑 GGUF 于 AMD/Intel/Nvidia；10★、2026-10-01 当日仍提交。本地优先推理栈补完。\n\n用 Vulkan 而不是 CUDA 做跨厂商 GPU 本地推理，零 Python/Docker 依赖，支持热切换模型；仓库真实、README 详尽。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "jevgpt": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:25.460Z",
+    "product": {
+      "key": "jevgpt",
+      "name": "JevGPT",
+      "date": "2026-10-02",
+      "url": "https://curata.com/jevgpt",
+      "directUrl": "https://curata.com/jevgpt",
+      "githubRepo": "idlivada/JevGPT",
+      "tagline": "开源实验",
+      "description": "- 形态：用 TypeSafe 的\"System One\"选择模型 Jev（只给选项打概率、不写句子）逐词多选（1772 词表）拼出回复；`curata.com/jevgpt`（约 ¢1/回复）或 `github.com/idlivada/JevGPT` 本地跑（2★）。自嘲\"strawberry 有仨 r（有时）\"。趣味/方法论演示。",
+      "categoryType": "devtools",
+      "deliveryForm": "github"
+    }
+  },
+  "openinspector": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:25.700Z",
+    "product": {
+      "key": "openinspector",
+      "name": "Open Inspector",
+      "date": "2026-10-03",
+      "url": "https://patlf.github.io/open-inspector/",
+      "directUrl": "https://patlf.github.io/open-inspector/",
+      "githubRepo": null,
+      "tagline": "开源免费 Chrome 扩展：悬停任意网页读取布局、颜色、字体，导出设计 tokens（CSS 变量、Tailwind、JSON、给 AI 的交接文档）。",
+      "description": "只声明 activeTab 权限、零网络请求，还用 946 个自动化测试把\"不索取数据\"写成构建约束；作者坦诚承认间距导出等弱项，可信度高。",
+      "categoryType": "productivity",
+      "deliveryForm": "desktop"
+    }
+  },
+  "monospacefromdirectus": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:26.181Z",
+    "product": {
+      "key": "monospacefromdirectus",
+      "name": "Monospace from Directus",
+      "date": "2026-10-02",
+      "url": "https://monospace.io",
+      "directUrl": "https://monospace.io",
+      "githubRepo": null,
+      "tagline": "Directus 出品",
+      "description": "- 形态：\"受治理 API 层\"，坐于企业数据（任意 SQL/API/SaaS）与\"人/应用/agent\"之间；连接即给开发者/业务/agent 同一套实时读写权限，无数据拷贝/迁移，可自托管（Rust）。；- 权限：每调用方独立 key，行/字段级规则逐请求生效，agent 改生产数据在 API 层强制而非靠 prompt；内置 Redis 查询级缓存（权限感知、字段级 TTL）。；- 卖点：实时跨源查询规划（虚拟关系跨库单请求）、MCP 工具、自托管。CEO Ben Haynes 现身答疑。与\"agent 需要被治理数据接入\"信号直接对应。\n\nCEO 亲自发帖、评论区逐一回复技术问题，解决的是 AI Agent 落地企业最头疼的权限治理痛点，文档完整。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "chatsh": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:26.595Z",
+    "product": {
+      "key": "chatsh",
+      "name": "Chat.sh",
+      "date": "2026-10-02",
+      "url": "https://yoursite.com/help",
+      "directUrl": "https://yoursite.com/help",
+      "githubRepo": null,
+      "tagline": "一次性买断",
+      "description": "- 形态：自建 AI 帮助中心——搜问题写答案并引出处；落你自己站点（`yoursite.com/help` 非子域）；每页可复制 Markdown 或开给 ChatGPT/Claude + 生成 llms.txt 供 agent；聊天信使/支持收件箱后续。；- 定价：一次性买断（$399/$799，launch 日 `$200 OFF`→$199/$599，每发新模块涨 $100、早买白送）。起源：Intercom 帮助中心搜\"the\"匹配、作者 4 天自建。",
+      "categoryType": "productivity",
+      "deliveryForm": "web"
+    }
+  },
+  "readyourscan": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:26.819Z",
+    "product": {
+      "key": "readyourscan",
+      "name": "Read Your Scan",
+      "date": "2026-10-02",
+      "url": "https://readyourscan.com/",
+      "directUrl": "https://readyourscan.com/",
+      "githubRepo": null,
+      "tagline": "AI 医疗影像 3D 查看 + 多语报告，私有归档（消费医疗，诊断准确性谨慎看待）",
+      "description": "AI 医疗影像 3D 查看 + 多语报告，私有归档（消费医疗，诊断准确性谨慎看待）。\n\nDICOM 在浏览器本地脱敏后再上传（开源 3D 查看器 GitHub 可查），AI 还会独立重读一遍影像给出\"第二意见\"，$9 一次买断不搞订阅。",
+      "categoryType": "models",
+      "deliveryForm": "api"
+    }
+  },
+  "statusbar": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:26.923Z",
+    "product": {
+      "key": "statusbar",
+      "name": "statusbar",
+      "date": "2026-10-02",
+      "url": "https://statusbar.vrypan.net",
+      "directUrl": "https://statusbar.vrypan.net",
+      "githubRepo": null,
+      "tagline": "开源",
+      "description": "- 形态：\"任意终端的状态条\"，评论区多人表示会试；评论确认开源、看 GitHub。轻量本地开发者工具。\n\nmaker 是 PH 2014 年老用户，在评论里逐条回答技术实现问题，小而精的开发者工具。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
+  },
+  "webagents3xfasterbymemorylayer": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:27.174Z",
+    "product": {
+      "key": "webagents3xfasterbymemorylayer",
+      "name": "web agents 3x faster by memory layer",
+      "date": "2026-10-02",
+      "url": "https://blog.reduck.ai",
+      "directUrl": "https://blog.reduck.ai",
+      "githubRepo": null,
+      "tagline": "博文",
+      "description": "- blog.reduck.ai：给浏览器 agent 加\"动作记忆层\"使其快 3×；与 Polylane/Monospace 的\"agent 需记忆+上下文\"主线呼应。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "dshdesktopdeepseek": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:27.219Z",
+    "product": {
+      "key": "dshdesktopdeepseek",
+      "name": "DSH Desktop / DeepSeek",
+      "date": "2026-10-02",
+      "url": "https://deepseek.com",
+      "directUrl": "https://deepseek.com",
+      "githubRepo": null,
+      "tagline": "厂商自述\"官方\"，未独立核证",
+      "description": "- PH 页写在长期 DeepSeek 产品档案下，称\"DeepSeek Harness Desktop 是 DeepSeek 开源 agent harness 的官方 Mac/Win app，登录后本地跑日常/编码/定时任务，同 CLI 插件系统\"，Free。；- 核证状态：DeepSeek 确为开源实验室， plausibly 真实；但抓取未暴露 deepseek.com 官方落地域名，按惯例标注\"厂商自述官方、未独立核证\"，谨慎采信。",
+      "categoryType": "agent",
+      "deliveryForm": "web"
+    }
+  },
+  "helo": {
+    "attempts": 0,
+    "transient": true,
+    "lastError": "fetch failed",
+    "updatedAt": "2026-11-27T14:06:27.402Z",
+    "product": {
+      "key": "helo",
+      "name": "Helo",
+      "date": "2026-10-02",
+      "url": "https://www.helohq.com",
+      "directUrl": "https://www.helohq.com",
+      "githubRepo": null,
+      "tagline": "前 Postmark 团队出走创办的独立邮件 API，事务邮件与营销邮件用独立基础设施，原生支持多租户代发隔离。",
+      "description": "bootstrapped 无融资，定价透明（$5/月 + $0.00035/封，比 Resend/Postmark 便宜一半以上），独立立场在评论区表态清晰。",
+      "categoryType": "devtools",
+      "deliveryForm": "web"
+    }
   }
 }
