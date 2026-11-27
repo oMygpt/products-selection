@@ -25238,5 +25238,2705 @@
     "quickCommands": [
       "gh repo clone Parakeet/Core"
     ]
+  },
+  "seplyspeakersplit": {
+    "key": "seplyspeakersplit",
+    "name": "Seply Speaker Split",
+    "date": "2026-10-14",
+    "updatedAt": "2026-11-27T00:15:14.663Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 2,
+    "targetAudience": "需要快速分离多说话人音频的播客与视频剪辑师",
+    "tagline": "AI自动将混合录音分离为独立时间对齐音轨",
+    "introduction": "Seply Speaker Split 是一款基于 Web 的 AI 音频处理工具，专门用于将播客、采访或会议中的多人混合录音自动分离为每个说话人的独立 WAV 音轨。它支持多种音视频格式上传，提供时间对齐的输出和说话人标注转写功能，旨在简化后期剪辑流程。",
+    "caveats": [
+      "免费额度有限（仅20 credit），重度使用需订阅付费计划",
+      "上传文件大小限制为 1 GB，超长录音可能需要分段处理"
+    ],
+    "alternatives": [
+      "Lalal.ai",
+      "Adobe Podcast Enhance"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 seply.org 并注册账号，利用免费的 20 credit 试用额度",
+      "步骤2：上传一段包含至少两位说话人的 MP3 或 WAV 测试音频，等待处理完成后试听分离出的独立音轨并下载"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://seply.org/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://seply.org/og.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "musicdawn": {
+    "key": "musicdawn",
+    "name": "Music Dawn",
+    "date": "2026-10-14",
+    "updatedAt": "2026-11-27T00:15:15.647Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 1,
+    "targetAudience": "需要快速记录灵感并即时获得成品级音质的音乐创作者",
+    "tagline": "自带母带处理的一键录音机，让灵感即刻成为成品",
+    "introduction": "Music Dawn 是一款专为音乐人设计的 iOS/iPadOS/macOS/watchOS 应用，旨在替代苹果已停用的 Music Memos。它通过内置的 EQ、压缩、暖板混响及 Mastering 算法，在录制瞬间自动优化音频，使粗糙的 Demo 听起来接近成品。应用支持 iCloud 无缝同步，并能直接导入 Voice Memos 中的旧录音进行二次处理。",
+    "caveats": [
+      "仅限 Apple 生态系统（iPhone/iPad/Mac/Watch），无 Android 或 Windows 版本",
+      "高级功能或无限存储可能涉及订阅费用，免费版存在使用限制"
+    ],
+    "alternatives": [
+      "BandLab",
+      "GarageBand"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：在 App Store 搜索 'Music Dawn' 并下载，首次启动无需注册账号即可直接使用基础录音功能",
+      "步骤2：点击主界面红色按钮录制一段哼唱或乐器演奏，观察波形图变化，并在播放时对比原始录音与经过自动母带处理后的音效差异"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/music-dawn",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "opencode20": {
+    "key": "opencode20",
+    "name": "OpenCode 2.0",
+    "date": "2026-10-14",
+    "updatedAt": "2026-11-27T00:15:15.950Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "需要多端协同且偏好模型自由选择的开发者",
+    "tagline": "支持终端、桌面与移动端的开源AI编码代理",
+    "introduction": "OpenCode 是一款开源 AI 编码 Agent，提供终端 CLI、桌面应用及移动端界面，支持在任意环境中运行。它兼容超过 200 种 AI 模型提供商（包括 Claude、GPT 和 Gemini），并内置 build 和 plan 两种智能体模式以区分开发执行与代码分析场景。",
+    "caveats": [
+      "桌面版目前标记为 BETA，可能存在稳定性问题或功能缺失",
+      "虽然软件本身免费开源，但使用高级模型（如 Claude/GPT）需自备 API Key 或承担相应 Token 费用"
+    ],
+    "alternatives": [
+      "Cursor",
+      "Aider",
+      "Cline"
+    ],
+    "scenarios": [
+      "claude-code",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：通过终端运行 `curl -fsSL https://opencode.ai/v2/install | bash` 快速安装 CLI，或从官网下载 Desktop 安装包",
+      "步骤2：配置至少一个模型提供商的 API Key，启动 OpenCode 后按 Tab 键切换 'build'（执行修改）与 'plan'（只读分析）模式进行代码任务测试"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://opencode.ai/",
+    "githubRepo": "anomalyco/opencode",
+    "stars": "229408",
+    "license": "MIT",
+    "ogImage": "https://opencode.ai/files/site/og/home-98637499f6.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 4155,
+      "forks": 31240,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v1.19.6",
+        "publishedAt": "2026-11-17"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "curl -fsSL https://opencode.ai/v2/install | bash",
+      "npm i -g @opencode/cli@latest      # or bun/pnpm/yarn",
+      "brew install anomalyco/tap/opencode-v2 # macOS and Linux (recommended, always up to date)",
+      "brew install opencode              # macOS and Linux (official brew formula, updated less)",
+      "brew install --cask opencode-desktop"
+    ]
+  },
+  "kai": {
+    "key": "kai",
+    "name": "Kai",
+    "date": "2026-10-14",
+    "updatedAt": "2026-11-27T00:15:18.390Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要自动化处理邮件、日历和会议记录的职场人士",
+    "tagline": "Morgen团队出品的AI行政助理，自动管理邮件与日程",
+    "introduction": "Kai是一款由Morgen团队开发的AI行政助理，旨在通过自动化处理邮件、日历和会议记录来减轻用户负担。它支持Web、Mac、iOS和Android多端同步，能够无感接入Zoom、Google Meet等会议工具进行实时转写，并根据用户语气草拟邮件回复及整理待办事项。",
+    "caveats": [
+      "深度依赖Google和Microsoft账户授权，隐私敏感用户需谨慎评估数据权限",
+      "核心功能如会议转写和邮件草拟可能受限于免费额度或需订阅高级版"
+    ],
+    "alternatives": [
+      "Motion",
+      "Reclaim.ai"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 hirekai.ai 官网，使用 Google 或 Microsoft 账号注册并登录",
+      "步骤2：在设置中连接邮箱和日历账户，尝试导入一个会议链接测试实时转写与摘要生成功能"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://hirekai.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://hirekai.ai/opengraph-image?c5d626a72f39b70a",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "memorysync": {
+    "key": "memorysync",
+    "name": "MemorySync",
+    "date": "2026-10-14",
+    "updatedAt": "2026-11-27T00:15:20.461Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需自备 Key",
+    "setupMinutes": 5,
+    "targetAudience": "需要为 AI Agent 添加长期记忆功能的开发者",
+    "tagline": "为 AI Agent 提供跨会话持久化记忆的 API 服务",
+    "introduction": "MemorySync 是一个专为 AI Agent 设计的长期记忆 API，通过简单的 POST 请求实现用户信息的存储与检索。它允许开发者在多个会话和不同 Agent 之间共享同一用户的上下文信息，从而提升 AI 的个性化体验。",
+    "caveats": [
+      "免费层限制较严（每月仅1万次存储/1千次搜索），高频使用需付费",
+      "依赖网络调用，存在延迟风险（示例中查询耗时约200ms+）"
+    ],
+    "alternatives": [
+      "Zep",
+      "LangChain Memory"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 memorysync.io 官网，点击 'Open the playground' 进入在线演示环境",
+      "步骤2：在 Playground 中模拟对话输入个人信息（如过敏史），观察后续会话中 AI 如何召回这些记忆并改变回答逻辑"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://memorysync.io/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://memorysync.io/og-image.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "gsdtaskmanager": {
+    "key": "gsdtaskmanager",
+    "name": "GSD Task Manager",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:20.485Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "需要为 AI Agent 提供结构化任务管理能力的开发者",
+    "tagline": "专为 AI Agent 设计的离线优先 MCP 任务清单服务器",
+    "introduction": "GSD Task Manager 是一个基于 Model Context Protocol (MCP) 的任务管理服务器，旨在为 AI Agent 提供持久化、结构化的任务追踪能力。它通过暴露 19 个专用工具接口，允许 Agent 创建、更新、查询和完成复杂的多步骤任务，支持离线优先的数据存储机制，确保在断网环境下仍能维持任务状态的完整性与一致性。",
+    "caveats": [
+      "作为 MCP Server，必须配合支持 MCP 协议的客户端（如 Claude Desktop 或特定 IDE 插件）才能使用，无法独立运行界面",
+      "GitHub 仓库信息极少且无 README，缺乏官方文档指引，集成配置可能需要自行阅读源码"
+    ],
+    "alternatives": [
+      "TaskMaster",
+      "AutoGen Studio"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：克隆仓库并安装依赖，执行 `git clone https://github.com/10-11/10-12.git` 后进入目录运行 `npm install` 或对应语言的包管理器命令",
+      "步骤2：在支持 MCP 的客户端（如 Claude Desktop）配置文件中添加该服务器的启动命令，尝试让 Agent 调用 `create_task` 工具创建一个测试任务以验证连接"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/10-11/10-12",
+    "githubRepo": "10-11/10-12",
+    "stars": null,
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/10-11/10-12",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": [
+      "gh repo clone 10-11/10-12"
+    ]
+  },
+  "diffle": {
+    "key": "diffle",
+    "name": "Diffle",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:21.491Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "习惯 Vim 快捷键且需深度代码评审的开发者",
+    "tagline": "键盘优先的 Git diff 浏览器评审工具，支持 LSP 与 AI 交互",
+    "introduction": "Diffle 是一个在本地启动 Web 界面的 Git diff 评审工具，专为键盘操作优化。它集成了语言服务器协议（LSP），允许用户在 diff 视图中直接跳转定义、查找引用，并支持将行级或文件级评论导出为 AI Agent 提示词或 GitHub Pending Review。",
+    "caveats": [
+      "需要本地环境配置好对应的 Language Server (如 gopls, clangd) 才能使用高级跳转功能，否则仅为基础文本 diff。",
+      "作为 v0.x 早期版本，部分边缘场景下的 diff 渲染或 LSP 集成可能存在不稳定性。"
+    ],
+    "alternatives": [
+      "GitHub Desktop",
+      "GitKraken",
+      "Delta"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：通过 Homebrew (`brew install diffle`) 或 npm (`npm install -g @moritzwilksch/diffle`) 安装 CLI 工具。",
+      "步骤2：在项目根目录运行 `diffle working` 查看未提交更改，尝试使用 `gd` (Go to Definition) 快捷键测试 LSP 跳转，并使用 `yy` 复制评论生成 Prompt。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/moritzwilksch/diffle",
+    "githubRepo": "moritzwilksch/diffle",
+    "stars": "206",
+    "license": "Apache-2.0",
+    "ogImage": "https://opengraph.githubassets.com/1/moritzwilksch/diffle",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 53,
+      "forks": 10,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.5.4",
+        "publishedAt": "2026-11-17"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "brew install diffle                      # Homebrew",
+      "npm install -g @moritzwilksch/diffle     # npm",
+      "cargo install diffle                     # crates.io, compiled from source",
+      "curl -fsSL https://diffle.app/install.sh | sh"
+    ]
+  },
+  "preloop": {
+    "key": "preloop",
+    "name": "Preloop",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:22.600Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 15,
+    "targetAudience": "需要调试 CI/CD 流程的后端开发者",
+    "tagline": "在本地 MicroVM 中运行 GitHub Actions 的调试工具",
+    "introduction": "Preloop 允许开发者将 GitHub Actions 工作流直接映射到本地轻量级虚拟机（MicroVM）环境中执行。它支持对失败步骤进行 SSH 介入和状态暂停，从而实现对 CI 逻辑的深度调试与隔离测试。",
+    "caveats": [
+      "依赖特定虚拟化技术（如 Firecracker/KVM），对宿主机操作系统及硬件权限有较高要求",
+      "目前处于早期阶段，文档缺失且无在线 Demo，上手门槛极高"
+    ],
+    "alternatives": [
+      "act",
+      "nektos/act"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：克隆仓库并阅读源码或示例配置，确认本地已安装所需的虚拟化运行时环境",
+      "步骤2：编写一个简单的 .github/workflows 测试文件，尝试通过 Preloop CLI 启动本地 VM 并触发 Action 执行"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/preloopdev/preloop",
+    "githubRepo": "preloopdev/preloop",
+    "stars": null,
+    "license": null,
+    "ogImage": "https://opengraph.githubassets.com/1/preloopdev/preloop",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": [
+      "gh repo clone preloopdev/preloop"
+    ]
+  },
+  "bearconnect20": {
+    "key": "bearconnect20",
+    "name": "Bearconnect 2.0",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:24.718Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要自动化 LinkedIn 营销与销售线索挖掘的企业团队",
+    "tagline": "AI 驱动的 LinkedIn 内容生成与外联自动化 SaaS 平台",
+    "introduction": "Bearconnect 2.0 是一款专注于 LinkedIn 生态的垂直领域 SaaS 工具，利用 AI 技术辅助用户生成专业内容并执行自动化外联策略。它旨在通过数据驱动的方式优化销售漏斗，帮助 B2B 团队高效触达潜在客户并提升互动转化率。",
+    "caveats": [
+      "LinkedIn 对自动化工具检测严格，使用不当可能导致账号受限或封禁",
+      "作为商业 SaaS 产品，核心功能通常受限于订阅层级，免费试用额度较少"
+    ],
+    "alternatives": [
+      "PhantomBuster",
+      "Expandi"
+    ],
+    "scenarios": [],
+    "experienceGuide": [
+      "步骤1：访问 Bearconnect 官方网站，点击“开始试用”或“注册”按钮创建账户",
+      "步骤2：连接你的 LinkedIn 账号，尝试使用 AI 助手生成一条帖子草稿或设置一个简单的外联序列以测试核心流程"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 443,
+    "directUrl": "https://github.com/Sales/Marketing",
+    "githubRepo": "Sales/Marketing",
+    "stars": null,
+    "license": null,
+    "ogImage": "https://opengraph.githubassets.com/1/Sales/Marketing",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": [
+      "gh repo clone Sales/Marketing"
+    ]
+  },
+  "doiter": {
+    "key": "doiter",
+    "name": "Doiter",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:25.324Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 10,
+    "targetAudience": "对容器底层原理感兴趣或寻找趣味编程实验的开发者",
+    "tagline": "将 Docker 容器作为虚拟内存与栈帧的恶搞编程语言",
+    "introduction": "Doiter 是一个基于 Rust 开发的实验性编译器，它将每个变量分配和函数栈帧映射为独立的 Docker 容器。通过利用运行中的 Docker 守护进程模拟内存管理，它实现了极端的抽象层级，旨在讽刺过度依赖容器的架构设计。",
+    "caveats": [
+      "性能极低：简单的 Hello World 程序需启动约 51 个容器并耗时一分钟以上，不适合任何实际生产场景。",
+      "资源消耗巨大：每个字符或结构体字段均对应独立容器，极易耗尽主机资源且清理机制（Missile Allocation）仅在程序结束后生效。"
+    ],
+    "alternatives": [
+      "Docker",
+      "Kubernetes"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：克隆仓库并使用 `cargo build --release` 编译二进制文件，确保本地已安装并运行 Docker 守护进程。",
+      "步骤2：运行 `doiter samples/hello-world.dr` 观察容器创建过程，或使用 `docker ps` 实时查看生成的容器树状结构以体验其‘指针’逻辑。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/simvux/doiter",
+    "githubRepo": "simvux/doiter",
+    "stars": "16",
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/simvux/doiter",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-10-11",
+      "daysSincePush": 46,
+      "openIssues": 0,
+      "forks": 0,
+      "archived": false,
+      "latestRelease": null,
+      "activityTier": "slowing"
+    },
+    "quickCommands": [
+      "gh repo clone simvux/doiter"
+    ]
+  },
+  "ancher20": {
+    "key": "ancher20",
+    "name": "Ancher 2.0",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:28.401Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要高效整合阅读素材并快速产出内容的创作者与知识工作者",
+    "tagline": "将碎片化阅读转化为结构化交付物的生产力工具",
+    "introduction": "Ancher 2.0 是一款专注于“输入到输出”闭环的 SaaS 产品，旨在解决用户收藏大量内容却无法有效利用的痛点。它通过智能解析和重组用户保存的文章、笔记及链接，辅助生成大纲、摘要或初稿，从而加速写作与汇报等交付物的完成过程。",
+    "caveats": [
+      "提供的 GitHub 链接为占位符（Productivity/Writing），实际代码仓库可能不存在或已迁移，无法直接通过克隆源码部署",
+      "作为闭源 SaaS 服务，其核心算法逻辑不透明，且免费额度通常限制导出次数或协作人数"
+    ],
+    "alternatives": [
+      "Readwise Reader",
+      "Obsidian Publish"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "teaching"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 Ancher 官方站点（若原链接失效请搜索最新域名）并注册账号，安装浏览器扩展以捕获当前页面内容",
+      "步骤2：在仪表盘中新建一个“项目”，导入几篇已保存的文章，尝试使用“生成大纲”功能查看 AI 如何重组信息"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/Productivity/Writing",
+    "githubRepo": "Productivity/Writing",
+    "stars": null,
+    "license": null,
+    "ogImage": "https://opengraph.githubassets.com/1/Productivity/Writing",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": [
+      "gh repo clone Productivity/Writing"
+    ]
+  },
+  "squadroom": {
+    "key": "squadroom",
+    "name": "SquadRoom",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:29.652Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 15,
+    "targetAudience": "需要自动化工作流的技术团队或开发者",
+    "tagline": "基于代码仓库的AI员工协作平台，实现7x24小时自动化任务处理",
+    "introduction": "SquadRoom 是一个旨在通过 GitHub 仓库集成 AI 能力的生产力工具。它允许用户将 AI 模型作为“数字员工”嵌入到现有的开发和工作流程中，以自动化执行重复性任务、代码审查或文档生成等工作。由于缺乏公开的 README 和详细文档，其具体实现机制依赖于对底层代码的直接阅读与配置。",
+    "caveats": [
+      "GitHub 仓库无 README 且语言/协议未知，可能存在极高的上手门槛和维护风险",
+      "官网链接指向通用分类页而非产品主页，缺乏可信度验证，可能为占位符或废弃项目"
+    ],
+    "alternatives": [
+      "Devin",
+      "AutoGPT"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：使用命令 `gh repo clone Productivity/AI` 克隆仓库到本地环境",
+      "步骤2：检查目录结构寻找入口文件（如 main.py 或 index.js），若无文档则需逆向工程理解其依赖关系并尝试运行"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/Productivity/AI",
+    "githubRepo": "Productivity/AI",
+    "stars": null,
+    "license": null,
+    "ogImage": "https://opengraph.githubassets.com/1/Productivity/AI",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": [
+      "gh repo clone Productivity/AI"
+    ]
+  },
+  "betterwispr": {
+    "key": "betterwispr",
+    "name": "BetterWispr",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:30.063Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "注重隐私且使用 Apple Silicon Mac 的开发者与知识工作者",
+    "tagline": "完全离线、无账号的 macOS 本地智能听写工具",
+    "introduction": "BetterWispr 是一款基于 Swift 开发的 macOS 原生应用，利用 Whisper、Parakeet 和 Apple Speech 等本地模型实现零延迟语音转文字。它支持全局快捷键触发，具备上下文感知的文本清洗功能（如去除语气词、自动修正拼写），并内置无需机器人的会议纪要生成能力，所有数据均保留在本地设备中。",
+    "caveats": [
+      "仅支持 macOS 14+ 系统，且在 Intel Mac 上性能较差，强烈建议 Apple Silicon 芯片以保障实时转录体验。",
+      "首次运行需下载较大的本地模型文件（数百 MB 至 GB 级），且若未正确配置辅助功能权限可能导致粘贴失败。"
+    ],
+    "alternatives": [
+      "Wispr Flow",
+      "Superwhisper"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：从 GitHub Releases 页面下载最新 DMG 安装包，拖入 Applications 文件夹启动，并在系统设置中授予“麦克风”和“辅助功能”权限。",
+      "步骤2：进入设置选择适合你硬件性能的本地模型（如 Parakeet TDT v3），然后在任意文本输入框按住 ⌥ Space 说话并松开，测试其自动清理口语废话的效果。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://betterwispr.com/",
+    "githubRepo": "opennookorg/betterwispr",
+    "stars": "547",
+    "license": "Apache-2.0",
+    "ogImage": "https://betterwispr.com/og-image.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-14",
+      "daysSincePush": 12,
+      "openIssues": 23,
+      "forks": 58,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.1.6",
+        "publishedAt": "2026-11-13"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": []
+  },
+  "llmxray": {
+    "key": "llmxray",
+    "name": "LLMxRay",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:30.774Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "使用 Ollama 或本地 LLM 栈的开发者与运维人员",
+    "tagline": "本地 LLM 可观测性代理，透明化缓存、截断与模型调度细节",
+    "introduction": "LLMxRay 是一个基于 Vue 构建的开源中间件/代理工具，旨在为本地大语言模型环境提供深度可观测性。它通过拦截 VS Code Copilot、Open WebUI、Continue 等客户端与 Ollama 之间的通信，实时展示请求中的缓存命中情况、上下文截断逻辑以及后台守护进程的模型加载/卸载行为。该工具完全在本地运行，无需云端 API Key，帮助用户精准调试提示词工程与资源占用问题。",
+    "caveats": [
+      "主要依赖 Ollama 生态，对非 Ollama 后端（如 vLLM、TGI）的支持可能有限或需要额外配置",
+      "作为代理层介入，若配置不当可能导致原有客户端连接失败或增加少量延迟"
+    ],
+    "alternatives": [
+      "LangSmith",
+      "Helicone",
+      "Ollama Monitor"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：确保本地已安装并运行 Ollama，然后通过终端执行 `npx llmxray` 启动服务，或使用 Docker 命令 `docker run -p 5174:5174 -p 11435:11435 djovaneli/llmxray` 进行部署",
+      "步骤2：将你的 AI 客户端（如 Open WebUI 或 VS Code 插件）的 Base URL 指向 LLMxRay 的监听端口（通常为 11435），随后发起对话并在浏览器访问 `http://localhost:5174` 查看实时的 Token 消耗、缓存状态及模型切换日志"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 5174,
+    "directUrl": "https://github.com/LogneBudo/llmxray",
+    "githubRepo": "LogneBudo/llmxray",
+    "stars": "29",
+    "license": "Apache-2.0",
+    "ogImage": "https://opengraph.githubassets.com/1/LogneBudo/llmxray",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-04",
+      "daysSincePush": 22,
+      "openIssues": 0,
+      "forks": 3,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.8.13",
+        "publishedAt": "2026-11-04"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "npx llmxray",
+      "docker run -p 5174:5174 -p 11435:11435 djovaneli/llmxray"
+    ]
+  },
+  "promodrawer": {
+    "key": "promodrawer",
+    "name": "PromoDrawer",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:34.452Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "希望提升转化率且反感弹窗干扰的 Shopify 商家",
+    "tagline": "Shopify 促销聚合抽屉，替代弹窗实现无打扰营销",
+    "introduction": "PromoDrawer 是一款专为 Shopify 设计的营销工具，将折扣码、倒计时、商品推荐及免邮进度条等所有促销活动整合到一个侧边滑出抽屉中。它摒弃了传统的强制弹窗模式，仅在用户主动点击时展示内容，从而减少对购物流程的干扰并提升用户体验。该应用深度集成 Shopify 主题编辑器，支持自动继承店铺字体与配色，并提供多语言翻译功能。",
+    "caveats": [
+      "免费版和基础版对抽屉内可展示的卡片数量有严格限制（如 Pro 版最多 8 张），复杂促销策略可能受限。",
+      "作为 SaaS 插件，其性能表现高度依赖宿主 Shopify 主题的代码质量，若主题本身加载缓慢，抽屉渲染也可能受影响。"
+    ],
+    "alternatives": [
+      "Privy",
+      "OptiMonk"
+    ],
+    "scenarios": [],
+    "experienceGuide": [
+      "步骤1：访问 promodrawer.com 官网，点击 'Try the real drawer' 按钮体验交互式 Demo，感受不同布局下的抽屉滑动效果。",
+      "步骤2：在 Shopify App Store 搜索 PromoDrawer 进行安装，进入后台配置至少一种促销类型（如折扣码或倒计时），并在主题编辑器中预览实际显示效果。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://promodrawer.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://promodrawer.com/assets/og-v5.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "ghostcore": {
+    "key": "ghostcore",
+    "name": "Ghost Core",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:34.655Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 15,
+    "targetAudience": "注重隐私且预算充足的高阶极客用户",
+    "tagline": "无屏幕本地AI电脑，主动感知生活并执行任务",
+    "introduction": "Ghost Core是一款专为个人设计的无头（Headless）AI计算机，搭载NVIDIA RTX PRO 4000 Blackwell显卡与64GB内存，确保所有模型推理和数据存储完全在本地硬件上运行。它通过持续连接用户的数字足迹（应用、文件、可穿戴设备）构建长期上下文，具备主动行动能力而非仅响应指令，旨在提供无需订阅的私有化智能体验。",
+    "caveats": [
+      "硬件门槛极高：$3,499起售价且无后续软件订阅费，初期投入成本巨大",
+      "生态封闭风险：作为初创公司硬件产品，缺乏公开API或社区支持，依赖厂商私有协议"
+    ],
+    "alternatives": [
+      "Mac Studio (M2 Ultra)",
+      "Local LLM Server (Ollama/LM Studio)"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 https://ghost.ai/ 查看预售状态及详细硬件规格参数",
+      "步骤2：评估自身对“主动式AI”的需求强度，确认是否愿意为全本地隐私保护支付高额硬件溢价"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 8080,
+    "directUrl": "https://ghost.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://ghost.ai/opengraph-image.jpg?opengraph-image.03kbcstif5zt5.jpg",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "devterminal": {
+    "key": "devterminal",
+    "name": "DevTerminal",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:34.796Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "macOS 全栈开发者及独立开发者",
+    "tagline": "macOS 原生终端，按工程类型自动执行构建与运行命令",
+    "introduction": "DevTerminal 是一款 macOS 原生终端应用，核心功能是通过识别当前目录下的项目配置文件（如 Gradle、Xcode、package.json 等），在按下 ⌘R 时自动执行对应的构建、安装或启动命令。它支持 Android、iOS、Web 及后端等 18 种主流技术栈，并将运行日志输出在独立的下方面板中，避免干扰主 Shell 交互。",
+    "caveats": [
+      "仅支持 macOS 14 Sonoma 及以上版本，不兼容 Windows/Linux 或旧版 macOS",
+      "闭源商业软件，虽为买断制但无法通过 GitHub 查看源码或自行修改核心逻辑"
+    ],
+    "alternatives": [
+      "Warp",
+      "iTerm2",
+      "Ghostty"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 devterminal.app 下载 .dmg 安装包并拖入 Applications 文件夹完成安装",
+      "步骤2：打开 DevTerminal，cd 进入一个包含 build.gradle 或 package.json 的项目根目录，按下 ⌘R 观察是否自动触发构建并显示日志"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://devterminal.app/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://devterminal.app/opengraph-image?6cacd2ee61f5e6a3",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "dmly": {
+    "key": "dmly",
+    "name": "DMly",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:37.243Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 10,
+    "targetAudience": "需要统一管理多渠道客户沟通与交易的本地服务商户",
+    "tagline": "面向本地商户的全渠道客服、预约收款与自动化经营平台",
+    "introduction": "DMly 将 WhatsApp、Instagram、Telegram 等七个主流社交及通讯渠道整合至单一团队收件箱，支持无代码自动化流程与 AI 辅助回复。平台内置 CRM、预约管理、支付集成（Stripe/PayPal）及 Google 评价自动请求功能，旨在为本地服务企业提供从获客到复购的一站式闭环解决方案。",
+    "caveats": [
+      "依赖官方 API 接入：WhatsApp Business API 等渠道需通过 Meta 审核或第三方 BSP 接入，配置门槛较高且可能产生额外通道费用。",
+      "非通用型工具：功能深度绑定本地生活服务场景（如预约、到店核销），纯电商或 B2B SaaS 企业可能觉得部分模块冗余。"
+    ],
+    "alternatives": [
+      "Respond.io",
+      "Trengo",
+      "Zoko"
+    ],
+    "scenarios": [],
+    "experienceGuide": [
+      "步骤1：访问 dmly.io 官网，点击 'Start Free Trial' 注册账号并连接一个测试用的 WhatsApp Business 号码或 Instagram 账号。",
+      "步骤2：在后台创建一个简单的 'No-code Flow'，设置当用户发送关键词时自动回复预约链接，并尝试模拟一次完整的聊天-预约-收款流程。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://dmly.io/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "wallhop": {
+    "key": "wallhop",
+    "name": "WallHop",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:38.594Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "frictionLevel": "免注册直玩",
+    "setupMinutes": 1,
+    "targetAudience": "偶尔遇到付费墙且不愿订阅的普通读者",
+    "tagline": "极简免费的在线工具，通过前缀或粘贴链接快速跳过文章付费墙。",
+    "introduction": "WallHop 是一款基于 Web 的轻量级工具，旨在帮助用户阅读被付费墙拦截的新闻或博客文章。用户只需在 URL 前添加特定前缀、使用书签小工具或通过 API 接口即可获取全文内容，无需注册账号。该工具明确定位为处理“一次性”阅读需求，并倡导对长期关注的媒体进行正规订阅。",
+    "caveats": [
+      "绕过付费墙可能违反部分出版商的服务条款，存在法律与道德灰色地带风险。",
+      "对于采用强动态渲染或复杂反爬机制的网站，解析成功率可能不稳定。"
+    ],
+    "alternatives": [
+      "12ft.io (已停运)",
+      "Unpaywall"
+    ],
+    "scenarios": [
+      "instant-web"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 wallhop.io，将任意带有付费墙的 URL 复制并粘贴到输入框中。",
+      "步骤2：点击读取按钮查看是否成功提取正文；或在浏览器地址栏尝试在目标 URL 前加上 'https://wallhop.io/' 前缀直接跳转。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://wallhop.io/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://wallhop.io/og.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "scrapeanythingbycontextdev": {
+    "key": "scrapeanythingbycontextdev",
+    "name": "Scrape Anything by Context.dev",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:38.721Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要为 AI Agent 提供实时网页数据的开发者",
+    "tagline": "专为 AI Agent 设计的网页抓取与搜索 API，一键获取干净 Markdown 数据。",
+    "introduction": "Context.dev 提供一套 REST API，旨在将任意 URL 转换为干净的 Markdown 格式、执行实时网络搜索或爬取整个网站结构。它通过优化输出格式以适配 LLM 上下文窗口，帮助开发者快速构建具备联网能力的 AI 应用和智能体。",
+    "caveats": [
+      "作为商业 SaaS 服务，超出免费额度后需付费，且依赖其云端稳定性而非本地可控性。",
+      "官网大量展示来自特定客户（如 SiteGPT, Upstash）的迁移证言，实际效果可能因目标网站的反爬策略而异。"
+    ],
+    "alternatives": [
+      "Firecrawl",
+      "Jina Reader"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 context.dev 官网，点击 'Get Started' 注册账号并获取 API Key（无需信用卡）。",
+      "步骤2：使用 curl 或 Postman 调用 /scrape 接口传入一个新闻网站 URL，观察返回的 Markdown 内容是否去除了广告和导航栏噪音。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://www.context.dev/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://www.context.dev/api/og?title=Every+piece+of+web+context+your+agent+needs.",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "gboardkurukuruversion": {
+    "key": "gboardkurukuruversion",
+    "name": "Gboard Kurukuru Version",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:41.715Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 60,
+    "targetAudience": "硬件极客、嵌入式开发者及日语输入法爱好者",
+    "tagline": "Google Gboard 愚人节系列奇葩物理键盘的开源固件与电路设计合集",
+    "introduction": "该项目收录了 Google 日本团队历年发布的 Gboard 愚人节创意硬件（如传送带、鼓点、摩尔斯电码等）的完整技术文档。仓库包含各设备的 STL 3D 打印模型、PCB 电路图以及基于 C++ 的底层固件源码，旨在让开发者能够复现这些非标准的输入交互体验。",
+    "caveats": [
+      "并非官方支持产品，缺乏长期维护承诺，部分旧设备可能依赖已停产的特定传感器或芯片",
+      "上手门槛极高，需要具备电子焊接、3D 打印及嵌入式开发环境配置能力，无法直接作为软件使用"
+    ],
+    "alternatives": [
+      "QMK Firmware",
+      "ZMK Firmware"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：克隆仓库并浏览 README 中的产品列表，选择一款感兴趣的设备（如 Kurukuru 传送带版），下载其对应的 STL 文件和原理图",
+      "步骤2：根据 BOM 清单采购元器件，完成 PCB 打样与焊接，编译对应目录下的 C++ 固件并烧录至微控制器进行调试"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://github.com/google/mozc-devices",
+    "githubRepo": "google/mozc-devices",
+    "stars": "3005",
+    "license": "Apache-2.0",
+    "ogImage": "https://opengraph.githubassets.com/1/google/mozc-devices",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-10-01",
+      "daysSincePush": 56,
+      "openIssues": 1,
+      "forks": 184,
+      "archived": false,
+      "latestRelease": null,
+      "activityTier": "slowing"
+    },
+    "quickCommands": [
+      "gh repo clone google/mozc-devices"
+    ]
+  },
+  "hirekey": {
+    "key": "hirekey",
+    "name": "HireKey",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:42.247Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 2,
+    "targetAudience": "寻求大厂或外企职位的求职者及转行人士",
+    "tagline": "基于资深招聘官视角的AI求职全流程辅助平台",
+    "introduction": "HireKey 是一款由前 Microsoft/Amazon/Stripe 资深招聘官打造的垂直领域 AI 工具，核心逻辑在于模拟真实招聘官的评估标准。它提供岗位匹配度分析、定制化简历优化、STAR 法则语音模拟面试以及多申请追踪功能，旨在通过专业视角提升求职转化率。",
+    "caveats": [
+      "目前主要依赖 Web 端访问，无官方移动端 App，语音面试功能对浏览器麦克风权限及网络稳定性有要求",
+      "高级功能（如深度简历改写或无限次模拟面试）可能受限于 Freemium 模式的额度，需关注后续付费政策"
+    ],
+    "alternatives": [
+      "Teal",
+      "Jobscan"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 HireKey 官网并注册账号，上传当前简历及目标职位描述（JD）以启动匹配分析",
+      "步骤2：使用 STAR 语音模拟面试功能，针对常见行为面试题进行录音练习，查看系统给出的结构化反馈"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 443,
+    "directUrl": "https://www.producthunt.com/products/hirekey",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "tori": {
+    "key": "tori",
+    "name": "Tori",
+    "date": "2026-10-13",
+    "updatedAt": "2026-11-27T00:15:42.251Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "希望利用碎片时间通过真实语境提升日语听力的学习者",
+    "tagline": "基于个人语料库的沉浸式日语听力训练工具",
+    "introduction": "Tori 是一款专注于“Sentence Mining”（句子挖掘）理念的移动端日语学习应用。它允许用户导入正在阅读的文章或日记，自动进行逐句翻译、标注振假名并生成配音，将内容按主题整理为“岛屿”。核心功能包括灭屏被动听、影子跟读录音对比、AI 生成个性化故事以及带音频的 SRS 抽认卡复习，旨在构建从输入到输出的完整听力闭环。",
+    "caveats": [
+      "依赖 Google Play 分发，iOS 用户或非安卓原生环境可能无法直接安装体验",
+      "AI 配音与翻译质量受限于模型能力，复杂语境下的准确性可能需要人工校对"
+    ],
+    "alternatives": [
+      "Anki",
+      "LingQ",
+      "Todai Easy Japanese"
+    ],
+    "scenarios": [],
+    "experienceGuide": [
+      "步骤1：在 Android 设备上访问 Google Play 商店搜索 “Tori” 并下载安装包",
+      "步骤2：粘贴一段感兴趣的日语短文至 App，观察其生成的振假名、翻译及音频效果，尝试使用“灭屏被动听”模式熟悉发音"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/tori-japanese-listening-srs",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "apogee": {
+    "key": "apogee",
+    "name": "Apogee",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:43.306Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "注重隐私且拥有本地算力资源的浏览器重度用户",
+    "tagline": "全本地运行的浏览器AI总结插件，数据不出设备",
+    "introduction": "Apogee是一款开源的浏览器扩展，利用WebGPU、WebAssembly或本地Ollama服务在设备端直接运行大模型。它支持对网页文章、YouTube视频、PDF及邮件进行即时摘要，默认模式下无需联网或API密钥，确保内容完全保留在本地。",
+    "caveats": [
+      "本地推理性能高度依赖硬件：无独立显卡或显存不足时，WebAssembly模式速度较慢且占用大量CPU资源。",
+      "首次使用需下载模型权重：虽然代码开源，但LLM模型文件体积较大（通常数GB），初次加载耗时较长且占用磁盘空间。"
+    ],
+    "alternatives": [
+      "Sider",
+      "Monica",
+      "Kagi Assistant"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问Chrome Web Store或Firefox Add-ons搜索'Apogee'并安装扩展；若追求更高性能，建议先在本地部署Ollama并拉取一个轻量级模型（如llama3.2:3b）。",
+      "步骤2：打开任意长文网页或上传PDF，点击扩展图标触发总结功能，观察是否能在不发送数据到云端的情况下生成摘要，并对比不同后端（WebGPU vs Ollama）的响应速度。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://github.com/darshi1337/apogee",
+    "githubRepo": "darshi1337/apogee",
+    "stars": "127",
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/darshi1337/apogee",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 14,
+      "forks": 58,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.2.5",
+        "publishedAt": "2026-10-28"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "npm install"
+    ]
+  },
+  "foley": {
+    "key": "foley",
+    "name": "Foley",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:45.719Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需自备 Key",
+    "setupMinutes": 5,
+    "targetAudience": "追求语音快速记录且愿配置API Key的效率极客",
+    "tagline": "基于本地解析与LLM的语音待办助手，支持自我修正与智能归档",
+    "introduction": "Foley是一款桌面端语音待办应用，核心机制是将自然语言指令转化为结构化任务。它采用混合架构：相对时间（如“明天”、“下周五”）由本地代码精确解析以确保确定性，而复杂意图识别与分类则依赖用户配置的OpenRouter API密钥调用大模型完成。产品特别优化了对口语中自我修正场景（如“周四不对是周五”）的处理逻辑，通过读取完整语句后再进行归档，避免误判。",
+    "caveats": [
+      "免费版虽无订阅费，但必须自行注册并获取 OpenRouter API Key，对非技术用户存在一定门槛",
+      "目前仅确认支持 macOS 及 Apple Watch 生态，Windows/Linux 版本可用性未明确说明"
+    ],
+    "alternatives": [
+      "Todoist Voice",
+      "Things 3"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网下载桌面客户端，并在设置中填入从 OpenRouter 获取的免费 API Key",
+      "步骤2：尝试输入包含自我修正的语音或文本指令（例如：“帮我记一下，周四开会，不对，是周五下午三点”），观察其是否正确解析为周五的任务而非周四"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/foley",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "ayven": {
+    "key": "ayven",
+    "name": "Ayven",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:46.440Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "使用 Slack/Jira/YouTrack 的敏捷开发团队负责人",
+    "tagline": "基于 LLM 的团队议程追踪 Agent，自动拆解任务并跨周跟进进度",
+    "introduction": "Ayven 是一个专为团队协作设计的 AI Agent，核心能力在于将会议议程或待办事项自动拆解为具体任务块。它能智能分配 Owner 和截止日期，并与 Jira、YouTrack 及 Slack 深度集成，通过长周期的链式调用机制持续追踪任务状态，解决传统工具中‘无人输入即消失’的痛点。",
+    "caveats": [
+      "目前处于早期阶段，官网信息极少且无公开 GitHub 仓库，功能稳定性与数据安全性尚未经过大规模验证。",
+      "依赖对 Slack、Jira 等第三方工具的 OAuth 授权，若权限配置不当可能导致任务同步失败或隐私泄露风险。"
+    ],
+    "alternatives": [
+      "Linear",
+      "Notion AI"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 Product Hunt 上的 Ayven 产品页面，寻找官方提供的 Early Access 链接或联系创始人 Howard Chen 获取试用资格。",
+      "步骤2：在测试环境中创建一个包含多个子任务的会议议程，观察 Ayven 是否能在 Slack 中正确识别并生成对应的 Jira/YouTrack 卡片，以及后续几天内是否主动发送进度提醒。"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://www.producthunt.com/products/ayven",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "kdlo": {
+    "key": "kdlo",
+    "name": "kōdlo",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:47.802Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "高客单价 B2B 销售团队与 GTM 负责人",
+    "tagline": "集成深度研究 Agent 的端到端 B2B 销售工作区",
+    "introduction": "kōdlo 是一个专为高客单价 B2B 销售设计的 GTM 引擎，通过内置的深度研究 Agent 自动挖掘线索、生成带引用的客户简报并起草个性化外联内容。其核心差异化在于支持 MCP（Model Context Protocol），能将统一的共享记忆上下文直接接入 Claude Desktop、Codex 等现有 AI 工具，避免强制迁移工作流。",
+    "caveats": [
+      "闭源 SaaS 模式，起价 $49/月，无免费长期版本，仅支持短期试用",
+      "依赖云端部署，虽宣称不训练用户数据，但敏感客户信息仍需评估合规风险"
+    ],
+    "alternatives": [
+      "Clay",
+      "Apollo.io"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 kodlo.ai 官网，点击 'Start Free Trial' 注册账号并进入工作区",
+      "步骤2：在首页输入一个具体的目标客户画像（如“寻找欧洲金融科技公司的 VP Sales”），观察 Agent 如何执行搜索、筛选并生成带来源引用的客户简报"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://kodlo.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://kodlo.ai/wp-content/themes/kodlo_landing/assets/images/titlelogo.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "tradebo": {
+    "key": "tradebo",
+    "name": "TradeBo",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:50.974Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 7,
+    "targetAudience": "持有股票/期权/加密货币且希望自动化捕捉波动的投资者",
+    "tagline": "本地代理连接券商，云端计算策略的梯子交易自动化工具",
+    "introduction": "TradeBo 是一款针对现有持仓进行波动率捕获的交易自动化系统。它采用混合架构：本地桌面代理（Broker Agent）负责安全连接 Robinhood 或 Interactive Brokers 并执行订单，而云端引擎负责实时计算买卖价格。用户只需为持仓分配预设策略（如 Accumulate、Moderate），系统即可在设定的同步频率下自动执行低买高卖的梯子策略。",
+    "caveats": [
+      "必须保持本地桌面代理软件运行且电脑联网，否则无法执行交易指令",
+      "目前仅支持 Robinhood 和 Interactive Brokers 两家券商，其他平台不可用"
+    ],
+    "alternatives": [
+      "3Commas",
+      "Alpaca"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 tradebo.com 下载并安装适用于 macOS/Windows/Linux 的 Broker Agent 桌面应用",
+      "步骤2：通过 Agent 登录券商账户，选择持仓并分配预设策略（Accumulate/Moderate/Aggressive），观察云端返回的订单建议及本地执行情况"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://tradebo.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://tradebo.com/social/tradebo-share.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "automationsinperplexitycomputer": {
+    "key": "automationsinperplexitycomputer",
+    "name": "Automations in Perplexity Computer",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:51.347Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要自动化处理邮件、Slack及代码库任务的开发者或团队负责人",
+    "tagline": "基于日程与触发器的长程AI代理，自动监控并处理多平台工作流",
+    "introduction": "Perplexity Computer Automations 是一款集成在 Perplexity 生态中的智能代理功能，支持通过定时任务或事件触发器执行复杂工作流。它能够持续记录上下文状态，并深度集成 Slack、Gmail、Outlook、Linear 和 GitHub 等主流协作与开发工具，实现从信息监控到自动响应的闭环处理。",
+    "caveats": [
+      "目前主要面向企业级用户或特定测试阶段开放，普通个人用户可能无法直接访问完整功能",
+      "依赖第三方服务（如GitHub/Slack）的API权限授权，配置过程较为繁琐且存在隐私数据共享风险"
+    ],
+    "alternatives": [
+      "Zapier AI Actions",
+      "Microsoft Copilot Studio"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 perplexity.ai/computer/automations 并登录账号，检查是否具备内测或企业版访问权限",
+      "步骤2：尝试创建一个简单的定时任务（如每日汇总GitHub Issue），观察其如何连接外部API并生成报告"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.perplexity.ai/computer/automations",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://frontend-cdn.perplexity.ai/_agi_assets/og/perplexity-default-v1.jpg",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "floorgen": {
+    "key": "floorgen",
+    "name": "FloorGen",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:52.237Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "免注册直玩",
+    "setupMinutes": 1,
+    "targetAudience": "需要快速绘制精确户型图或进行AI辅助设计的建筑师、室内设计师及房主。",
+    "tagline": "浏览器端高精度户型设计与3D漫游工具，支持AI生成与MCP集成。",
+    "introduction": "FloorGen是一款基于Web的专业户型设计平台，提供精确到1/16英寸的手绘功能、27种模板及AI文本生成能力。它集成了建筑规范自动检查（如IRC标准）、家具布置及实时3D漫游，并支持PDF/DXF/IFC导出。其核心亮点在于通过149个MCP工具实现与Claude、ChatGPT等AI模型的深度联动，允许外部AI直接操作编辑器修改图纸。",
+    "caveats": [
+      "高级功能（如AI生成、云同步）需注册登录，纯手绘虽免费但数据本地存储存在丢失风险。",
+      "作为Web应用，在处理极复杂的大型商业项目或多层建筑时，浏览器内存限制可能影响性能流畅度。"
+    ],
+    "alternatives": [
+      "RoomSketcher",
+      "Floorplanner"
+    ],
+    "scenarios": [
+      "instant-web",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 floorgen.app，无需注册即可点击“Start Drawing”进入编辑器，尝试使用左侧工具栏绘制墙体和门窗。",
+      "步骤2：在右侧面板启用“Plan Checks”查看规范警告，或使用顶部“AI Generator”输入文字描述（如“两室一厅带阳台”）自动生成可编辑的户型底稿。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://floorgen.app/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://floorgen.app/landing/og-card.png?v=2026-10-07",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "readrare": {
+    "key": "readrare",
+    "name": "Read Rare",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:54.307Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费可用",
+    "frictionLevel": "免注册直玩",
+    "setupMinutes": 1,
+    "targetAudience": "科技从业者、历史爱好者及寻求深度阅读的用户",
+    "tagline": "汇集54份科技巨头内部备忘录与经典文献的免费数字图书馆",
+    "introduction": "Read Rare 是一个专注于收集罕见科技文档的数字图书馆，收录了包括苹果营销哲学、OpenAI创始邮件等在内的54份内部备忘录和泄露手册。平台提供免费的在线阅读或借阅服务，旨在让用户直接接触塑造现代科技行业的关键原始文本。",
+    "caveats": [
+      "内容多为静态归档，缺乏社区讨论或动态更新机制",
+      "部分文档可能受版权限制，仅支持有限度的浏览而非下载"
+    ],
+    "alternatives": [
+      "Internet Archive",
+      "Hacker News"
+    ],
+    "scenarios": [
+      "instant-web"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 https://readrare.com/ ，无需注册即可直接浏览首页展示的文档索引",
+      "步骤2：点击任意标题（如 'The Apple Marketing Philosophy'）进入详情页，体验其极简的阅读界面并尝试阅读全文"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 80,
+    "directUrl": "https://readrare.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://readrare.com/og.jpg?v=5",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "bigarrowonthescreen": {
+    "key": "bigarrowonthescreen",
+    "name": "big-arrow-on-the-screen",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:15:54.877Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 2,
+    "targetAudience": "使用 Claude Code/Codex 的 macOS AI Agent 开发者",
+    "tagline": "让 AI Agent 在 Mac 屏幕上绘制透明指引箭头与标注",
+    "introduction": "big-arrow-on-the-screen 是一个专为 macOS 设计的命令行工具及 AI Agent Skill，允许 Agent 在屏幕顶层绘制大箭头、方框或文字以引导用户操作。它通过创建透明覆盖层实现视觉指引，确保点击穿透且不影响键盘焦点，绘制完成后自动清除，无需任何系统权限配置。",
+    "caveats": [
+      "仅支持 macOS 平台，无法在 Windows 或 Linux 上运行",
+      "依赖 Swift 编译环境或 Homebrew 安装，非纯 Web/API 服务"
+    ],
+    "alternatives": [
+      "ScreenSpot-Pro",
+      "Cursor Composer"
+    ],
+    "scenarios": [
+      "claude-code",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：在终端运行 `brew install franzenzenhofer/tap/bigarrow` 完成安装",
+      "步骤2：执行 `bigarrow point --element \"Allow\" --app \"System Settings\" --text \"Click Allow\"` 测试箭头绘制效果"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://github.com/franzenzenhofer/big-arrow-on-the-screen",
+    "githubRepo": "franzenzenhofer/big-arrow-on-the-screen",
+    "stars": "888",
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/franzenzenhofer/big-arrow-on-the-screen",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-20",
+      "daysSincePush": 6,
+      "openIssues": 2,
+      "forks": 27,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.6.1",
+        "publishedAt": "2026-11-15"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "brew install franzenzenhofer/tap/bigarrow"
+    ]
+  },
+  "rutter": {
+    "key": "rutter",
+    "name": "Rutter",
+    "date": "2026-10-12",
+    "updatedAt": "2026-11-27T00:15:56.382Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 10,
+    "targetAudience": "使用多个AI编码助手且重视数据主权的开发者",
+    "tagline": "基于本地Markdown的跨AI代理共享决策记忆层",
+    "introduction": "Rutter是一个个人AI代理记忆层，通过MCP协议将不同AI工具（如Claude Code、Codex等）的会话决策和引用笔记统一存储为用户拥有的纯Markdown文件。它不依赖云端或模型内部状态，而是通过钩子脚本在每次交互后自动记录带时间戳和内容哈希的决策日志，实现跨工具的上下文连续性与可追溯性。",
+    "caveats": [
+      "仅作为参考实现发布，无官方支持承诺，后续更新可能破坏现有工作流",
+      "捕获功能依赖特定客户端的钩子支持，部分工具（如Codex）无法使用插件机制，配置步骤繁琐"
+    ],
+    "alternatives": [
+      "Mem0",
+      "Zep"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：运行 `npm install -g rutter-memory` 全局安装核心包，并准备一个存放Markdown笔记的本地文件夹",
+      "步骤2：以Claude Code为例，按照文档快速路径配置插件与钩子，完成一次对话后检查 `_librarian/` 目录下是否生成了包含决策摘要和引用笔记哈希的记录文件"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://ruttermemory.com/",
+    "githubRepo": "shinytoyrobots/rutter",
+    "stars": "0",
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/shinytoyrobots/rutter",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-14",
+      "daysSincePush": 12,
+      "openIssues": 0,
+      "forks": 1,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v1.0.1",
+        "publishedAt": "2026-11-14"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "npm install -g rutter-memory",
+      "npm install",
+      "Claude Code has the one-command plugin. The other four take a few more steps. Whichever you use,",
+      "Codex cannot use the plugin. It fills in none of a plugin's variables and installs no hook."
+    ]
+  },
+  "carrierexplode": {
+    "key": "carrierexplode",
+    "name": "Carrier-Explode",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:15:56.672Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "免费开源",
+    "frictionLevel": "免注册直玩",
+    "setupMinutes": 1,
+    "targetAudience": "需要调试移动网络配置或研究运营商数据的开发者与极客",
+    "tagline": "解码主流手机运营商设置并提供对比的公开数据集与API",
+    "introduction": "Carrier-Explode 是一个专注于解析 iPhone、Pixel 和 Galaxy 等设备中隐藏运营商配置文件（如 APN、VoLTE、Wi-Fi Calling 及 5G 参数）的技术平台。它通过逆向工程提取这些二进制或 XML 格式的配置，将其转化为结构化的 JSON 数据，并提供每日更新的 CC0 协议公开数据集及 RESTful API。该工具旨在为开发者提供透明的网络配置参考，支持跨设备、跨运营商的参数对比与调试。",
+    "caveats": [
+      "数据来源于对特定固件版本的逆向解析，可能随手机系统更新而失效或产生偏差",
+      "主要面向技术极客，普通用户难以直接利用其原始数据进行日常网络优化"
+    ],
+    "alternatives": [
+      "APN Database",
+      "Carrier Settings Wiki"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 carrierexplode.com 官网，浏览首页展示的热门运营商配置概览",
+      "步骤2：使用搜索功能查找特定运营商（如 Verizon 或 T-Mobile），查看其 APN 和 VoLTE 详细参数，并尝试调用页面提供的 API 接口获取 JSON 数据"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 443,
+    "directUrl": "https://carrierexplode.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "claudedashboardsmotion": {
+    "key": "claudedashboardsmotion",
+    "name": "Claude Dashboards & Motion",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:15:58.881Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要快速将数据转化为可视化报告或动画的分析师与产品经理",
+    "tagline": "Anthropic官方Beta工具，自然语言生成实时仪表盘与可编辑动画MP4",
+    "introduction": "Claude Dashboards & Motion 是 Anthropic 推出的实验性功能，允许用户通过自然语言指令直接连接 BigQuery、Snowflake 等数据源并生成实时交互式仪表盘。其配套的 Motion 功能可将生成的分析报告自动转换为可编辑的动画视频（MP4格式），大幅简化从数据洞察到视觉呈现的工作流。",
+    "caveats": [
+      "目前处于 Beta 阶段，功能稳定性及数据源兼容性可能随版本更新发生变动",
+      "高级数据连接和 Motion 视频生成功能通常仅对 Pro/Max 订阅用户开放"
+    ],
+    "alternatives": [
+      "Tableau Pulse",
+      "Power BI Copilot"
+    ],
+    "scenarios": [
+      "instant-web",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 claude.com 登录账户，在设置中启用 Claude for Data 或相关 Beta 功能开关",
+      "步骤2：在对话框中输入类似“连接我的 Snowflake 数据库并创建一个展示月度销售趋势的仪表盘”的自然语言指令，测试生成效果及后续导出为 MP4 的流程"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://claude.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://assets.claude.com/f66071070c4701ea2c37fc01b3c0f83623cf29d3.jpg?w=2400&h=1260&fit=crop",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "resoai": {
+    "key": "resoai",
+    "name": "ReSO AI",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:00.814Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "关注AI搜索流量与品牌可见性的市场负责人",
+    "tagline": "面向生成式引擎优化的品牌可见性监测与提升平台",
+    "introduction": "ReSO AI 是一款专注于 GEO（生成式引擎优化）的 SaaS 工具，旨在帮助品牌在 ChatGPT、Perplexity 和 Google AIO 等 LLM 搜索结果中获得推荐与引用。它通过专有模型分析意图驱动的搜索变量，生成高搜索意图提示词列表，并监测品牌在 AI 回答中的份额声量及竞争对比。",
+    "caveats": [
+      "营销数据（如点击率提升百分比）多为厂商自测案例，缺乏第三方独立审计验证",
+      "核心算法为黑盒模式，用户无法直接干预或导出底层优化逻辑，依赖平台持续更新"
+    ],
+    "alternatives": [
+      "Profound",
+      "Otterly.AI"
+    ],
+    "scenarios": [
+      "instant-web"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 resollm.ai 官网，使用工作邮箱注册账号以获取免费试用权限",
+      "步骤2：输入品牌名称与核心产品关键词，查看系统在主流 LLM 中的当前可见性报告及竞品对比视图"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://resollm.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://resollm.ai/og-image.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "agentdock": {
+    "key": "agentdock",
+    "name": "AgentDock",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:01.053Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "同时运行多个 AI 编程代理的 macOS 开发者",
+    "tagline": "将多路 AI 编码代理状态可视化的 Mac 原生监控工具",
+    "introduction": "AgentDock 是一款专为 macOS 设计的轻量级辅助工具，通过读取 Claude Code、Codex 等代理的本地会话文件，将其运行状态映射为屏幕边缘的动态圆点。它聚合了分散在各终端窗口中的权限确认与提问请求至统一收件箱，支持键盘快捷键快速响应及 iOS 端同步查看，旨在解决开发者在多代理并行工作时的上下文切换痛点。",
+    "caveats": [
+      "仅支持 macOS 平台，且依赖特定 AI 代理（如 Claude Code）生成的标准 session 文件格式，兼容性受限于上游工具更新。",
+      "非开源软件，无法自定义核心逻辑或适配未支持的私有 Agent 协议。"
+    ],
+    "alternatives": [
+      "Raycast",
+      "Alfred Workflow"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网购买并下载 .dmg 安装包，安装后授予“完全磁盘访问权限”以允许读取本地 Session 文件。",
+      "步骤2：启动两个不同的终端窗口分别运行 Claude Code 和 Codex，观察屏幕边缘圆点颜色变化，并在触发权限询问时测试通过 iPhone 远程批准功能。"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/agentdock",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "microsoftdecision1": {
+    "key": "microsoftdecision1",
+    "name": "Microsoft-Decision-1",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:02.440Z",
+    "categoryType": "models",
+    "categoryLabel": "AI 模型与多模态",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需自备 Key",
+    "setupMinutes": 5,
+    "targetAudience": "需要低成本、高并发路由与Agent控制的开发者",
+    "tagline": "微软官方轻量级决策模型，专为Agent路由与校验优化",
+    "introduction": "Microsoft-Decision-1.1 是微软基于 Qwen3.5-9B 后训练的小型化专用模型，旨在处理 AI 应用中的路由、分类、校验及 Agent 控制任务。该模型通过 Microsoft Foundry 和 OpenRouter 提供服务，主打极低延迟（比 GPT-6 Sol 快约 35 倍）和极具竞争力的输入成本，输出免费，适合构建高吞吐量的企业级 Agent 基础设施。",
+    "caveats": [
+      "仅适用于特定决策/路由场景，不具备通用对话或复杂推理能力，不可直接替代主 LLM",
+      "依赖 Azure/Microsoft Foundry 生态或第三方聚合平台，私有化部署支持有限"
+    ],
+    "alternatives": [
+      "GPT-4o-mini",
+      "Claude Haiku"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 Microsoft Foundry 控制台或 OpenRouter 官网，注册并获取 API Key",
+      "步骤2：在代码中配置模型 ID 'microsoft-decision-1.1'，尝试发送简单的意图分类或工具调用路由请求以测试延迟"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://commandline.microsoft.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://commandline.microsoft.com/wp-content/uploads/2026/05/command-line-intro-16x9-bigger-cursor-scaled.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "onepin": {
+    "key": "onepin",
+    "name": "Onepin",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:03.135Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要批量生产高质量多语言配音的企业团队",
+    "tagline": "自动路由30+TTS引擎并修正发音的AI语音生产代理",
+    "introduction": "Onepin 是一个企业级 AI 语音生产 Agent，通过统一接口接入超过 30 种主流 TTS 模型。它利用包含 400 万词条的发音词典预处理文本，自动纠正人名、价格及日期等易错内容，并对生成音频进行逐行质量打分与自动修复，确保输出符合广播级标准。",
+    "caveats": [
+      "纯商业 SaaS 模式，无免费试用额度或本地部署选项，主要面向有预算的企业客户",
+      "依赖云端处理，对数据隐私敏感且无法接受 SOC2/SSO 合规流程的用户可能不适用"
+    ],
+    "alternatives": [
+      "ElevenLabs",
+      "PlayHT"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 onepin.ai 官网，点击 'Get Started' 或联系销售申请 Demo 账号（通常需填写企业信息）",
+      "步骤2：上传一段包含复杂数字、专有名词或多语言混合的脚本，观察系统如何自动清洗文本并选择最佳 TTS 模型生成音频"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://onepin.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://onepin.ai/onepin-og-image.jpg",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "letra": {
+    "key": "letra",
+    "name": "Letra",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:06.281Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 2,
+    "targetAudience": "需要频繁从屏幕非文本区域提取文字的 Mac 用户",
+    "tagline": "Mac 菜单栏离线 OCR 工具，框选即复制，支持二维码与历史记录",
+    "introduction": "Letra 是一款驻留于 macOS 菜单栏的轻量级 OCR 工具，利用 Apple Vision 框架实现完全离线的本地文字识别。用户只需按下快捷键框选屏幕任意区域（包括视频、PDF、截图或共享画面），即可将识别出的纯文本直接存入剪贴板。除了常规文字提取，它还支持二维码/条形码解码及剪贴板图片读取，并保留可搜索的历史记录。",
+    "caveats": [
+      "仅支持 macOS Sonoma (14) 及以上版本，旧系统无法运行",
+      "对潦草手写体或极度模糊的图像识别准确率有限，主要适用于清晰印刷体"
+    ],
+    "alternatives": [
+      "TextSniper",
+      "CleanShot X"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 https://getletra.app/ 下载并安装应用，确保系统为 macOS 14+，授予屏幕录制权限",
+      "步骤2：打开一个包含不可选中文字的视频或 PDF，按下默认快捷键 ⇧⌘2，拖动鼠标框选文字区域，验证文本是否自动进入剪贴板并可粘贴"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://getletra.app/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://getletra.app/og.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "skymir": {
+    "key": "skymir",
+    "name": "Skymir",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:06.401Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "需要稳定双向同步 Google Drive 的 Linux 用户",
+    "tagline": "Linux 原生 Google Drive 安全双向同步客户端",
+    "introduction": "Skymir 是一款专为 Linux 设计的 Google Drive 原生客户端，基于 Google Drive API 构建，提供真实文件镜像而非虚拟文件系统。它通过生成 .gdoc 等快捷方式支持双击打开在线文档，并内置安全机制防止误删（如拒绝删除超过半数文件的同步操作）。",
+    "caveats": [
+      "仅支持 Linux 系统，Windows/macOS 用户无法使用",
+      "依赖 Google Drive API 配额，超大文件夹首次同步可能耗时较长"
+    ],
+    "alternatives": [
+      "rclone",
+      "Insync"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 skymir.app 下载对应发行版的安装包（如 .deb 或 AppImage）并完成安装",
+      "步骤2：启动应用后授权 Google 账号，选择需要同步的文件夹，测试双击生成的 .gdoc 文件是否在浏览器中正确打开"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://skymir.app/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://skymir.app/screenshots/hero-tray-and-files-1600.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "kitbar": {
+    "key": "kitbar",
+    "name": "Kitbar",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:07.046Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "使用 Vercel/GitHub/Stripe/Claude Code 的开发者",
+    "tagline": "聚合开发工具状态与额度的本地菜单栏应用",
+    "introduction": "Kitbar 是一款跨平台（Mac/Windows）桌面应用，将 Vercel、GitHub、Stripe、Claude Code 等常用开发服务的部署状态、检查进度、支付信息及额度用量聚合显示在屏幕边缘。它采用端侧直连架构，不经过第三方服务器，所有 API 密钥和登录凭证仅存储于本机钥匙串或配置文件中，确保数据隐私与安全。",
+    "caveats": [
+      "目前仅支持 Mac 和 Windows，无 Linux 版本",
+      "需要手动配置各服务的 API Key 或复用本地 CLI 登录态，初始设置稍繁琐"
+    ],
+    "alternatives": [
+      "Raycast",
+      "Alfred",
+      "Stats"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 kitbar.io 购买许可证并下载对应系统的安装包，安装后启动应用",
+      "步骤2：在设置中连接至少一个服务（如 GitHub 或 Vercel），观察屏幕边缘的状态条变化及悬停详情"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://kitbar.io/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://kitbar.io/og.png?v=2",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "lune": {
+    "key": "lune",
+    "name": "Lune",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:08.114Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "需要高可信度文献引用的科研人员与 AI 开发者",
+    "tagline": "专为科研 Agent 打造的顶会论文全文搜索引擎，支持 MCP 接入",
+    "introduction": "Lune 是一个垂直于学术领域的搜索基础设施，仅索引 A* 及 CCF-A 类顶级会议论文的全文（含公式、附录），确保数据源的高信噪比。它通过 Model Context Protocol (MCP) 标准接口，将经过清洗的学术证据无缝注入 ChatGPT、Claude、Cursor 等主流 AI 应用，使 Agent 在回答科研问题时能提供可追溯的精确引用。",
+    "caveats": [
+      "免费版每日限制 10 次请求，高频使用需付费或申请额度提升",
+      "依赖 MCP 协议支持，若使用的 AI 客户端未原生支持 MCP 则无法直接集成"
+    ],
+    "alternatives": [
+      "Perplexity Pro",
+      "Semantic Scholar API"
+    ],
+    "scenarios": [
+      "teaching",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 luneresearch.com 注册账号并获取 API Key 或 MCP 配置链接",
+      "步骤2：在支持 MCP 的客户端（如 Claude Desktop 或 Cursor）中添加 Lune 插件，尝试提问一个具体的算法推导问题以验证引用准确性"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 3000,
+    "directUrl": "https://luneresearch.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "gitglow": {
+    "key": "gitglow",
+    "name": "GitGlow",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:10.344Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "使用 AI Agent 编程并需人工复查代码的独立开发者",
+    "tagline": "专为 AI 协作设计的本地 Git 审查工作台",
+    "introduction": "GitGlow 是一款本地优先的 Git 桌面客户端，旨在解决 AI 生成代码后的审查痛点。它提供精准暂存、文件级“已复查”标记及验证命令运行功能，当代码被再次修改时自动使旧验证结果失效并提醒用户，确保只有经过确认的代码才会被提交。",
+    "caveats": [
+      "核心审查与验证功能（如标记已复查、跑测试）属于 Pro 付费版，免费版仅包含基础 Git 操作",
+      "作为独立开发者的单人作品，长期维护稳定性与多平台兼容性可能不如成熟大厂工具"
+    ],
+    "alternatives": [
+      "GitHub Desktop",
+      "Fork",
+      "Sublime Merge"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 gitglow.dev 下载对应操作系统的安装包并完成安装",
+      "步骤2：添加一个本地 Git 仓库，尝试在 Diff 视图中对部分行进行精准暂存，并体验内置终端执行 git status 或测试命令"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://www.gitglow.dev/?ref=producthunt",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://www.gitglow.dev/og-meta.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "summarymaps": {
+    "key": "summarymaps",
+    "name": "Summary Maps",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:10.477Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 2,
+    "targetAudience": "希望深度记忆非虚构类书籍内容的终身学习者",
+    "tagline": "将非虚构书籍转化为可交互AI思维导图与复习卡片",
+    "introduction": "Summary Maps 利用 AI 技术将非虚构类书籍拆解为分层可视化的思维导图，结构涵盖总节点、章节及关键观点。产品内置 X-Ray 悬浮解释、测验闪卡及间隔重复提醒功能，旨在通过主动回忆机制帮助用户克服“读完就忘”的问题，提升知识留存率。",
+    "caveats": [
+      "目前处于 Beta 阶段，依赖 AI 生成内容可能存在事实性错误或过度简化原书逻辑的风险",
+      "核心功能受限于订阅制（7天试用后需付费），且对非英文或冷门书籍的支持效果可能不佳"
+    ],
+    "alternatives": [
+      "Readwise Reader",
+      "Obsidian (with AI plugins)"
+    ],
+    "scenarios": [
+      "teaching",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 summarymaps.com 并注册账号，在搜索框输入一本你熟悉或计划阅读的非虚构书名",
+      "步骤2：查看生成的思维导图层级，尝试使用 X-Ray 功能悬停查看细节，并完成一次 Quiz 测试以体验主动回忆流程"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://summarymaps.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "skreno": {
+    "key": "skreno",
+    "name": "Skreno",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:11.410Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "免注册直玩",
+    "setupMinutes": 1,
+    "targetAudience": "需要快速录制演示、Bug复现或异步沟通的产品/开发人员",
+    "tagline": "浏览器内一站式录屏剪辑与AI转写协作工具",
+    "introduction": "Skreno 是一款基于浏览器的视频工作室，支持屏幕录制与摄像头分轨采集，无需安装客户端即可实现4K画质录制。它集成了AI自动字幕生成、静音片段智能剪辑及网络/控制台日志捕获功能，生成的分享链接自带时间轴评论与转写文本，极大简化了Bug复现和异步沟通流程。",
+    "caveats": [
+      "依赖浏览器性能，高分辨率（如4K）长时间录制可能导致本地资源占用过高或卡顿",
+      "部分高级功能（如企业级权限管理或特定AI模型精度）可能受限于付费计划"
+    ],
+    "alternatives": [
+      "Loom",
+      "Screen Studio"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "teaching"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 skreno.ai 官网，点击“Record”按钮启动浏览器录屏插件授权",
+      "步骤2：录制一段包含鼠标点击的操作演示，停止后在编辑器中尝试使用“Trim Silence”功能并查看AI生成的字幕与摘要"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://www.skreno.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://ezycourse.b-cdn.net/5191/cmuxnn31b01qz01wiccp47su6.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "fluence": {
+    "key": "fluence",
+    "name": "Fluence",
+    "date": "2026-10-11",
+    "updatedAt": "2026-11-27T00:16:11.538Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "一次性买断",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "注重隐私且需要离线阅读文档的 Android 用户",
+    "tagline": "Android 端完全离线的多格式文档朗读与本地问答助手",
+    "introduction": "Fluence 是一款专为 Android 设计的生产力应用，支持 PDF、EPUB、Word 及 Markdown 等多种格式的离线自然语音朗读。其核心优势在于全程本地运行，内置语言模型可直接在设备端对文档内容进行检索问答并标注出处，无需上传数据至云端。",
+    "caveats": [
+      "目前仅支持 Android 平台，iOS 及其他系统无法使用",
+      "作为一次性买断制软件，需确认具体价格是否符合预期，且无免费试用版"
+    ],
+    "alternatives": [
+      "Speechify",
+      "NaturalReader"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网或应用商店下载并安装 Fluence Android 版本",
+      "步骤2：导入一份本地 PDF 或 EPUB 文件，测试离线朗读功能及文字高亮跟随效果，随后尝试针对文档内容提问以验证本地 RAG 能力"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/fluence",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "openpilot": {
+    "key": "openpilot",
+    "name": "OpenPilot",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:14.413Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需自备 Key",
+    "setupMinutes": 5,
+    "targetAudience": "希望本地运行且不绑定特定模型厂商的开发者",
+    "tagline": "支持任意 OpenAI 兼容模型的本地桌面 AI Agent",
+    "introduction": "OpenPilot 是一款基于 Electron 构建的开源桌面 AI Agent，允许用户连接任意 OpenAI 兼容接口（如本地 LLM 或自定义网关）。它通过指定工作区文件夹，赋予 Agent 读写文件、执行命令及调用 MCP 工具的能力，并对敏感操作实施人工审批机制以保障安全。",
+    "caveats": [
+      "macOS 版本目前为未签名测试版，可能存在系统兼容性警告或不稳定情况",
+      "核心功能依赖外部 API Key 或本地模型服务，软件本身不包含推理能力"
+    ],
+    "alternatives": [
+      "Cursor",
+      "Cline"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：从 GitHub Releases 下载对应平台的安装包（Windows/macOS），或克隆仓库后运行 npm install && npm start",
+      "步骤2：在设置中填入 Base URL 和 API Key 连接模型，选择一个项目文件夹作为 Workspace，尝试让 Agent 读取代码并修改一个简单 Bug"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://comma.ai/",
+    "githubRepo": "ibmshaikh/openpilot",
+    "stars": "21",
+    "license": "MIT",
+    "ogImage": "https://comma.ai/og-comma-four.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-10-18",
+      "daysSincePush": 39,
+      "openIssues": 1,
+      "forks": 5,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v1.0.5",
+        "publishedAt": "2026-08-12"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "git clone https://github.com/ibmshaikh/OpenPilot.git",
+      "npm install"
+    ]
+  },
+  "agentsdr": {
+    "key": "agentsdr",
+    "name": "AgentSDR",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:15.023Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 15,
+    "targetAudience": "需要自托管销售自动化系统的开发者或增长团队",
+    "tagline": "自托管的开源 AI SDR，统一邮件、LinkedIn 与 WhatsApp 多渠道外联管理",
+    "introduction": "AgentSDR 是一个基于 Next.js 和 PostgreSQL 构建的开源 AI 销售开发代表（SDR）平台。它通过统一的 CRM 界面聚合来自邮件、LinkedIn 和 WhatsApp 的客户回复，利用 AI 自动分类意图并起草跟进消息，支持用户连接自有 API Key 实现完全自主的数据控制与成本优化。",
+    "caveats": [
+      "必须自备 Google Workspace、Unipile 等第三方服务的 API Key 才能启用核心外联功能，否则仅能使用基础 CRM 记录功能",
+      "部署依赖 Docker Compose 及 Bun 运行时环境，对非技术背景的销售运营人员存在较高的初始配置门槛"
+    ],
+    "alternatives": [
+      "Clay",
+      "Instantly.ai"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：克隆仓库并运行 `docker compose up -d` 启动包含 PostgreSQL 和应用服务的基础容器环境",
+      "步骤2：访问 http://localhost:3000 进入 Web 界面，尝试导入模拟数据并体验 AI 对入站回复的分类与草稿生成功能"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://github.com/Kandid-ai/AgentSDR",
+    "githubRepo": "Kandid-ai/AgentSDR",
+    "stars": "103",
+    "license": "MIT",
+    "ogImage": "https://opengraph.githubassets.com/1/Kandid-ai/AgentSDR",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 2,
+      "forks": 40,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.4.0",
+        "publishedAt": "2026-11-22"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "docker compose up -d          # PostgreSQL, the app on :3000 (it creates the schema and runs the scheduled jobs)",
+      "git clone https://github.com/Kandid-ai/AgentSDR.git && cd AgentSDR",
+      "bun install",
+      "bun run db:setup             # create the schema in the empty database",
+      "bun run db:seed:demo         # optional: a fictional demo organization",
+      "bun run dev                  # http://localhost:3000"
+    ]
+  },
+  "busabase": {
+    "key": "busabase",
+    "name": "Busabase",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:16.652Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "使用 Claude Code/Codex 等 Agent 的开发团队",
+    "tagline": "AI Agent 的共享上下文数据库与变更审核系统",
+    "introduction": "Busabase 是一个为 AI Agent 设计的开源系统记录（System of Record），提供结构化的数据、文档、技能和应用存储。它通过 MCP、CLI 或 API 连接各类 Agent，允许人和 Agent 共享同一工作区，并引入类似 Git 的代码评审机制来管理 Agent 的数据写入，确保业务数据的可追溯性和安全性。",
+    "caveats": [
+      "需要自行部署后端服务（Docker/Node.js）或配置 Busabase Cloud，非纯前端工具",
+      "Agent 必须支持 MCP 协议或具备 HTTP 调用能力才能接入，对老旧或非标准 Agent 兼容性有限"
+    ],
+    "alternatives": [
+      "Notion",
+      "Airtable"
+    ],
+    "scenarios": [
+      "claude-code",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 GitHub 仓库 busabase/busabase，根据 README 中的 Quick Start 部分，使用 Docker 或 npm 命令在本地启动 Busabase 服务端实例。",
+      "步骤2：获取生成的 API Key 和 MCP 配置信息，将其添加到 Claude Code 或 Codex 的配置文件中，尝试让 Agent 读取一个 Base 并写入一条测试记录，观察 Inbox 中的变更请求流程。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 3000,
+    "directUrl": "https://busabase.com/docs",
+    "githubRepo": "busabase/busabase",
+    "stars": "932",
+    "license": "MIT",
+    "ogImage": "https://busabase.com/opengraph-image",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 3,
+      "forks": 110,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v1.5.0",
+        "publishedAt": "2026-11-16"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": []
+  },
+  "zernio": {
+    "key": "zernio",
+    "name": "Zernio",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:18.537Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 15,
+    "targetAudience": "需要自动化营销流程的 AI Agent 开发者或增长团队",
+    "tagline": "为 AI Agent 提供全渠道营销基础设施与托管 MCP 接口",
+    "introduction": "Zernio 通过统一 API 连接 16 个社交平台、7 个广告网络及即时通讯工具，实现跨渠道内容分发与广告投放。其核心亮点在于提供托管的 Model Context Protocol (MCP) 服务，允许 AI Agent 自主完成账号授权、Campaign 创建及电话/消息触达等复杂营销动作。",
+    "caveats": [
+      "作为商业 SaaS 产品，无公开 GitHub 源码，依赖厂商稳定性且存在供应商锁定风险",
+      "涉及多平台账号授权与自动发帖，需严格遵循各社媒平台的反机器人政策以防封号"
+    ],
+    "alternatives": [
+      "Postiz",
+      "Buffer API",
+      "Sprout Social API"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网注册账户并获取 API Key，配置 OAuth 以连接至少一个社交媒体测试账号",
+      "步骤2：在本地 Agent 环境中集成 Zernio 提供的 MCP Server 端点，尝试让 Agent 执行一次简单的‘读取最新帖子’或‘发送测试消息’指令"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/zernio?ref=product_sidebar",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "odyssey3": {
+    "key": "odyssey3",
+    "name": "Odyssey 3",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:18.797Z",
+    "categoryType": "models",
+    "categoryLabel": "AI 模型与多模态",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 15,
+    "targetAudience": "机器人算法工程师、自动驾驶研发人员及具身智能研究者",
+    "tagline": "Odyssey 3：支持实时物理模拟与多形态适配的基础世界模型",
+    "introduction": "Odyssey 3 是一款具备实时交互能力的基础世界模型，能够根据文本提示生成虚拟环境并预测动作后的状态变化。其核心优势在于统一的骨干网络架构，可同时适配机械臂操作、人形机器人运动规划及自动驾驶场景，并在 Physics-IQ 基准测试中取得了 66.1 的高分，旨在为具身智能提供高保真的物理仿真训练场。",
+    "caveats": [
+      "目前仅开放研究预览（Research Preview），无公开 API 文档或本地部署包，访问权限受限且不稳定",
+      "作为闭源商业模型，无法获取权重进行微调，且对硬件算力要求极高，个人开发者难以独立复现"
+    ],
+    "alternatives": [
+      "NVIDIA Cosmos",
+      "Wayve GAIA-1",
+      "Tesla World Model"
+    ],
+    "scenarios": [
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 Odyssey 官网申请 Research Preview 资格，等待审核通过后获取登录凭证",
+      "步骤2：在 Web 控制台输入特定场景描述（如“厨房台面抓取”或“雨天高速公路”），观察模型生成的初始帧及连续视频流中的物理一致性"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.producthunt.com/products/odyssey-3",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": null,
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "autonomyware": {
+    "key": "autonomyware",
+    "name": "Autonomyware",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:19.939Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "硬件工程师、创客及需要快速原型验证的产品设计师",
+    "tagline": "从自然语言到可制造CAD文件的端到端AI工程平台",
+    "introduction": "Autonomyware 是一个面向物理产品的 AI 工程平台，能够将自然语言描述转化为完整的工程需求、风险分析及 CAD 模型。它支持机械与电子协同设计，提供 STEP/STL/3MF 等标准制造文件导出，并生成装配指南和物料清单（BOM），旨在确保生成的零件具备实际可装配性和可制造性，而非仅停留在视觉渲染层面。",
+    "caveats": [
+      "目前处于 Beta 阶段，复杂工业级公差配合或高精度多部件装配的自动化成功率可能有限，仍需人工复核。",
+      "作为垂直领域 SaaS，核心功能依赖云端算力，对网络稳定性有要求且可能存在使用次数或高级导出功能的付费墙。"
+    ],
+    "alternatives": [
+      "Fusion 360 (with Generative Design)",
+      "Onshape",
+      "Spline AI"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 https://autonomyware.ai/ 注册账号，进入主工作区后尝试输入一个简单物体描述（如“带手柄的咖啡研磨机”）或上传草图以启动工程流程。",
+      "步骤2：在交互界面中旋转查看生成的 3D 模型，检查其结构合理性，并尝试导出 STEP 或 STL 文件，验证是否包含完整的装配关系和制造数据。"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://autonomyware.ai/?ref=producthunt",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://autonomyware.ai/assets/og-card.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "geminiagentforgooglecloud": {
+    "key": "geminiagentforgooglecloud",
+    "name": "Gemini Agent for Google Cloud",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:20.806Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "Freemium",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 15,
+    "targetAudience": "需要构建长周期、多步骤自动化工作流的企业开发者",
+    "tagline": "基于Google Cloud的通用型AI Agent，支持多模型路由与云端长时运行",
+    "introduction": "Gemini Agent for Google Cloud 是一个面向企业级应用的通用工作代理平台，允许用户通过自然语言目标而非具体指令来驱动任务。它深度集成于 Google Cloud 生态，支持 Gemini 和 Claude 等多模型智能路由，并具备硬性花费上限控制以保障成本安全。该服务提供自带邮箱和日历功能的 Coworker Agents，能够在云端持续运行数天以完成复杂的多步骤业务流程。",
+    "caveats": [
+      "依赖 Google Cloud 基础设施，非云原生用户需额外配置 IAM 权限和网络环境",
+      "长时运行 Agent 的成本虽可控但可能较高，且目前主要面向企业级场景，个人开发者上手门槛高"
+    ],
+    "alternatives": [
+      "Microsoft Copilot Studio",
+      "AWS Bedrock Agents"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 cloud.google.com 注册账号并领取 $300 免费额度，进入 Vertex AI 或 Agent Builder 控制台",
+      "步骤2：创建一个简单的 Agent，尝试输入一个需要多步操作的目标（如“分析上周销售数据并生成邮件摘要”），观察其如何调用工具及处理长时任务"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://cloud.google.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "togetherlink": {
+    "key": "togetherlink",
+    "name": "Together Link",
+    "date": "2026-10-10",
+    "updatedAt": "2026-11-27T00:16:21.945Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "api",
+    "deliveryLabel": "模型/API",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需自备 Key",
+    "setupMinutes": 2,
+    "targetAudience": "希望低成本使用开源模型的开发者",
+    "tagline": "一行命令接入 Together AI 开放模型并追踪成本",
+    "introduction": "Together Link 是一个轻量级集成工具，允许开发者通过单行命令将现有的编码代理（Coding Agent）连接到 Together AI 的开放模型推理服务。它自动处理路由配置，保留用户原有设置，并为每个会话生成详细的成本收据，实现透明化的用量监控。",
+    "caveats": [
+      "依赖 Together AI 账户及 API Key，无免费额度时需按 Token 计费",
+      "仅支持特定主流编码代理框架，非通用中间件"
+    ],
+    "alternatives": [
+      "LiteLLM",
+      "OpenRouter"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 together.ai/link 获取安装命令，并在终端运行以初始化配置",
+      "步骤2：启动你的编码代理执行一个简单任务，检查生成的会话成本小票以验证集成效果"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://www.together.ai/link",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://cdn.prod.website-files.com/69654e88dce9154b5f1206dd/6ac35400fc91faffa33d5e0c_Together_Link_OG_1200x630.jpg",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "k10s": {
+    "key": "k10s",
+    "name": "K10s",
+    "date": "2026-10-09",
+    "updatedAt": "2026-11-27T00:16:23.203Z",
+    "categoryType": "devtools",
+    "categoryLabel": "开发与基础设施",
+    "deliveryForm": "github",
+    "deliveryLabel": "开源项目",
+    "pricingModel": "免费开源",
+    "frictionLevel": "需本地安装",
+    "setupMinutes": 5,
+    "targetAudience": "习惯终端操作但希望提升效率的 Kubernetes 运维与开发人员",
+    "tagline": "支持鼠标点击与全集群搜索的 Kubernetes 终端 UI",
+    "introduction": "k10s 是一款基于 Go 语言开发的 Kubernetes 终端界面工具，旨在通过引入鼠标交互和可视化操作面板来降低 k9s 等纯键盘流工具的学习门槛。它采用单静态二进制分发，支持懒加载资源监听以优化启动速度，并提供内置的自动更新机制及插件系统，允许用户自定义快捷命令。",
+    "caveats": [
+      "当前版本中 AI 助手功能处于实验性禁用状态，无法使用自然语言解释集群问题",
+      "作为 TUI 工具，其复杂的多窗口布局在低分辨率终端或某些远程 SSH 会话中可能出现显示错位"
+    ],
+    "alternatives": [
+      "k9s",
+      "Lens"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：通过 Homebrew (`brew install p10node/tap/k10s`) 或从 GitHub Releases 下载对应平台的静态二进制文件并赋予执行权限",
+      "步骤2：运行 `k10s demo` 进入离线演示模式，体验鼠标点击 Pod 行、使用 Ctrl+P 进行全局搜索以及查看右侧动作面板的功能"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://github.com/p10node/k10s",
+    "githubRepo": "p10node/k10s",
+    "stars": "311",
+    "license": "Apache-2.0",
+    "ogImage": "https://opengraph.githubassets.com/1/p10node/k10s",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": {
+      "pushedAt": "2026-11-26",
+      "daysSincePush": 0,
+      "openIssues": 7,
+      "forks": 14,
+      "archived": false,
+      "latestRelease": {
+        "tag": "v0.1.10",
+        "publishedAt": "2026-11-14"
+      },
+      "activityTier": "active"
+    },
+    "quickCommands": [
+      "git clone https://github.com/p10node/k10s && cd k10s",
+      "curl -fsSL https://p10node.com/k10s/install.sh | sh",
+      "brew install p10node/tap/k10s",
+      "go install github.com/p10node/k10s@latest"
+    ]
+  },
+  "openswarm": {
+    "key": "openswarm",
+    "name": "OpenSwarm",
+    "date": "2026-10-09",
+    "updatedAt": "2026-11-27T00:16:24.159Z",
+    "categoryType": "agent",
+    "categoryLabel": "Agent 与自动化",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 5,
+    "targetAudience": "希望自动化 Mac 工作流的高级用户与开发者",
+    "tagline": "Mac 上的多智能体协作桌面系统，实现应用自生成与浏览器自控。",
+    "introduction": "OpenSwarm 是一款专为 macOS 设计的 AI-first 操作系统级应用，通过内置的 agent 市场支持多个智能体并行工作。它超越了传统单聊天窗模式，允许用户部署专门用于潜客挖掘、问题验证等任务的 agent 群，实现从应用自动生成到浏览器自动控制的深度集成。",
+    "caveats": [
+      "目前仅支持 macOS 平台，且处于 Waitlist 早期访问阶段，功能稳定性可能不足。",
+      "官网未公开详细技术文档或 GitHub 仓库，隐私数据处理机制及本地运行资源占用情况不透明。"
+    ],
+    "alternatives": [
+      "AutoGPT",
+      "CrewAI"
+    ],
+    "scenarios": [
+      "local-privacy",
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问 openswarm.com 提交邮箱加入 Waitlist，等待获取早期访问权限邀请码。",
+      "步骤2：安装 Mac 客户端后，尝试在内置 Agent 市场中选择一个预设任务（如“验证产品想法”），观察多 agent 如何协同操作浏览器并生成结果。"
+    ],
+    "trustLevel": "仅简报资料",
+    "defaultPort": 0,
+    "directUrl": "https://www.openswarm.com/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://www.openswarm.com/media/og.jpg",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "cekurabench": {
+    "key": "cekurabench",
+    "name": "Cekura Bench",
+    "date": "2026-10-09",
+    "updatedAt": "2026-11-27T00:16:26.149Z",
+    "categoryType": "vertical",
+    "categoryLabel": "垂直与行业应用",
+    "deliveryForm": "web",
+    "deliveryLabel": "在线网页",
+    "pricingModel": "商业付费",
+    "frictionLevel": "需注册登录",
+    "setupMinutes": 15,
+    "targetAudience": "需要测试和监控语音AI代理可靠性的开发团队",
+    "tagline": "面向语音AI代理的端到端测试、监控与自改进平台",
+    "introduction": "Cekura Bench 提供针对语音对话模型的基准评测与可观测性服务，支持在真实电话环境中运行模拟测试。它通过预生产仿真、对抗性红队测试及生产环境实时监控，帮助开发者评估指令遵循能力并自动发现修复建议。",
+    "caveats": [
+      "主要面向企业级客户，个人开发者难以免费使用完整功能",
+      "依赖特定语音模型集成，对非主流或私有部署模型的兼容性需验证"
+    ],
+    "alternatives": [
+      "LiveKit Agents",
+      "Vapi"
+    ],
+    "scenarios": [
+      "solo-builder"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网 https://www.cekura.ai/ 点击 'Get Started' 或 'Request Demo' 注册账号",
+      "步骤2：连接你的语音代理API密钥，配置一个包含多轮对话场景的测试用例，运行仿真以查看延迟和准确率报告"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 443,
+    "directUrl": "https://www.cekura.ai/",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://www.cekura.ai/og_image.png",
+    "canEmbed": false,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
+  },
+  "botbus": {
+    "key": "botbus",
+    "name": "BotBus",
+    "date": "2026-10-09",
+    "updatedAt": "2026-11-27T00:16:27.612Z",
+    "categoryType": "productivity",
+    "categoryLabel": "效率与桌面工具",
+    "deliveryForm": "desktop",
+    "deliveryLabel": "客户端/插件",
+    "pricingModel": "免费可用",
+    "frictionLevel": "需桌面/插件",
+    "setupMinutes": 5,
+    "targetAudience": "需要远程监控本地 AI 编码代理的开发者",
+    "tagline": "通过手机和手表远程控制并审批本地 AI 编码代理任务",
+    "introduction": "BotBus 是一款连接移动端与本地开发环境的工具，允许用户通过 iPhone 或 Apple Watch 实时监控 Claude Code、Codex 等 AI 代理的运行状态。它支持端到端加密的屏幕镜像与控制，让用户能即时审批命令执行、回答代理提问，甚至直接在手机上启动新任务或预览 Web 服务，实现离开工位后的无缝工作流管理。",
+    "caveats": [
+      "屏幕控制功能目前仅支持 macOS 系统，Windows/Linux 用户无法使用实时画面交互",
+      "必须保持本地电脑开机且 BotBus 连接器在线，否则手机端无法查看进度或发送指令"
+    ],
+    "alternatives": [
+      "VNC Viewer",
+      "Termius"
+    ],
+    "scenarios": [
+      "solo-builder",
+      "local-privacy"
+    ],
+    "experienceGuide": [
+      "步骤1：访问官网下载并安装 Mac 端的 BotBus 连接器，同时在 App Store 安装 iOS/watchOS 应用并登录同一账号",
+      "步骤2：在电脑上启动一个 Claude Code 或 Codex 任务，尝试在手机通知中点击“批准”或“拒绝”某个文件修改请求，体验远程审批流程"
+    ],
+    "trustLevel": "已查验官网",
+    "defaultPort": 0,
+    "directUrl": "https://botbus.io/en/?ref=producthunt",
+    "githubRepo": null,
+    "stars": null,
+    "license": null,
+    "ogImage": "https://botbus.io/og/en.png",
+    "canEmbed": true,
+    "demoUrl": null,
+    "health": null,
+    "quickCommands": []
   }
 }
