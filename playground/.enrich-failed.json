@@ -16,23 +16,5 @@
       "categoryType": "models",
       "deliveryForm": "api"
     }
-  },
-  "mentionbird": {
-    "attempts": 0,
-    "transient": true,
-    "lastError": "fetch failed",
-    "updatedAt": "2026-11-27T00:15:12.143Z",
-    "product": {
-      "key": "mentionbird",
-      "name": "MentionBird",
-      "date": "2026-10-14",
-      "url": "https://mentionbird.ai",
-      "directUrl": "https://mentionbird.ai",
-      "githubRepo": null,
-      "tagline": "「AI 搜索的 Ahrefs」",
-      "description": "「AI 搜索的 Ahrefs」——GEO/AEO 平台，追踪 8 大 AI 引擎品牌可见度+修复建议+MCP",
-      "categoryType": "agent",
-      "deliveryForm": "web"
-    }
   }
 }
